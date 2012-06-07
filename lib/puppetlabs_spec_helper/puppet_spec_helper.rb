@@ -4,9 +4,8 @@ require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 ARGV.clear
 
 require 'puppet'
-require 'mocha'
-gem 'rspec', '>=2.0.0'
 require 'rspec/expectations'
+require 'mocha'
 
 require 'pathname'
 require 'tmpdir'
