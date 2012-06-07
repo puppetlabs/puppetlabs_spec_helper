@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.description = "Contains rake tasks and a standard spec_helper for running spec tests on puppet modules"
  
   s.add_dependency("rake")
-  s.add_dependency("rspec", "= 2.9.0")
-  s.add_dependency("mocha", "= 0.10.5")
+  s.add_dependency("rspec", ">= 2.9.0")
+  s.add_dependency("mocha", ">= 0.10.5")
   s.add_dependency("rspec-puppet", ">= 0.1.1")
  
   s.files        = Dir.glob("lib/**/*") + %w(LICENSE)
