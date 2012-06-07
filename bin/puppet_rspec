@@ -1,0 +1,7 @@
+require 'rubygems'
+
+version = "= 2.9.0"
+
+gem 'rspec-expectations', version
+gem 'rspec-core', version
+load Gem.bin_path('rspec-core', 'rspec', version)

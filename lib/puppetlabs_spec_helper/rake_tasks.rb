@@ -8,6 +8,7 @@ desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
   t.pattern = 'spec/{classes,defines,unit}/**/*_spec.rb'
+  t.rspec_path = 'puppet_rspec'
 end
 
 desc "Generate code coverage information"
