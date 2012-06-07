@@ -53,6 +53,8 @@ task :spec_prep do
   fixtures("symlinks").each do |source, target|
     File::exists?(target) || FileUtils::ln_s(source, target)
   end
+
+  FileUtils::touch("spec/fixtures/manifests/site.pp")
 end
 
 desc "Clean up the fixtures directory"
@@ -64,6 +66,8 @@ task :spec_clean do
   fixtures("symlinks").each do |source, target|
     FileUtils::rm(target)
   end
+
+  FileUtils::rm("spec/fixtures/manifests/site.pp")
 end
 
 desc "Run spec tests in a clean fixtures directory"
