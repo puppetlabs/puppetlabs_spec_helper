@@ -27,7 +27,7 @@ gem it contains.
 
     $ git clone git://github.com/puppetlabs/puppetlabs_spec_helper.git
     $ cd puppetlabs_spec_helper
-    $ gem build puppetlabs_spec_helper.gemspec
+    $ rake package:gem
     $ gem install puppetlabs_spec_helper-*.gem
 
 Add this to your project's spec_helper.rb:
