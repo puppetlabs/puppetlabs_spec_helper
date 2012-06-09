@@ -54,6 +54,7 @@ task :spec_prep do
     File::exists?(target) || FileUtils::ln_s(source, target)
   end
 
+  FileUtils::mkdir_p("spec/fixtures/manifests")
   FileUtils::touch("spec/fixtures/manifests/site.pp")
 end
 
