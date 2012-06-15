@@ -97,9 +97,7 @@ end
 
 desc "Check puppet manifests with puppet-lint"
 task :lint do
-  # This requires pull request: https://github.com/rodjek/puppet-lint/pull/81
-  system("puppet-lint manifests")
-  system("puppet-lint tests")
+  require 'puppet-lint/tasks/puppet-lint'
 end
 
 desc "Display the list of available rake tasks"
