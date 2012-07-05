@@ -3,6 +3,9 @@ require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 # Don't want puppet getting the command line arguments for rake or autotest
 ARGV.clear
 
+# This is needed because we're using mocha with rspec instead of Test::Unit or MiniTest
+ENV['MOCHA_OPTIONS']='skip_integration'
+
 require 'puppet'
 require 'mocha'
 gem 'rspec', '>=2.0.0'
