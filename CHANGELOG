@@ -1,0 +1,7 @@
+2012-07-05 Puppet Labs <info@puppetlabs.com> - 0.2.0
+ * Fix integration with mocha-0.12.0
+ * Fix coverage rake task
+ * Fix an issue creating the fixtures directory
+
+2012-06-08 Puppet Labs <info@puppetlabs.com> - 0.1.0
+ * Initial release
