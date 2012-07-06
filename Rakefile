@@ -32,7 +32,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("mocha", ">= 0.10.5")
   s.add_dependency("rspec-puppet", ">= 0.1.1")
 
-  s.files        = Dir.glob("lib/**/*") + %w(LICENSE)
+  s.files        = Dir.glob("lib/**/*") + %w(LICENSE) + %w(CHANGELOG)
   s.require_path = 'lib'
 end
 
