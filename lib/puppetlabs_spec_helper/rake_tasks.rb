@@ -60,6 +60,7 @@ task :spec_prep do
     f.puts <<-EOF
 ---
 :hierarchy:
+  - %{test_suite}
   - spec_hiera
 :backends:
   - yaml
@@ -67,7 +68,7 @@ task :spec_prep do
 :yaml:
   :datadir: './spec/fixtures'
 EOF
-    end
+  end
 end
 
 desc "Clean up the fixtures directory"
@@ -81,7 +82,6 @@ task :spec_clean do
   end
 
   FileUtils::rm("spec/fixtures/manifests/site.pp")
-  FileUtils::rm("spec/fixtures/hiera.yaml")
 end
 
 desc "Run spec tests in a clean fixtures directory"
