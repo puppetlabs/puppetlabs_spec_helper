@@ -56,6 +56,18 @@ task :spec_prep do
 
   FileUtils::mkdir_p("spec/fixtures/manifests")
   FileUtils::touch("spec/fixtures/manifests/site.pp")
+  File::open("spec/fixtures/hiera.yaml", 'w') do |f|
+    f.puts <<-EOF
+---
+:hierarchy:
+  - spec_hiera
+:backends:
+  - yaml
+  - puppet
+:yaml:
+  :datadir: './spec/fixtures'
+EOF
+    end
 end
 
 desc "Clean up the fixtures directory"
@@ -69,6 +81,7 @@ task :spec_clean do
   end
 
   FileUtils::rm("spec/fixtures/manifests/site.pp")
+  FileUtils::rm("spec/fixtures/hiera.yaml")
 end
 
 desc "Run spec tests in a clean fixtures directory"
