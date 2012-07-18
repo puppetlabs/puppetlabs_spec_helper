@@ -30,7 +30,7 @@ gem it contains.
     $ rake package:gem
     $ gem install pkg/puppetlabs_spec_helper-*.gem
 
-Add this to your project's spec_helper.rb:
+Add this to your project's spec\_helper.rb:
 
     require 'rubygems'
     require 'puppetlabs_spec_helper/module_spec_helper'
@@ -64,7 +64,7 @@ This project is intended to serve two purposes:
    to need to worry about the details of how to initialize puppet's state for
    testing, no matter what version of puppet you are testing against.
 2. To provide some convenience classes / methods for doing things like creating
-   tempfiles, common rspec matchers, etc.  These classes are in the puppetlabs_spec
+   tempfiles, common rspec matchers, etc.  These classes are in the puppetlabs\_spec
    directory.
 3. To provide a common set of Rake tasks so that the procedure for testing modules
    is unified.
@@ -80,7 +80,7 @@ branch of this project besides master/HEAD.
 Initializing Puppet for Testing
 ===============================
 
-In most cases, your project should be able to define a spec_helper.rb that includes
+In most cases, your project should be able to define a spec\_helper.rb that includes
 just this one simple line:
 
     require 'puppetlabs_spec_helper/puppet_spec_helper'
@@ -100,12 +100,42 @@ see the next section.
 Using Utility Classes
 =====================
 If you'd like to use the Utility classes (PuppetlabsSpec::Files,
-PuppetlabsSpec::Fixtures), you just need to add this to your project's spec_helper.rb:
+PuppetlabsSpec::Fixtures), you just need to add this to your project's spec\_helper.rb:
 
     require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
 NOTE that the above line happens automatically if you've required
-'puppetlabs_spec_helper/puppet_spec_helper', so you don't need to do both.
+'puppetlabs\_spec\_helper/puppet\_spec\_helper', so you don't need to do both.
 
 In either case, you'll have all of the functionality of Puppetlabs::Files,
 Puppetlabs::Fixtures, etc., mixed-in to your rspec context.
+
+Testing Parser Functions
+========================
+
+This library provides a consistent way to create a Puppet::Parser::Scope object
+suitable for use in a testing harness with the intent of testing the expected
+behavior of parser functions distributed in modules.
+
+Previously, modules would do something like this:
+
+    describe "split()" do
+      let(:scope) { Puppet::Parser::Scope.new }
+      it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
+        scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
+      end
+    end
+
+This will not work beyond Puppet 2.7 as we have changed the behavior of the
+scope initializer in Puppet 3.0.  Modules should instead initialize scope
+instances in a manner decoupled from the internal behavior of Puppet:
+
+    require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_seams'
+    describe "split()" do
+      let(:scope) { PuppetlabsSpec::PuppetSeams.parser_scope }
+      it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
+        scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
+      end
+    end
+
+EOF
