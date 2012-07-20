@@ -26,8 +26,4 @@ module_path = [module_path, env_module_path].join(':') if env_module_path
 RSpec.configure do |c|
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
-  # The hiera config file seems to drop the top path component
-  # from this option, so we need to add a dummy component to 
-  # make everything work correctly
-  c.config = File.join(fixture_path, 'heira')
 end
