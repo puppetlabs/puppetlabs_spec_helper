@@ -130,9 +130,9 @@ This will not work beyond Puppet 2.7 as we have changed the behavior of the
 scope initializer in Puppet 3.0.  Modules should instead initialize scope
 instances in a manner decoupled from the internal behavior of Puppet:
 
-    require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_seams'
+    require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
     describe "split()" do
-      let(:scope) { PuppetlabsSpec::PuppetSeams.parser_scope }
+      let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
       it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
         scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
       end
