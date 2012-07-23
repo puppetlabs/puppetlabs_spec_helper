@@ -9,7 +9,7 @@ end
 # Require all necessary helper libraries so they can be used later
 require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 require 'puppetlabs_spec_helper/puppetlabs_spec/fixtures'
-require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_seams'
+require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 require 'puppetlabs_spec_helper/puppetlabs_spec/matchers'
 
 RSpec.configure do |config|

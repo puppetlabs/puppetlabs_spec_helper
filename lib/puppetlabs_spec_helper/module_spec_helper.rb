@@ -1,11 +1,6 @@
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/puppet_spec_helper'
-
-# We need to require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_seams' so
-# that all Puppet modules have easy access to
-# PuppetlabsSpec::PuppetSeams.new.scope_for_test_harness  The expectation is
-# that all Puppet modules require puppetlabs_spec_helper/module_spec_helper
-require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_seams'
+require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 
 def param_value(subject, type, title, param)
   subject.resource(type, title).send(:parameters)[param.to_sym]
