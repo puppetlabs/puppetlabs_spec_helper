@@ -68,5 +68,25 @@ describe PuppetlabsSpec::PuppetInternals do
     it "defaults to a name of testinghost" do
       subject.node.name.should == "testinghost"
     end
+
+    it "accepts facts via options for rspec-puppet" do
+      fact_values = { 'fqdn' => "jeff.puppetlabs.com" }
+      node = subject.node(:options => { :parameters => fact_values })
+      node.parameters.should == fact_values
+    end
+  end
+
+  describe ".function_method" do
+    it "accepts an injected scope" do
+      Puppet::Parser::Functions.expects(:function).with("my_func").returns(true)
+      scope = mock()
+      scope.expects(:method).with(:function_my_func).returns(:fake_method)
+      subject.function_method("my_func", :scope => scope).should == :fake_method
+    end
+    it "returns nil if the function doesn't exist" do
+      Puppet::Parser::Functions.expects(:function).with("my_func").returns(false)
+      scope = mock()
+      subject.function_method("my_func", :scope => scope).should be_nil
+    end
   end
 end
