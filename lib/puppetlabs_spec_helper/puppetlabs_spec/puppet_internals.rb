@@ -46,9 +46,23 @@ module PuppetlabsSpec
 
     def node(parts = {})
       node_name = parts[:name] || 'testinghost'
+      options = parts[:options] || {}
       node_environment = Puppet::Node::Environment.new(parts[:environment] || 'test')
-      Puppet::Node.new(node_name) #, :environment => node_environment)
+      options.merge!({:environment => node_environment})
+      Puppet::Node.new(node_name, options)
     end
     module_function :node
+
+    # Return a method instance for a given function.  This is primarily useful
+    # for rspec-puppet
+    def function_method(name, parts = {})
+      scope = parts[:scope] || scope()
+      # Ensure the method instance is defined by side-effect of checking if it
+      # exists.  This is a hack, but at least it's a hidden hack and not an
+      # exposed hack.
+      return nil unless Puppet::Parser::Functions.function(name)
+      scope.method("function_#{name}".intern)
+    end
+    module_function :function_method
   end
 end
