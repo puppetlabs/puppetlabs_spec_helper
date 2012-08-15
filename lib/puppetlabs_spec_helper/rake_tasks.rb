@@ -7,7 +7,7 @@ task :default => [:help]
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
-  t.pattern = 'spec/{classes,defines,unit}/**/*_spec.rb'
+  t.pattern = 'spec/{classes,defines,unit,functions,hosts}/**/*_spec.rb'
 end
 
 desc "Generate code coverage information"
