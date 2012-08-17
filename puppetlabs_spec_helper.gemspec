@@ -19,19 +19,31 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rake>, [">= 0"])
-      s.add_runtime_dependency(%q<rspec>, [">= 2.9.0"])
-      s.add_runtime_dependency(%q<mocha>, [">= 0.10.5"])
+      s.add_runtime_dependency(%q<mocha>, ["~> 0.10.5"])
+      s.add_runtime_dependency(%q<rspec>, ["~> 2.10.0"])
+      s.add_runtime_dependency(%q<rspec-core>, ["~> 2.10.0"])
+      s.add_runtime_dependency(%q<rspec-expectations>, ["~> 2.10.0"])
       s.add_runtime_dependency(%q<rspec-puppet>, [">= 0.1.1"])
+      s.add_runtime_dependency(%q<puppet>, [">= 2.6.0"])
+      s.add_runtime_dependency(%q<puppet-lint>, [">= 0"])
     else
       s.add_dependency(%q<rake>, [">= 0"])
-      s.add_dependency(%q<rspec>, [">= 2.9.0"])
-      s.add_dependency(%q<mocha>, [">= 0.10.5"])
+      s.add_dependency(%q<mocha>, ["~> 0.10.5"])
+      s.add_dependency(%q<rspec>, ["~> 2.10.0"])
+      s.add_dependency(%q<rspec-core>, ["~> 2.10.0"])
+      s.add_dependency(%q<rspec-expectations>, ["~> 2.10.0"])
       s.add_dependency(%q<rspec-puppet>, [">= 0.1.1"])
+      s.add_dependency(%q<puppet>, [">= 2.6.0"])
+      s.add_dependency(%q<puppet-lint>, [">= 0"])
     end
   else
     s.add_dependency(%q<rake>, [">= 0"])
-    s.add_dependency(%q<rspec>, [">= 2.9.0"])
-    s.add_dependency(%q<mocha>, [">= 0.10.5"])
+    s.add_dependency(%q<mocha>, ["~> 0.10.5"])
+    s.add_dependency(%q<rspec>, ["~> 2.10.0"])
+    s.add_dependency(%q<rspec-core>, ["~> 2.10.0"])
+    s.add_dependency(%q<rspec-expectations>, ["~> 2.10.0"])
     s.add_dependency(%q<rspec-puppet>, [">= 0.1.1"])
+    s.add_dependency(%q<puppet>, [">= 2.6.0"])
+    s.add_dependency(%q<puppet-lint>, [">= 0"])
   end
 end
