@@ -46,7 +46,9 @@ end
 desc "Create the fixtures directory"
 task :spec_prep do
   fixtures("repositories").each do |repo, target|
-    File::exists?(target) || system("git clone #{repo} #{target}")
+    unless File::exists?(target) || system("git clone #{repo} #{target}")
+      fail "Failed to clone #{repo} into #{target}"
+    end
   end
 
   FileUtils::mkdir_p("spec/fixtures/modules")
