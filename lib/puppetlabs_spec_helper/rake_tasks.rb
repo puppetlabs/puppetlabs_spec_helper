@@ -34,10 +34,17 @@ def fixtures(category)
 
   result = {}
   if fixtures.include? category
-    fixtures[category].each do |fixture, source|
-      target = "spec/fixtures/modules/#{fixture}"
-      real_source = eval('"'+source+'"')
-      result[real_source] = target
+    fixtures[category].each do |fixture, opts|
+      if opts.instance_of?(String)
+        source = opts
+        target = "spec/fixtures/modules/#{fixture}"
+        real_source = eval('"'+source+'"')
+        result[real_source] = target
+      elsif opts.instance_of?(Hash)
+        target = "spec/fixtures/modules/#{fixture}"
+        real_source = eval('"'+opts["repo"]+'"')
+        result[real_source] = { "target" => target, "ref" => opts["ref"] }
+      end
     end
   end
   return result
@@ -45,8 +52,17 @@ end
 
 desc "Create the fixtures directory"
 task :spec_prep do
-  fixtures("repositories").each do |repo, target|
-    File::exists?(target) || system("git clone #{repo} #{target}")
+  fixtures("repositories").each do |remote, opts|
+    if opts.instance_of?(String)
+      target = opts
+      ref = "refs/remotes/origin/master"
+    elsif opts.instance_of?(Hash)
+      target = opts["target"]
+      ref = opts["ref"]
+    end
+
+    File::exists?(target) || system("git clone #{remote} #{target}")
+    system("cd #{target}; git reset --hard #{ref}") if ref
   end
 
   FileUtils::mkdir_p("spec/fixtures/modules")
