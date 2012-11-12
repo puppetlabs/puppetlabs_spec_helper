@@ -76,7 +76,12 @@ end
 
 desc "Clean up the fixtures directory"
 task :spec_clean do
-  fixtures("repositories").each do |repo, target|
+  fixtures("repositories").each do |remote, opts|
+    if opts.instance_of?(String)
+      target = opts
+    elsif opts.instance_of?(Hash)
+      target = opts["target"]
+    end
     FileUtils::rm_rf(target)
   end
 
