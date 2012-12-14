@@ -110,6 +110,43 @@ NOTE that the above line happens automatically if you've required
 In either case, you'll have all of the functionality of Puppetlabs::Files,
 Puppetlabs::Fixtures, etc., mixed-in to your rspec context.
 
+Using Fixtures
+==============
+`puppetlabs_spec_helper` has the ability to populate the
+`spec/fixtures/modules` directory with dependent modules when `rake spec` or
+`rake spec_prep` is run. To do so, all required modules should be listed in a
+file named `.fixtures.yml` in the root of the project.
+
+Fixtures Examples
+-----------------
+Basic fixtures that will symlink `spec/fixtures/modules/my_modules` to the
+project root:
+
+    fixtures:
+      symlinks:
+        my_module: "#{source_dir}"
+
+
+Add `firewall` and `stdlib` as required module fixtures:
+
+    fixtures:
+      repositories:
+        firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+        stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
+      symlinks:
+        my_module: "#{source_dir}"
+
+Specify that the git tag `2.4.2` of `stdlib' should be checked out:
+
+    fixtures:
+      repositories:
+        firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+        stdlib:
+          repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
+          ref: "2.6.0"
+      symlinks:
+        my_module: "#{source_dir}"
+
 Testing Parser Functions
 ========================
 
