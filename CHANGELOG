@@ -1,3 +1,13 @@
+2012-12-14 Puppet Labs <info@puppetlabs.com> - 0.4.0-rc1
+ * Rake should fail if git can't clone repository
+ * Add readme for fixtures
+ * Fix Mocha deprecations
+ * add opts logic to rake spec_clean
+ * add backwards-compatible support for arbitrary git refs in .fixtures.yml
+ * Only remove the site.pp if it is empty
+ * (#15464) Make contributing easy via bundle Gemfile
+ * (#15464) Add gemspec from 0.3.0 published gem
+
 2012-08-14 Puppet Labs <info@puppetlabs.com> - 0.3.0
  * Add PuppetInternals compatibility module for
    scope, node, compiler, and functions
