@@ -16,7 +16,7 @@ fixture_path = File.expand_path(File.join(Dir.pwd, 'spec/fixtures'))
 env_module_path = ENV['MODULEPATH']
 module_path = File.join(fixture_path, 'modules')
 
-module_path = [module_path, env_module_path].join(':') if env_module_path
+module_path = [module_path, env_module_path].join(File::PATH_SEPARATOR) if env_module_path
 
 RSpec.configure do |c|
   c.module_path = module_path

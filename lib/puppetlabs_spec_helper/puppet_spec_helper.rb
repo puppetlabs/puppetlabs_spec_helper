@@ -43,21 +43,27 @@ module Puppet
     # should be fairly future-proof as long as that API doesn't change, which it
     # hopefully will not need to.
     def self.initialize_via_testhelper(config)
+      begin
+        Puppet::Test::TestHelper.initialize
+      rescue NoMethodError
+        Puppet::Test::TestHelper.before_each_test
+      end
+
       # connect rspec hooks to TestHelper methods.
       config.before :all do
-        Puppet::Test::TestHelper.before_all_tests()
+        Puppet::Test::TestHelper.before_all_tests
       end
 
       config.after :all do
-        Puppet::Test::TestHelper.after_all_tests()
+        Puppet::Test::TestHelper.after_all_tests
       end
 
       config.before :each do
-        Puppet::Test::TestHelper.before_each_test()
+        Puppet::Test::TestHelper.before_each_test
       end
 
       config.after :each do
-        Puppet::Test::TestHelper.after_each_test()
+        Puppet::Test::TestHelper.after_each_test
       end
     end
 
