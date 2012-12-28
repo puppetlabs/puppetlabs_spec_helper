@@ -55,7 +55,6 @@ task :spec_prep do
   fixtures("repositories").each do |remote, opts|
     if opts.instance_of?(String)
       target = opts
-      ref = "refs/remotes/origin/master"
     elsif opts.instance_of?(Hash)
       target = opts["target"]
       ref = opts["ref"]
