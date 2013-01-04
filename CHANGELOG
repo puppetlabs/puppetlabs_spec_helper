@@ -1,4 +1,4 @@
-2012-12-14 Puppet Labs <info@puppetlabs.com> - 0.4.0-rc1
+2012-12-14 Puppet Labs <info@puppetlabs.com> - 0.4.0
  * Rake should fail if git can't clone repository
  * Add readme for fixtures
  * Fix Mocha deprecations
