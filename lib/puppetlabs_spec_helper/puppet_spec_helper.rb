@@ -38,35 +38,6 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 # branches of initialization logic into methods without polluting the global namespace.#
 module Puppet
   class PuppetSpecInitializer
-    # This method uses the "new"/preferred approach of delegating all of the test
-    # state initialization to puppet itself, via Puppet::Test::TestHelper API.  This
-    # should be fairly future-proof as long as that API doesn't change, which it
-    # hopefully will not need to.
-    def self.initialize_via_testhelper(config)
-      begin
-        Puppet::Test::TestHelper.initialize
-      rescue NoMethodError
-        Puppet::Test::TestHelper.before_each_test
-      end
-
-      # connect rspec hooks to TestHelper methods.
-      config.before :all do
-        Puppet::Test::TestHelper.before_all_tests
-      end
-
-      config.after :all do
-        Puppet::Test::TestHelper.after_all_tests
-      end
-
-      config.before :each do
-        Puppet::Test::TestHelper.before_each_test
-      end
-
-      config.after :each do
-        Puppet::Test::TestHelper.after_each_test
-      end
-    end
-
     # This method is for initializing puppet state for testing for older versions
     # of puppet that do not support the new TestHelper API.  As you can see,
     # this involves explicitly modifying global variables, directly manipulating
@@ -156,9 +127,7 @@ RSpec.configure do |config|
   config.mock_with :mocha
 
   # determine whether we can use the new API or not, and call the appropriate initializer method.
-  if (defined?(Puppet::Test::TestHelper))
-    Puppet::PuppetSpecInitializer.initialize_via_testhelper(config)
-  else
+  if ! (defined?(Puppet::Test::TestHelper))
     Puppet::PuppetSpecInitializer.initialize_via_fallback_compatibility(config)
   end
 
