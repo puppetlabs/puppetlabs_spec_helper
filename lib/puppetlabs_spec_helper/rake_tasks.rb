@@ -55,7 +55,6 @@ task :spec_prep do
   fixtures("repositories").each do |remote, opts|
     if opts.instance_of?(String)
       target = opts
-      ref = "refs/remotes/origin/master"
     elsif opts.instance_of?(Hash)
       target = opts["target"]
       ref = opts["ref"]
@@ -64,7 +63,7 @@ task :spec_prep do
     unless File::exists?(target) || system("git clone #{remote} #{target}")
       fail "Failed to clone #{remote} into #{target}"
     end
-    system("cd #{target}; git reset --hard #{ref}") if ref
+    system("cd #{target} && git reset --hard #{ref}") if ref
   end
 
   FileUtils::mkdir_p("spec/fixtures/modules")
