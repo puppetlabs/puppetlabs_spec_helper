@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "puppetlabs_spec_helper"
-  s.version = "0.3.0"
+  s.version = %x{git describe --tags}.split('-')[0..1].join('.')
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Puppet Labs"]
@@ -10,6 +10,9 @@ Gem::Specification.new do |s|
   s.description = "Contains rake tasks and a standard spec_helper for running spec tests on puppet modules"
   s.email = ["puppet-dev@puppetlabs.com"]
   s.homepage = "http://github.com/puppetlabs/puppetlabs_spec_helper"
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features,examples}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.24"
   s.summary = "Standard tasks and configuration for module spec tests"
