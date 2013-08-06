@@ -49,7 +49,7 @@ Issues
 ======
 
 Please file issues against this project at the [Puppet Labs Issue
-Tracker](http://projects.puppetlabs.com/issues/13595)
+Tracker](http://projects.puppetlabs.com/projects/ci-modules)
 
 The Long Version
 ----------------
