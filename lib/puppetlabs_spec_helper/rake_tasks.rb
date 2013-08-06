@@ -124,6 +124,20 @@ task :lint do
   require 'puppet-lint/tasks/puppet-lint'
 end
 
+desc "Check puppet manifest syntax"
+task :syntax do
+  require 'puppet/face'
+  parser = Puppet::Face['parser', :current]
+
+  RakeFileUtils.send(:verbose, true) do
+    matched_files = FileList['**/*.pp'].exclude 'spec/fixtures/**/*.pp'
+
+    matched_files.to_a.each do |puppet_file|
+      parser.validate(puppet_file)
+    end
+  end
+end
+
 desc "Display the list of available rake tasks"
 task :help do
   system("rake -T")
