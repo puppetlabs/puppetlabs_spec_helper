@@ -122,6 +122,7 @@ end
 desc "Check puppet manifests with puppet-lint"
 task :lint do
   require 'puppet-lint/tasks/puppet-lint'
+  PuppetLint.configuration.ignore_paths = ["spec/fixtures/**/*.pp"]
 end
 
 desc "Display the list of available rake tasks"
