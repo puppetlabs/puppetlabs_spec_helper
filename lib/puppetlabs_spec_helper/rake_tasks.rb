@@ -68,7 +68,7 @@ task :spec_prep do
 
   FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|
-    File::exists?(target) || FileUtils::ln_s(source, target)
+    File::exists?(target) || FileUtils::ln_sf(source, target)
   end
 
   FileUtils::mkdir_p("spec/fixtures/manifests")
