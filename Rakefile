@@ -40,7 +40,7 @@ namespace :package do
   desc "Create the gem"
   task :gem do
       Dir.mkdir("pkg") rescue nil
-      Gem::Builder.new(spec).build
+      Gem::Package.build(spec)
       FileUtils.move("puppetlabs_spec_helper-#{version}.gem", "pkg")
   end
 end
