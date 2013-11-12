@@ -44,7 +44,7 @@ namespace :package do
 	Gem::Package.build(spec)
       else
 	Gem::Builder.new(spec).build
-      end 
+      end
       FileUtils.move("puppetlabs_spec_helper-#{version}.gem", "pkg")
   end
 end
