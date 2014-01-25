@@ -26,6 +26,7 @@ spec = Gem::Specification.new do |s|
   s.homepage    = "http://github.com/puppetlabs/puppetlabs_spec_helper"
   s.summary     = "Standard tasks and configuration for module spec tests"
   s.description = "Contains rake tasks and a standard spec_helper for running spec tests on puppet modules"
+  s.licenses    = 'Apache-2.0'
 
   s.add_dependency("rake")
   s.add_dependency("rspec", ">= 2.9.0")
@@ -41,9 +42,9 @@ namespace :package do
   task :gem do
       Dir.mkdir("pkg") rescue nil
       if Gem::Version.new(`gem -v`) >= Gem::Version.new("2.0.0.a")
-	Gem::Package.build(spec)
+        Gem::Package.build(spec)
       else
-	Gem::Builder.new(spec).build
+        Gem::Builder.new(spec).build
       end
       FileUtils.move("puppetlabs_spec_helper-#{version}.gem", "pkg")
   end
