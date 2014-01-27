@@ -10,6 +10,12 @@ RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.pattern = 'spec/{classes,defines,unit,functions,hosts,integration}/**/*_spec.rb'
 end
 
+desc "Run beaker acceptance tests"
+RSpec::Core::RakeTask.new(:beaker) do |t|
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance'
+end
+
 desc "Generate code coverage information"
 RSpec::Core::RakeTask.new(:coverage) do |t|
   t.rcov = true
@@ -97,6 +103,14 @@ task :spec do
   Rake::Task[:spec_prep].invoke
   Rake::Task[:spec_standalone].invoke
   Rake::Task[:spec_clean].invoke
+end
+
+desc "List available beaker nodesets"
+task :beaker_nodes do
+  Dir['spec/acceptance/nodesets/*.yml'].sort!.select { |node|
+    node.slice!('.yml')
+    puts File.basename(node)
+  }
 end
 
 desc "Build puppet module package"
