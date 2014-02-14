@@ -90,7 +90,7 @@ task :spec_clean do
     FileUtils::rm_f(target)
   end
 
-  if File.zero?("spec/fixtures/manifets/site.pp")
+  if File.zero?("spec/fixtures/manifests/site.pp")
     FileUtils::rm_f("spec/fixtures/manifests/site.pp")
   end
 
