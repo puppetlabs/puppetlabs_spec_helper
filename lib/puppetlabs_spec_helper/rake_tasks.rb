@@ -95,7 +95,11 @@ task :spec_clean do
   fixtures("symlinks").each do |source, target|
     FileUtils::rm_f(target)
   end
-  FileUtils::rm_f("spec/fixtures/manifests/site.pp")
+
+  if File.zero?("spec/fixtures/manifets/site.pp")
+    FileUtils::rm_f("spec/fixtures/manifests/site.pp")
+  end
+
 end
 
 desc "Run spec tests in a clean fixtures directory"
