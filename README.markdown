@@ -147,6 +147,16 @@ Specify that the git tag `2.4.2` of `stdlib' should be checked out:
       symlinks:
         my_module: "#{source_dir}"
 
+Install modules from Puppet Forge:
+
+    fixtures:
+        forge_modules:
+            firewall: "puppetlabs/firewall"
+            stdlib:
+                repo: "puppetlabs/stdlib"
+                ref: "2.6.0"
+
+
 Testing Parser Functions
 ========================
 

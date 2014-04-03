@@ -77,6 +77,22 @@ task :spec_prep do
     File::exists?(target) || FileUtils::ln_sf(source, target)
   end
 
+  fixtures("forge_modules").each do |remote, opts|
+    if opts.instance_of?(String)
+      target = opts
+      ref = ""
+    elsif opts.instance_of?(Hash)
+      target = opts["target"]
+      ref = "--version #{opts['ref']}"
+    end
+    next if File::exists?(target)
+    unless system("puppet module install " + ref + \
+                  " --ignore-dependencies" \
+                  " --target-dir spec/fixtures/modules #{remote}")
+      fail "Failed to install module #{remote} to #{target}"
+    end
+  end
+
   FileUtils::mkdir_p("spec/fixtures/manifests")
   FileUtils::touch("spec/fixtures/manifests/site.pp")
 end
@@ -84,6 +100,15 @@ end
 desc "Clean up the fixtures directory"
 task :spec_clean do
   fixtures("repositories").each do |remote, opts|
+    if opts.instance_of?(String)
+      target = opts
+    elsif opts.instance_of?(Hash)
+      target = opts["target"]
+    end
+    FileUtils::rm_rf(target)
+  end
+
+  fixtures("forge_modules").each do |remote, opts|
     if opts.instance_of?(String)
       target = opts
     elsif opts.instance_of?(Hash)
