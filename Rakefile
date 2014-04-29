@@ -1,7 +1,5 @@
-require 'rake'
-require 'rake/packagetask'
-require 'rubygems/package_task'
+require 'rspec/core/rake_task'
 
-task :default do
-    sh %{rake -T}
-end
+RSpec::Core::RakeTask.new(:spec)
+
+task :default => :spec
