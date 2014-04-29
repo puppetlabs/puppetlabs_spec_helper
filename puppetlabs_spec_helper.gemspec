@@ -14,11 +14,10 @@ Gem::Specification.new do |s|
   s.licenses    = 'Apache-2.0'
 
   s.add_dependency "rake"
-  s.add_dependency "rspec", ">= 2.9.0"
-  s.add_dependency "mocha", ">= 0.10.5"
-  s.add_dependency "rspec-puppet", ">= 0.1.1"
+  s.add_dependency "rspec", "~> 2.9.0"
+  s.add_dependency "rspec-puppet", "~> 1.0.1"
   s.add_dependency "puppet-lint", "~> 0.3.2"
 
-  s.files        = Dir.glob("lib/**/*") + %w(LICENSE) + %w(CHANGELOG)
+  s.files        = Dir.glob("lib/**/*") + %w(LICENSE CHANGELOG)
   s.require_path = 'lib'
 end
