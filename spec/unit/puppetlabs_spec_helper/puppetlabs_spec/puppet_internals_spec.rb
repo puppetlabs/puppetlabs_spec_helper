@@ -1,8 +1,3 @@
-#! /usr/bin/env ruby -S rspec
-
-require 'puppetlabs_spec_helper/puppet_spec_helper'
-require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
-
 describe PuppetlabsSpecHelper::PuppetInternals do
   describe ".scope" do
     it "should return a Puppet::Parser::Scope instance" do
