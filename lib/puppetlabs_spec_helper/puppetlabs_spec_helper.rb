@@ -1,5 +1,5 @@
 # Define the main module namespace for use by the helper modules
-module PuppetlabsSpec
+module PuppetlabsSpecHelper
   # FIXTURE_DIR represents the standard locations of all fixture data. Normally
   # this represents <project>/spec/fixtures. This will be used by the fixtures
   # library to find relative fixture data.
@@ -13,13 +13,13 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 require 'puppetlabs_spec_helper/puppetlabs_spec/matchers'
 
 RSpec.configure do |config|
-  # Include PuppetlabsSpec helpers so they can be called at convenience
-  config.extend PuppetlabsSpec::Files
-  config.extend PuppetlabsSpec::Fixtures
-  config.include PuppetlabsSpec::Fixtures
+  # Include PuppetlabsSpecHelper helpers so they can be called at convenience
+  config.extend PuppetlabsSpecHelper::Files
+  config.extend PuppetlabsSpecHelper::Fixtures
+  config.include PuppetlabsSpecHelper::Fixtures
 
   # This will cleanup any files that were created with tmpdir or tmpfile
-  config.after :each do
-    PuppetlabsSpec::Files.cleanup
+  config.after do
+    PuppetlabsSpecHelper::Files.cleanup
   end
 end
