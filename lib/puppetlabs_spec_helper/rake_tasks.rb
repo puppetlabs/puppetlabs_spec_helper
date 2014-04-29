@@ -2,17 +2,13 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
 
-task :default => [:help]
-
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
-  t.rspec_opts = ['--color']
   t.pattern = 'spec/{classes,defines,unit,functions,hosts,integration}/**/*_spec.rb'
 end
 
 desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
-  t.rspec_opts = ['--color']
   t.pattern = 'spec/acceptance'
 end
 
@@ -162,6 +158,11 @@ end
 desc "Check puppet manifests with puppet-lint"
 task :lint do
   require 'puppet-lint/tasks/puppet-lint'
+
+  PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
+  PuppetLint.configuration.fail_on_warnings = true
+  PuppetLint.configuration.send('disable_class_parameter_defaults')
+  PuppetLint.configuration.send('disable_class_inherits_from_params_class')
   PuppetLint.configuration.ignore_paths = ["spec/fixtures/**/*.pp"]
 end
 
@@ -179,7 +180,8 @@ task :syntax do
   end
 end
 
-desc "Display the list of available rake tasks"
-task :help do
-  system("rake -T")
-end
+task :default => [
+  :syntax,
+  :lint,
+  :spec,
+]
