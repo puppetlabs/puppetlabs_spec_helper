@@ -2,7 +2,7 @@
 # 'puppetlabs_spec_helper/puppet_spec_helper' library
 require 'puppetlabs_spec_helper/puppet_spec_helper'
 
-module PuppetlabsSpec
+module PuppetlabsSpecHelper
   module PuppetInternals
     # parser_scope is intended to return a Puppet::Parser::Scope
     # instance suitable for placing in a test harness with the intent of

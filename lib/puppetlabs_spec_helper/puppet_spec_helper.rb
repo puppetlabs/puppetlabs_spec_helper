@@ -107,7 +107,7 @@ module Puppet
         Puppet::Util::Storage.clear
         Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? "ExecutionStub"
 
-        PuppetlabsSpec::Files.cleanup
+        PuppetlabsSpecHelper::Files.cleanup
       end
     end
   end

@@ -99,8 +99,8 @@ see the next section.
 
 Using Utility Classes
 =====================
-If you'd like to use the Utility classes (PuppetlabsSpec::Files,
-PuppetlabsSpec::Fixtures), you just need to add this to your project's spec\_helper.rb:
+If you'd like to use the Utility classes (PuppetlabsSpecHelper::Files,
+PuppetlabsSpecHelper::Fixtures), you just need to add this to your project's spec\_helper.rb:
 
     require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
@@ -179,7 +179,7 @@ instances in a manner decoupled from the internal behavior of Puppet:
 
     require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
     describe "split()" do
-      let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
+      let(:scope) { PuppetlabsSpecHelper::PuppetInternals.scope }
       it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
         scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
       end

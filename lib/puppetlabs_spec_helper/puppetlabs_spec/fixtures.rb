@@ -1,11 +1,11 @@
 # This module provides some helper methods to assist with fixtures. It's
 # methods are designed to help when you have a conforming fixture layout so we
 # get project consistency.
-module PuppetlabsSpec::Fixtures
+module PuppetlabsSpecHelper::Fixtures
 
   # Returns the joined path of the global FIXTURE_DIR plus any path given to it
   def fixtures(*rest)
-    File.join(PuppetlabsSpec::FIXTURE_DIR, *rest)
+    File.join(PuppetlabsSpecHelper::FIXTURE_DIR, *rest)
   end
 
   # Returns the path to your relative fixture dir. So if your spec test is

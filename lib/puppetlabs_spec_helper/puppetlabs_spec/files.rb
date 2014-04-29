@@ -3,7 +3,7 @@ require 'tempfile'
 require 'pathname'
 
 # A support module for testing files.
-module PuppetlabsSpec::Files
+module PuppetlabsSpecHelper::Files
   # This code exists only to support tests that run as root, pretty much.
   # Once they have finally been eliminated this can all go... --daniel 2011-04-08
   def self.in_tmp(path)
