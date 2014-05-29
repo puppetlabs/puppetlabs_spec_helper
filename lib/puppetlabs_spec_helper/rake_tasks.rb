@@ -66,7 +66,7 @@ task :spec_prep do
       ref = opts["ref"]
     end
 
-    unless File::exists?(target) || system("git clone #{remote} #{target}")
+    unless File::exists?(target) || system("git clone --depth 1 #{remote} #{target}")
       fail "Failed to clone #{remote} into #{target}"
     end
     system("cd #{target} && git reset --hard #{ref}") if ref
