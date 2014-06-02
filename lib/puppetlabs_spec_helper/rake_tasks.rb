@@ -49,27 +49,57 @@ def fixtures(category)
       elsif opts.instance_of?(Hash)
         target = "spec/fixtures/modules/#{fixture}"
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"] }
+        result[real_source] = { "target" => target, "ref" => opts["ref"], "scm" => opts["scm"] }
       end
     end
   end
   return result
 end
 
+def clone(scm, remote, target, ref=nil)
+  args = []
+  case scm
+  when 'hg'
+    args.push('clone')
+    args.push('-u', ref) if ref
+    args.push(remote, target)
+  when 'git'
+    args.push('clone', remote, target)
+  else
+      fail "Unfortunately #{scm} is not supported yet"
+  end
+  system("#{scm} #{args.flatten.join ' '}")
+end
+
+def revision(scm, target, ref)
+  args = []
+  case scm
+  when 'hg'
+    args.push('update', 'clean', '-r', ref)
+  when 'git'
+    args.push('reset', '--hard', ref)
+  else
+      fail "Unfortunately #{scm} is not supported yet"
+  end
+  system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+end
+
 desc "Create the fixtures directory"
 task :spec_prep do
   fixtures("repositories").each do |remote, opts|
+    scm = 'git'
     if opts.instance_of?(String)
       target = opts
     elsif opts.instance_of?(Hash)
       target = opts["target"]
       ref = opts["ref"]
+      scm = opts["scm"] if opts["scm"]
     end
 
-    unless File::exists?(target) || system("git clone #{remote} #{target}")
-      fail "Failed to clone #{remote} into #{target}"
+    unless File::exists?(target) || clone(scm, remote, target, ref)
+      fail "Failed to clone #{scm} repository #{remote} into #{target}"
     end
-    system("cd #{target} && git reset --hard #{ref}") if ref
+    revision(scm, target, ref) if ref
   end
 
   FileUtils::mkdir_p("spec/fixtures/modules")
