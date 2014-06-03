@@ -1,20 +1,5 @@
-require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
-
 # Don't want puppet getting the command line arguments for rake or autotest
 ARGV.clear
-
-# This is needed because we're using mocha with rspec instead of Test::Unit or MiniTest
-ENV['MOCHA_OPTIONS']='skip_integration'
-
-require 'puppet'
-gem 'rspec', '>=2.0.0'
-require 'rspec/expectations'
-require 'mocha/api'
-
-require 'pathname'
-require 'tmpdir'
-
-require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 
 ######################################################################################
 #                                     WARNING                                        #
@@ -107,7 +92,7 @@ module Puppet
         Puppet::Util::Storage.clear
         Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? "ExecutionStub"
 
-        PuppetlabsSpec::Files.cleanup
+        PuppetlabsSpecHelper::Files.cleanup
       end
     end
   end
@@ -153,8 +138,6 @@ end
 
 # And here is where we do the main rspec configuration / setup.
 RSpec.configure do |config|
-  config.mock_with :mocha
-
   # determine whether we can use the new API or not, and call the appropriate initializer method.
   if (defined?(Puppet::Test::TestHelper))
     Puppet::PuppetSpecInitializer.initialize_via_testhelper(config)

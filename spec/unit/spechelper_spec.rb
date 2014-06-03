@@ -1,5 +1,8 @@
-#!/usr/bin/env ruby
-require 'puppetlabs_spec_helper/puppet_spec_helper'
+require 'puppet/type'
+
+Puppet::Type.newtype(:spechelper) do
+  @doc = "This is the spechelper type"
+end
 
 # ensure we can access puppet settings outside of any example group
 Puppet[:confdir]

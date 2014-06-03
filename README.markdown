@@ -22,28 +22,22 @@ Other "customers" that should use this module are:
 Usage
 =====
 
-When developing or testing modules, simply clone this repository and install the
-gem it contains.
+Add to your Gemfile
 
-    $ git clone git://github.com/puppetlabs/puppetlabs_spec_helper.git
-    $ cd puppetlabs_spec_helper
-    $ rake package:gem
-    $ gem install pkg/puppetlabs_spec_helper-*.gem
+    gem 'puppetlabs_spec_helper', github: 'puppetlabs/puppetlabs_spec_helper'
 
 Add this to your project's spec\_helper.rb:
 
-    require 'rubygems'
-    require 'puppetlabs_spec_helper/module_spec_helper'
+    require 'puppetlabs_spec_helper'
 
 Add this to your project's Rakefile:
 
-    require 'rubygems'
     require 'puppetlabs_spec_helper/rake_tasks'
 
 And run the spec tests:
 
     $ cd $modulename
-    $ rake spec
+    $ bundle exec rake
 
 Issues
 ======
@@ -80,27 +74,28 @@ branch of this project besides master/HEAD.
 Initializing Puppet for Testing
 ===============================
 
-In most cases, your project should be able to define a spec\_helper.rb that includes
-just this one simple line:
+In most cases, your project should be able to define a `spec_helper.rb` that
+includes just this one simple line:
 
-    require 'puppetlabs_spec_helper/puppet_spec_helper'
+    require 'puppetlabs_spec_helper'
 
 Then, as long as the gem is installed, you should be all set.
 
-If you are using rspec-puppet for module testing, you will want to include a different
-library:
+If you are using `rspec-puppet` for module testing, you will want to include a
+different library:
 
     require 'puppetlabs_spec_helper/module_spec_helper'
 
-NOTE that this is specifically for initializing Puppet's core.  If your project does
-not have any dependencies on puppet and you just want to use the utility classes,
-see the next section.
+**NOTE** that this is specifically for initializing Puppet's core.  If your
+project does not have any dependencies on puppet and you just want to use the
+utility classes, see the next section.
 
 
 Using Utility Classes
 =====================
-If you'd like to use the Utility classes (PuppetlabsSpec::Files,
-PuppetlabsSpec::Fixtures), you just need to add this to your project's spec\_helper.rb:
+If you'd like to use the Utility classes (`PuppetlabsSpecHelper::Files`,
+`PuppetlabsSpecHelper::Fixtures`), you just need to add this to your project's
+`spec_helper.rb`:
 
     require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
@@ -179,10 +174,8 @@ instances in a manner decoupled from the internal behavior of Puppet:
 
     require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
     describe "split()" do
-      let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
+      let(:scope) { PuppetlabsSpecHelper::PuppetInternals.scope }
       it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
         scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
       end
     end
-
-EOF
