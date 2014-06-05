@@ -3,7 +3,7 @@ source :rubygems
 gemspec
 
 group(:development, :test) do
-  gem "rspec", "~> 2.10.0", :require => false
+  gem "rspec", "~> 2.10", :require => false
   gem "mocha", "~> 0.10.5", :require => false
 end
 
