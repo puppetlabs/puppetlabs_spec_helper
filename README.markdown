@@ -32,12 +32,10 @@ gem it contains.
 
 Add this to your project's spec\_helper.rb:
 
-    require 'rubygems'
     require 'puppetlabs_spec_helper/module_spec_helper'
 
 Add this to your project's Rakefile:
 
-    require 'rubygems'
     require 'puppetlabs_spec_helper/rake_tasks'
 
 And run the spec tests:

@@ -12,12 +12,14 @@ Gem::Specification.new do |s|
   s.description = "Contains rake tasks and a standard spec_helper for running spec tests on puppet modules"
   s.licenses    = 'Apache-2.0'
 
+  s.files       = `git ls-files`.split("\n")
+  s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+
   # Runtime dependencies, but also probably dependencies of requiring projects
   s.add_runtime_dependency 'rake'
   s.add_runtime_dependency 'rspec-puppet'
   s.add_runtime_dependency 'puppet'
   s.add_runtime_dependency 'puppet-lint'
-  s.add_runtime_dependency 'rspec',              "~> 2.10"
-  # Mocha is still zero-dot and not semverically stable.
-  s.add_runtime_dependency 'mocha',              "~> 0.10.5"
+  s.add_runtime_dependency 'rspec'
 end
