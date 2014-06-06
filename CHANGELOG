@@ -1,3 +1,15 @@
+2014-06-06 - Release 0.4.2
+
+Summary:
+This release corrects the pinning of rspec for modules which are not rspec 3
+compatible yet.
+
+Bugfixes:
+* Pin to 2.x range for rspec 2
+* Fix aborting rake task when packaging gem
+* Fix puppet issue tracker url
+* Fix issue with running `git reset` in the incorrect dir
+
 2013-02-08 Puppet Labs <info@puppetlabs.com> - 0.4.1
  * (#18165) Mark tests pending on broken puppet versions
  * (#18165) Initialize TestHelper as soon as possible
