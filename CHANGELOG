@@ -1,3 +1,28 @@
+2014-06-09 - Release 0.5.1
+Summary:
+This release re-adds mocha mocking, which was mistakenly removed in 0.5.0
+
+Bugfixes:
+- Re-enable mocha mocking as default.
+
+2014-06-06 - Release 0.5.0
+Summary:
+This is the first feature release in over a year. The biggest feature is fixtures supporting the forge, and not just github, plus rake tasks for syntax checking and beaker.
+
+Features:
+- Install modules from the forge, not just git
+- Beaker rake tasks added
+- Syntax task added
+- Rake spec runs tests in `integration/` directory
+
+Bugfixes:
+- Fix the gemspec so that this may be used with bundler
+- Fix removal of symlinks
+- Fix removal of site.pp only when empty
+- Ignore fixtures for linting
+- Remove extra mocha dependency
+- Remove rspec pinning (oops)
+
 2014-06-06 - Release 0.4.2
 
 Summary:
