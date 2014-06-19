@@ -1,3 +1,12 @@
+2014-06-19 - Release 0.5.2
+Summary:
+This release removes the previously non-existant puppet runtime dependency to
+better match rspec-puppet and puppet-lint and allow system puppet packages to
+be used instead of gems.
+
+Bugfixes:
+- Remove puppet dependency from gemspec
+
 2014-06-09 - Release 0.5.1
 Summary:
 This release re-adds mocha mocking, which was mistakenly removed in 0.5.0
