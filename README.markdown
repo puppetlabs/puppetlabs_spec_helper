@@ -94,6 +94,11 @@ NOTE that this is specifically for initializing Puppet's core.  If your project 
 not have any dependencies on puppet and you just want to use the utility classes,
 see the next section.
 
+To enable strict-variable or future-parser rspec-puppet failures export the
+`STRICT_VARIABLES=yes` and/or `FUTURE_PARSER=yes` environment variables. Eg:
+
+    FUTURE_PARSER=yes STRICT_VARIABLES=yes rake spec
+
 
 Using Utility Classes
 =====================

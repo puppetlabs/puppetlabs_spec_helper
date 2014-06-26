@@ -21,4 +21,12 @@ module_path = [module_path, env_module_path].join(File::PATH_SEPARATOR) if env_m
 RSpec.configure do |c|
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
+  ## These depend on rspec-puppet #209 and #183 being released
+  #c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
+  #c.strict_variables = true if ENV['STRICT_VARIABLES'] == 'yes'
+
+  c.before :each do
+    Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes'
+    Puppet.settings[:parser] = 'future' if ENV['FUTURE_PARSER'] == 'yes'
+  end
 end
