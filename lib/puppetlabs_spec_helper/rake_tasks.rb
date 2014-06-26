@@ -56,7 +56,7 @@ def fixtures(category)
   return result
 end
 
-def clone(scm, remote, target, ref=nil)
+def clone_repo(scm, remote, target, ref=nil)
   args = []
   case scm
   when 'hg'
@@ -96,7 +96,7 @@ task :spec_prep do
       scm = opts["scm"] if opts["scm"]
     end
 
-    unless File::exists?(target) || clone(scm, remote, target, ref)
+    unless File::exists?(target) || clone_repo(scm, remote, target, ref)
       fail "Failed to clone #{scm} repository #{remote} into #{target}"
     end
     revision(scm, target, ref) if ref
