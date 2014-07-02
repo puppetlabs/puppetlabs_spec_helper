@@ -1,3 +1,17 @@
+2014-07-02 - Release 0.6.0
+Summary:
+This feature release adds the `validate` rake task and the ability to test
+strict variables and the future parser with rspec-puppet.
+
+Features:
+- Add `validate` rake task.
+- Add `STRICT_VARIABLES=yes` to module_spec_helper
+- Add `FUTURE_PARSER=yes` to module_spec_helper
+
+Bugfixes:
+- Avoid conflict with Object.clone
+- Install forge fixtures without conflicting with already-installed modules
+
 2014-06-19 - Release 0.5.2
 Summary:
 This release removes the previously non-existant puppet runtime dependency to
