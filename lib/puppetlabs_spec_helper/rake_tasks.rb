@@ -118,6 +118,7 @@ task :spec_prep do
     next if File::exists?(target)
     unless system("puppet module install " + ref + \
                   " --ignore-dependencies" \
+                  " --force" \
                   " --target-dir spec/fixtures/modules #{remote}")
       fail "Failed to install module #{remote} to #{target}"
     end
