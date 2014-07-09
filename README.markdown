@@ -94,11 +94,33 @@ NOTE that this is specifically for initializing Puppet's core.  If your project 
 not have any dependencies on puppet and you just want to use the utility classes,
 see the next section.
 
-To enable strict-variable or future-parser rspec-puppet failures export the
-`STRICT_VARIABLES=yes` and/or `FUTURE_PARSER=yes` environment variables. Eg:
+A number of the Puppet parser features, controlled via configuration during a
+normal puppet run, can be controlled by exporting specific environment
+variables for the spec run. These are:
 
-    FUTURE_PARSER=yes STRICT_VARIABLES=yes rake spec
+* ``FUTURE_PARSER`` - set to "yes" to enable the [future parser](http://docs.puppetlabs.com/puppet/latest/reference/experiments_future.html),
+  the equivalent of setting [parser=future](http://docs.puppetlabs.com/references/latest/configuration.html#parser)
+  in puppet.conf.
+* ``STRICT_VARIABLES`` - set to "yes" to enable strict variable checking,
+  the equivalent of setting [strict_variables](http://docs.puppetlabs.com/references/latest/configuration.html#strictvariables)=true
+  in puppet.conf.
+* ``ORDERING`` - set to the desired ordering method ("title-hash", "manifest", or "random")
+  to set the order of unrelated resources when applying a catalog. Leave unset for the default
+  behavior, currently "random". This is equivalent to setting [ordering](http://docs.puppetlabs.com/references/latest/configuration.html#ordering)
+  in puppet.conf.
+* ``STRINGIFY_FACTS`` - set to "no" to enable [structured facts](http://docs.puppetlabs.com/facter/2.0/fact_overview.html#writing-structured-facts),
+  otherwise leave unset to retain the current default behavior. This is equivalent to setting
+  [stringify_facts=false](http://docs.puppetlabs.com/references/latest/configuration.html#stringifyfacts)
+  in puppet.conf.
+* ``TRUSTED_NODE_DATA`` - set to "yes" to enable [the $facts hash and trusted node data](http://docs.puppetlabs.com/puppet/latest/reference/lang_facts_and_builtin_vars.html),
+  which enabled ``$facts`` and ``$trusted`` hashes. This is equivalent to setting
+  [trusted_node_data=true](http://docs.puppetlabs.com/references/latest/configuration.html#trustednodedata)
+  in puppet.conf.
 
+As an example, to run spec tests with the future parser, strict variable checking,
+and manifest ordering, you would:
+
+    FUTURE_PARSER=yes STRICT_VARIABLES=yes ORDERING=manifest rake spec
 
 Using Utility Classes
 =====================
