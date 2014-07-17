@@ -49,14 +49,14 @@ def fixtures(category)
       elsif opts.instance_of?(Hash)
         target = "spec/fixtures/modules/#{fixture}"
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"], "scm" => opts["scm"] }
+        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"] }
       end
     end
   end
   return result
 end
 
-def clone_repo(scm, remote, target, ref=nil)
+def clone_repo(scm, remote, target, ref=nil, branch=nil)
   args = []
   case scm
   when 'hg'
@@ -64,7 +64,9 @@ def clone_repo(scm, remote, target, ref=nil)
     args.push('-u', ref) if ref
     args.push(remote, target)
   when 'git'
-    args.push('clone', remote, target)
+    args.push('clone')
+    args.push('-b', branch) if branch
+    args.push(remote, target)
   else
       fail "Unfortunately #{scm} is not supported yet"
   end
@@ -94,9 +96,10 @@ task :spec_prep do
       target = opts["target"]
       ref = opts["ref"]
       scm = opts["scm"] if opts["scm"]
+      branch = opts["branch"] if opts["branch"]
     end
 
-    unless File::exists?(target) || clone_repo(scm, remote, target, ref)
+    unless File::exists?(target) || clone_repo(scm, remote, target, ref, branch)
       fail "Failed to clone #{scm} repository #{remote} into #{target}"
     end
     revision(scm, target, ref) if ref
