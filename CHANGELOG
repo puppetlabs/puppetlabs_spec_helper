@@ -1,3 +1,17 @@
+2014-07-17 - Release 0.7.0
+Summary:
+This feature release adds the ability to test structured facts, manifest
+ordering, and trusted node facts, and check out branches with fixtures.
+
+Features:
+- Add `STRINGIFY_FACTS=no` for structured facts
+- Add `TRUSTED_NODE_DATA=yes` for trusted node data
+- Add `ORDERING=<order>` for manifest ordering
+- Add `:branch` support for fixtures on a branch.
+
+Bugfixes:
+- Fix puppet-lint to ignore spec/fixtures/
+
 2014-07-02 - Release 0.6.0
 Summary:
 This feature release adds the `validate` rake task and the ability to test
