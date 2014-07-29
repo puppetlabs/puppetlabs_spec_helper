@@ -200,31 +200,18 @@ task :lint do
   PuppetLint.configuration.ignore_paths << "spec/fixtures/**/*.pp"
 end
 
-desc "Check puppet manifest syntax"
-task :syntax do
-  require 'puppet/face'
-  parser = Puppet::Face['parser', :current]
+require 'puppet-syntax/tasks/puppet-syntax'
+PuppetSyntax.exclude_paths ||= []
+PuppetSyntax.exclude_paths << "spec/fixtures/**/*.pp"
+PuppetSyntax.future_parser = true if ENV['FUTURE_PARSER'] == 'yes'
 
-  RakeFileUtils.send(:verbose, true) do
-    matched_files = FileList['**/*.pp'].exclude 'spec/fixtures/**/*.pp'
-
-    matched_files.to_a.each do |puppet_file|
-      parser.validate(puppet_file)
-    end
-  end
-end
-
-desc "Validate manifests, templates, and ruby files in lib."
+desc "Check syntax of Ruby files and call :syntax"
 task :validate do
-  Dir['manifests/**/*.pp'].each do |manifest|
-    sh "puppet parser validate --noop #{manifest}"
-  end
   Dir['lib/**/*.rb'].each do |lib_file|
     sh "ruby -c #{lib_file}"
   end
-  Dir['templates/**/*.erb'].each do |template|
-    sh "erb -P -x -T '-' #{template} | ruby -c"
-  end
+
+  Rake::Task[:syntax].invoke
 end
 
 desc "Display the list of available rake tasks"

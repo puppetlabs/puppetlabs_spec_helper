@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rake'
   s.add_runtime_dependency 'rspec-puppet'
   s.add_runtime_dependency 'puppet-lint'
+  s.add_runtime_dependency 'puppet-syntax'
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'mocha'
 end
