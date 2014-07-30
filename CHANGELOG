@@ -1,3 +1,14 @@
+2014-07-29 - Release 0.8.0
+Summary:
+This release uses the new puppet-syntax gem to perform manifest validation
+better than before! Shiny.
+
+Features:
+- Use puppet-syntax gem for manifest validation rake task
+
+Bugfixes:
+- Fix compatibility with rspec 3
+
 2014-07-17 - Release 0.7.0
 Summary:
 This feature release adds the ability to test structured facts, manifest
