@@ -195,9 +195,12 @@ end
 
 desc "Check puppet manifests with puppet-lint"
 task :lint do
-  require 'puppet-lint/tasks/puppet-lint'
+  require 'puppet-lint'
+  PuppetLint.configuration.relative = true
+  PuppetLint.configuration.disable_class_inherits_from_params_class
   PuppetLint.configuration.ignore_paths ||= []
   PuppetLint.configuration.ignore_paths << "spec/fixtures/**/*.pp"
+  PuppetLint.configuration.ignore_paths << "pkg/**/*.pp"
 end
 
 require 'puppet-syntax/tasks/puppet-syntax'
