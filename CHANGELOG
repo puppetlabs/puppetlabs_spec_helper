@@ -1,3 +1,13 @@
+2014-08-25 - Release 0.8.1
+Summary:
+This release corrects compatibility with the recently-released puppet-lint
+1.0.0
+
+Bugfixes:
+- Turn on relative autoloader lint checking for backwards-compatibility
+- Turn off param class inheritance check (deprecated style)
+- Fix ignore paths to ignore pkg/*
+
 2014-07-29 - Release 0.8.0
 Summary:
 This release uses the new puppet-syntax gem to perform manifest validation
