@@ -1,3 +1,10 @@
+2014-10-01 - Release 0.8.2
+Summary:
+This release fixes the lint task on the latest puppet-lint
+
+Bugfixes:
+- Fix the lint task require code
+
 2014-08-25 - Release 0.8.1
 Summary:
 This release corrects compatibility with the recently-released puppet-lint
