@@ -208,13 +208,19 @@ PuppetSyntax.exclude_paths ||= []
 PuppetSyntax.exclude_paths << "spec/fixtures/**/*.pp"
 PuppetSyntax.future_parser = true if ENV['FUTURE_PARSER'] == 'yes'
 
-desc "Check syntax of Ruby files and call :syntax"
+desc "Check syntax of Ruby files and call :syntax and :metadata"
 task :validate do
   Dir['lib/**/*.rb'].each do |lib_file|
     sh "ruby -c #{lib_file}"
   end
 
   Rake::Task[:syntax].invoke
+  Rake::Task[:metadata].invoke if File.exist?('metadata.json')
+end
+
+desc "Validate metadata.json file"
+task :metadata do
+  sh "metadata-json-lint metadata.json"
 end
 
 desc "Display the list of available rake tasks"
