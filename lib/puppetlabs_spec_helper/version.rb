@@ -1,5 +1,5 @@
 module PuppetlabsSpecHelper
   module Version
-    STRING = '0.8.2'
+    STRING = '0.9.0'
   end
 end
