@@ -88,6 +88,8 @@ end
 
 desc "Create the fixtures directory"
 task :spec_prep do
+  require 'puppet/file_system'
+
   fixtures("repositories").each do |remote, opts|
     scm = 'git'
     if opts.instance_of?(String)
@@ -107,7 +109,7 @@ task :spec_prep do
 
   FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|
-    File::exists?(target) || FileUtils::ln_sf(source, target)
+    Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
   end
 
   fixtures("forge_modules").each do |remote, opts|
