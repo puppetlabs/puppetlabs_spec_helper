@@ -88,7 +88,16 @@ end
 
 desc "Create the fixtures directory"
 task :spec_prep do
-  require 'puppet/file_system'
+  # Ruby only sets File::ALT_SEPARATOR on Windows and Rubys standard library
+  # uses this to check for Windows
+  is_windows = !!File::ALT_SEPARATOR
+  puppet_symlink_available = false
+  begin
+    require 'puppet/file_system'
+    puppet_symlink_available = Puppet::FileSystem.respond_to?(:symlink)
+  rescue
+  end
+
 
   fixtures("repositories").each do |remote, opts|
     scm = 'git'
@@ -109,7 +118,12 @@ task :spec_prep do
 
   FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|
-    Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
+    if is_windows
+      fail "Cannot symlink on Windows unless using at least Puppet 3.5" if !puppet_symlink_available
+      Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
+    else
+      File::exists?(target) || FileUtils::ln_sf(source, target)
+    end
   end
 
   fixtures("forge_modules").each do |remote, opts|
