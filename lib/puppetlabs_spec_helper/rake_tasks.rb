@@ -221,7 +221,7 @@ end
 
 require 'puppet-syntax/tasks/puppet-syntax'
 PuppetSyntax.exclude_paths ||= []
-PuppetSyntax.exclude_paths << "spec/fixtures/**/*.pp"
+PuppetSyntax.exclude_paths << "spec/fixtures/**/*"
 PuppetSyntax.future_parser = true if ENV['FUTURE_PARSER'] == 'yes'
 
 desc "Check syntax of Ruby files and call :syntax and :metadata"
