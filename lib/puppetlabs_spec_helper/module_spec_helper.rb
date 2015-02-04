@@ -30,6 +30,7 @@ RSpec.configure do |c|
   #c.ordering = ENV['ORDERING'] if ENV['ORDERING']
 
   c.before :each do
+    Puppet.features.stubs(:root?).returns(true)
     Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes'
     Puppet.settings[:parser] = 'future' if ENV['FUTURE_PARSER'] == 'yes'
     Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
