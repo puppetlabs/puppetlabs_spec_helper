@@ -32,7 +32,7 @@ RSpec.configure do |c|
       Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
       Puppet.settings[:trusted_node_data] = true if ENV['TRUSTED_NODE_DATA'] == 'yes'
     end
-    Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes'
+    Puppet.settings[:strict_variables] = (ENV['STRICT_VARIABLES'] == 'yes' or (Puppet.version.to_f >= '4.0' and ENV['STRICT_VARIABLES'] != 'no'))
     Puppet.settings[:ordering] = ENV['ORDERING'] if ENV['ORDERING']
   end
 end

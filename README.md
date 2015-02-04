@@ -119,8 +119,8 @@ variables for the spec run. These are:
 * ``FUTURE_PARSER`` - set to "yes" to enable the [future parser](http://docs.puppetlabs.com/puppet/latest/reference/experiments_future.html),
   the equivalent of setting [parser=future](http://docs.puppetlabs.com/references/latest/configuration.html#parser)
   in puppet.conf.
-* ``STRICT_VARIABLES`` - set to "yes" to enable strict variable checking,
-  the equivalent of setting [strict_variables](http://docs.puppetlabs.com/references/latest/configuration.html#strictvariables)=true
+* ``STRICT_VARIABLES`` - set to "no" to disable strict variable checking when using Puppet >= 4.0,
+  the equivalent of not setting [strict_variables](http://docs.puppetlabs.com/references/latest/configuration.html#strictvariables)
   in puppet.conf.
 * ``ORDERING`` - set to the desired ordering method ("title-hash", "manifest", or "random")
   to set the order of unrelated resources when applying a catalog. Leave unset for the default
