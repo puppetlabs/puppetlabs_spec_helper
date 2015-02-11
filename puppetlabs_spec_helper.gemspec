@@ -22,6 +22,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'puppet-lint'
   s.add_runtime_dependency 'puppet-syntax'
   s.add_runtime_dependency 'metadata-json-lint'
-  s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'mocha'
 end
