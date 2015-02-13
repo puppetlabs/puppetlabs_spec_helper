@@ -93,7 +93,7 @@ task :spec_prep do
   is_windows = !!File::ALT_SEPARATOR
   puppet_symlink_available = false
   begin
-    require 'puppet/file_system'
+    require 'puppet'
     puppet_symlink_available = Puppet::FileSystem.respond_to?(:symlink)
   rescue
   end
