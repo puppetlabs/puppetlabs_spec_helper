@@ -1,3 +1,17 @@
+2015-02-24 - Release 0.9.0
+Summary:
+This release adds fixes for rspec-puppet 2.0 and json linting for metadata.json
+
+Features:
+- Add json linting for metadata.json (adds dep on metadata-json-lint gem)
+- Document using references in fixtures
+
+Bugfixes:
+- FUTURE_PARSER=yes working with rspec-puppet 2.0
+- Symlinks breaking on windows
+- rspec as a runtime dependency conflicting with rspec-puppet
+- root stub for testing execs
+
 2014-10-01 - Release 0.8.2
 Summary:
 This release fixes the lint task on the latest puppet-lint
