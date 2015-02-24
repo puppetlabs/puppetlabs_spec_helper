@@ -1,3 +1,11 @@
+2015-02-24 - Release 0.9.1
+Summary:
+This release removes the hard dependency on metadata-json-lint, as it requires
+a dev toolchain to install the 'json' gem.
+
+Bugfixes:
+- Only warn when metadata-json-lint isn't installed instead of requiring it
+
 2015-02-24 - Release 0.9.0
 Summary:
 This release adds fixes for rspec-puppet 2.0 and json linting for metadata.json
