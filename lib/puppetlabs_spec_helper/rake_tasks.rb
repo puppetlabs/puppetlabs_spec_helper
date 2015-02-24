@@ -236,7 +236,12 @@ end
 
 desc "Validate metadata.json file"
 task :metadata do
-  sh "metadata-json-lint metadata.json"
+  begin
+    require 'metadata_json_lint'
+    sh "metadata-json-lint metadata.json"
+  rescue LoadError => e
+    warn "Skipping metadata validation; the metadata-json-lint gem was not found"
+  end
 end
 
 desc "Display the list of available rake tasks"
