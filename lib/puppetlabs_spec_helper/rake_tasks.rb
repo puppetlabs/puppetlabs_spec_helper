@@ -65,6 +65,7 @@ def clone_repo(scm, remote, target, ref=nil, branch=nil)
     args.push(remote, target)
   when 'git'
     args.push('clone')
+    args.push('--depth 1')
     args.push('-b', branch) if branch
     args.push(remote, target)
   else
