@@ -1,3 +1,15 @@
+2015-03-16 - Release 0.10.0
+Summary:
+This release adds shallow fixtures clones to speed up the spec_prep step for
+rspec-puppet
+
+Features:
+- Shallow clone fixtures
+
+Bugfixes:
+- Don't lint in vendor/ (spec/fixtures/ and pkg/ are alread ignored)
+- Don't syntax check in spec/fixtures/, pkg/, or vendor/
+
 2015-02-24 - Release 0.9.1
 Summary:
 This release removes the hard dependency on metadata-json-lint, as it requires
