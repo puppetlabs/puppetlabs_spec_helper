@@ -1,127 +1,134 @@
-2015-03-17 - Release 0.10.1
-Summary:
+# Change log
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased][unreleased]
+### Fixed:
+
+## [0.10.1] - 2015-03-17
+### Summary:
 A bugfix for the previous release when using references.
 
-Bugfixes:
+### Fixed:
 - Only shallow clone if not using a reference
 
-2015-03-16 - Release 0.10.0
-Summary:
+## [0.10.0] - 2015-03-16
+### Summary:
 This release adds shallow fixtures clones to speed up the spec_prep step for
 rspec-puppet
 
-Features:
+### Added:
 - Shallow clone fixtures
 
-Bugfixes:
+### Fixed:
 - Don't lint in vendor/ (spec/fixtures/ and pkg/ are alread ignored)
 - Don't syntax check in spec/fixtures/, pkg/, or vendor/
 
-2015-02-24 - Release 0.9.1
-Summary:
+## [0.9.1] - 2015-02-24
+### Summary:
 This release removes the hard dependency on metadata-json-lint, as it requires
 a dev toolchain to install the 'json' gem.
 
-Bugfixes:
+### Fixed:
 - Only warn when metadata-json-lint isn't installed instead of requiring it
 
-2015-02-24 - Release 0.9.0
-Summary:
+## [0.9.0] - 2015-02-24
+### Summary:
 This release adds fixes for rspec-puppet 2.0 and json linting for metadata.json
 
-Features:
+### Added:
 - Add json linting for metadata.json (adds dep on metadata-json-lint gem)
 - Document using references in fixtures
 
-Bugfixes:
-- FUTURE_PARSER=yes working with rspec-puppet 2.0
+### Fixed:
+- `FUTURE_PARSER=yes` working with rspec-puppet 2.0
 - Symlinks breaking on windows
 - rspec as a runtime dependency conflicting with rspec-puppet
 - root stub for testing execs
 
-2014-10-01 - Release 0.8.2
-Summary:
+## [0.8.2] - 2014-10-01
+### Summary:
 This release fixes the lint task on the latest puppet-lint
 
-Bugfixes:
+### Fixed:
 - Fix the lint task require code
 
-2014-08-25 - Release 0.8.1
-Summary:
+## [0.8.1] - 2014-08-25
+### Summary:
 This release corrects compatibility with the recently-released puppet-lint
 1.0.0
 
-Bugfixes:
+### Fixed:
 - Turn on relative autoloader lint checking for backwards-compatibility
 - Turn off param class inheritance check (deprecated style)
-- Fix ignore paths to ignore pkg/*
+- Fix ignore paths to ignore `pkg/*`
 
-2014-07-29 - Release 0.8.0
-Summary:
+## [0.8.0] - 2014-07-29
+### Summary:
 This release uses the new puppet-syntax gem to perform manifest validation
 better than before! Shiny.
 
-Features:
+### Added:
 - Use puppet-syntax gem for manifest validation rake task
 
-Bugfixes:
+### Fixed:
 - Fix compatibility with rspec 3
 
-2014-07-17 - Release 0.7.0
-Summary:
+## [0.7.0] - 2014-07-17
+### Summary:
 This feature release adds the ability to test structured facts, manifest
 ordering, and trusted node facts, and check out branches with fixtures.
 
-Features:
+### Added:
 - Add `STRINGIFY_FACTS=no` for structured facts
 - Add `TRUSTED_NODE_DATA=yes` for trusted node data
 - Add `ORDERING=<order>` for manifest ordering
 - Add `:branch` support for fixtures on a branch.
 
-Bugfixes:
+### Fixed:
 - Fix puppet-lint to ignore spec/fixtures/
 
-2014-07-02 - Release 0.6.0
-Summary:
+## [0.6.0] - 2014-07-02
+### Summary:
 This feature release adds the `validate` rake task and the ability to test
 strict variables and the future parser with rspec-puppet.
 
-Features:
+### Added:
 - Add `validate` rake task.
 - Add `STRICT_VARIABLES=yes` to module_spec_helper
 - Add `FUTURE_PARSER=yes` to module_spec_helper
 
-Bugfixes:
+### Fixed:
 - Avoid conflict with Object.clone
 - Install forge fixtures without conflicting with already-installed modules
 
-2014-06-19 - Release 0.5.2
-Summary:
+## [0.5.2] - 2014-06-19
+### Summary:
 This release removes the previously non-existant puppet runtime dependency to
 better match rspec-puppet and puppet-lint and allow system puppet packages to
 be used instead of gems.
 
-Bugfixes:
+### Fixed:
 - Remove puppet dependency from gemspec
 
-2014-06-09 - Release 0.5.1
-Summary:
+## [0.5.1] - 2014-06-09
+### Summary:
 This release re-adds mocha mocking, which was mistakenly removed in 0.5.0
 
-Bugfixes:
+### Fixed:
 - Re-enable mocha mocking as default.
 
-2014-06-06 - Release 0.5.0
-Summary:
+## [0.5.0] - 2014-06-06
+### Summary:
 This is the first feature release in over a year. The biggest feature is fixtures supporting the forge, and not just github, plus rake tasks for syntax checking and beaker.
 
-Features:
+### Added:
 - Install modules from the forge, not just git
 - Beaker rake tasks added
 - Syntax task added
 - Rake spec runs tests in `integration/` directory
 
-Bugfixes:
+### Fixed:
 - Fix the gemspec so that this may be used with bundler
 - Fix removal of symlinks
 - Fix removal of site.pp only when empty
@@ -129,42 +136,67 @@ Bugfixes:
 - Remove extra mocha dependency
 - Remove rspec pinning (oops)
 
-2014-06-06 - Release 0.4.2
-
-Summary:
+## 0.4.2 - 2014-06-06 [YANKED]
+### Summary:
 This release corrects the pinning of rspec for modules which are not rspec 3
 compatible yet.
 
-Bugfixes:
+### Fixed:
 * Pin to 2.x range for rspec 2
 * Fix aborting rake task when packaging gem
 * Fix puppet issue tracker url
 * Fix issue with running `git reset` in the incorrect dir
 
-2013-02-08 Puppet Labs <info@puppetlabs.com> - 0.4.1
+## [0.4.1] - 2013-02-08
+### Fixed
  * (#18165) Mark tests pending on broken puppet versions
  * (#18165) Initialize TestHelper as soon as possible
  * Maint: Change formatting and handle windows path separator
 
-2012-12-14 Puppet Labs <info@puppetlabs.com> - 0.4.0
- * Rake should fail if git can't clone repository
+## [0.4.0] - 2012-12-14
+### Added
  * Add readme for fixtures
- * Fix Mocha deprecations
  * add opts logic to rake spec_clean
  * add backwards-compatible support for arbitrary git refs in .fixtures.yml
+
+### Fixed
+ * Rake should fail if git can't clone repository
+ * Fix Mocha deprecations
  * Only remove the site.pp if it is empty
  * (#15464) Make contributing easy via bundle Gemfile
  * (#15464) Add gemspec from 0.3.0 published gem
 
-2012-08-14 Puppet Labs <info@puppetlabs.com> - 0.3.0
+## [0.3.0] - 2012-08-14
+### Added
  * Add PuppetInternals compatibility module for
    scope, node, compiler, and functions
  * Add rspec-puppet convention directories to rake tasks
 
-2012-07-05 Puppet Labs <info@puppetlabs.com> - 0.2.0
+## [0.2.0] - 2012-07-05
+### Fixed
  * Fix integration with mocha-0.12.0
  * Fix coverage rake task
  * Fix an issue creating the fixtures directory
 
-2012-06-08 Puppet Labs <info@puppetlabs.com> - 0.1.0
+## 0.1.0 - 2012-06-08
+### Added
  * Initial release
+
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...master
+[0.10.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.0...0.10.1
+[0.10.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.1...0.10.0
+[0.9.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.0...0.9.1
+[0.9.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.8.2...0.9.0
+[0.8.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.8.1...0.8.2
+[0.8.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.8.0...0.8.1
+[0.8.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.7.0...0.8.0
+[0.7.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.6.0...0.7.0
+[0.6.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.5.2...0.6.0
+[0.5.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.5.1...0.5.2
+[0.5.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.5.0...0.5.1
+[0.5.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.4.1...0.5.0
+[0.4.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.4.0...0.4.1
+[0.4.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.3.0...0.4.0
+[0.3.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.0.0...0.1.0
