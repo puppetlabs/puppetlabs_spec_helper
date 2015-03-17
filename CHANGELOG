@@ -1,3 +1,10 @@
+2015-03-17 - Release 0.10.1
+Summary:
+A bugfix for the previous release when using references.
+
+Bugfixes:
+- Only shallow clone if not using a reference
+
 2015-03-16 - Release 0.10.0
 Summary:
 This release adds shallow fixtures clones to speed up the spec_prep step for
