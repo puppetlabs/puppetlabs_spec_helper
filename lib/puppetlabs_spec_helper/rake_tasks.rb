@@ -17,9 +17,26 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
 end
 
 desc "Generate code coverage information"
-RSpec::Core::RakeTask.new(:coverage) do |t|
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
+task :coverage do
+  if RUBY_VERSION.to_f < 1.9
+    Rake::Task['coverage:rcov'].invoke
+  else
+    Rake::Task['coverage:simplecov'].invoke
+  end
+end
+
+namespace :coverage do
+  desc "Generate code coverage information using rcov"
+  RSpec::Core::RakeTask.new(:rcov) do |t|
+    t.rcov = true
+    t.rcov_opts = ['--exclude', 'spec']
+  end
+
+  desc "Generate code coverage information using SimpleCov"
+  task :simplecov do
+    ENV['COVERAGE'] = 'SimpleCov'
+    Rake::Task[:spec].invoke
+  end
 end
 
 # This is a helper for the self-symlink entry of fixtures.yml
