@@ -26,6 +26,12 @@ task :coverage do
 end
 
 namespace :coverage do
+  desc "Generate code coverage information using Coveralls.io"
+  task :coveralls do
+    ENV['COVERAGE'] = 'Coveralls'
+    Rake::Task[:spec].invoke
+  end
+
   desc "Generate code coverage information using rcov"
   RSpec::Core::RakeTask.new(:rcov) do |t|
     t.rcov = true

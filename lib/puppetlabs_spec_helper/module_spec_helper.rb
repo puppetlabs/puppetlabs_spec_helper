@@ -1,4 +1,8 @@
-if ENV['COVERAGE'] == 'SimpleCov'
+case ENV['COVERAGE']
+when 'Coveralls'
+  require 'coveralls'
+  Coveralls.wear!
+when 'SimpleCov'
   require 'simplecov'
   SimpleCov.start
 end
