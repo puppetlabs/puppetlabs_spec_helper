@@ -47,7 +47,11 @@ module PuppetlabsSpec
     def node(parts = {})
       node_name = parts[:name] || 'testinghost'
       options = parts[:options] || {}
-      node_environment = Puppet::Node::Environment.new(parts[:environment] || 'test')
+      if Puppet.version.to_f >= 4.0
+        node_environment = Puppet::Node::Environment.create(parts[:environment] || 'test', [])
+      else
+        node_environment = Puppet::Node::Environment.new(parts[:environment] || 'test')
+      end
       options.merge!({:environment => node_environment})
       Puppet::Node.new(node_name, options)
     end
