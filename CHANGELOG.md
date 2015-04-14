@@ -2,8 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][unreleased]
+## [0.10.2] - 2015-04-14
+### Summary:
+A bugfix for puppet 4 coming out, which manages modulepath and environments differently.
+
 ### Fixed:
+- Use puppet 4 environmentpath and environment creation on puppet 4
 
 ## [0.10.1] - 2015-03-17
 ### Summary:
@@ -183,6 +187,7 @@ compatible yet.
  * Initial release
 
 [unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...master
+[0.10.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.0...0.10.1
 [0.10.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.1...0.10.0
 [0.9.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.0...0.9.1
