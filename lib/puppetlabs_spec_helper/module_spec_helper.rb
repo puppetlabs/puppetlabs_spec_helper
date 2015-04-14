@@ -11,7 +11,8 @@ def verify_contents(subject, title, expected_lines)
   (content.split("\n") & expected_lines).should == expected_lines
 end
 
-fixture_path = File.expand_path(File.join(Dir.pwd, 'spec/fixtures'))
+spec_path = File.expand_path(File.join(Dir.pwd, 'spec'))
+fixture_path = File.join(spec_path, 'fixtures')
 
 env_module_path = ENV['MODULEPATH']
 module_path = File.join(fixture_path, 'modules')
@@ -19,6 +20,7 @@ module_path = File.join(fixture_path, 'modules')
 module_path = [module_path, env_module_path].join(File::PATH_SEPARATOR) if env_module_path
 
 RSpec.configure do |c|
+  c.environmentpath = spec_path if Puppet.version.to_f >= 4.0
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
   c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
