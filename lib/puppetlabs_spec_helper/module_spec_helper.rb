@@ -33,9 +33,12 @@ RSpec.configure do |c|
 
   c.before :each do
     Puppet.features.stubs(:root?).returns(true)
+    # stringify_facts and trusted_node_data were removed in puppet4
+    if Puppet.version.to_f < 4.0
+      Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
+      Puppet.settings[:trusted_node_data] = true if ENV['TRUSTED_NODE_DATA'] == 'yes'
+    end
     Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes'
-    Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
-    Puppet.settings[:trusted_node_data] = true if ENV['TRUSTED_NODE_DATA'] == 'yes'
     Puppet.settings[:ordering] = ENV['ORDERING'] if ENV['ORDERING']
   end
 end
