@@ -105,7 +105,7 @@ def fixtures(category)
   end
 
   begin
-    fixtures = YAML.load_file(fixtures_yaml)["fixtures"]
+    fixtures = YAML.load_file(ENV['FIXTURES_YML'] || fixtures_yaml)["fixtures"]
   rescue Errno::ENOENT
     fixtures = {}
   rescue Psych::SyntaxError => e

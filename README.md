@@ -185,29 +185,29 @@ Using Fixtures
 `puppetlabs_spec_helper` has the ability to populate the
 `spec/fixtures/modules` directory with dependent modules when `rake spec` or
 `rake spec_prep` is run. To do so, all required modules should be listed in a
-file named `.fixtures.yml` in the root of the project.
+file named `.fixtures.yml` in the root of the project. You can specify a alternate location for that file in the `FIXTURES_YML` environment variable.
 
 When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use.
 
  * repo - the url to the repo
  * scm - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
- 
+
    ```yaml
    scm: git
    scm: hg
    ```
-   
+
  * target - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
  * subdir - directory to be removed from the cloned repo. Its contents will be moved to the root directory (Optional)
  * ref - used to specify the tag name like version hash of commit (Optional)
- 
+
    ```yaml
    ref: 1.0.0
    ref: 880fca52c
    ```
  * branch - used to specify the branch name you want to use ie. `branch: development`
  * flags - additional flags passed to the module installer (both puppet and scm)
- 
+
    ```yaml
    flags: --verbose
    ```
@@ -251,7 +251,7 @@ Move manifests and siblings to root directory when they are inside a `code` dire
         stdlib:
           repo: "git://github.com/puppetlabs/puppetlabs-extradirectory"
           subdir: "code"
-        
+
 Install modules from Puppet Forge:
 
     fixtures:
