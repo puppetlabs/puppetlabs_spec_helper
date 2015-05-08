@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.10.3] - 2015-05-07
+### Summary:
+A bugfix for puppet 3 and puppet 4 tests being able to run with the same environment variables.
+
+### Fixed:
+- Allow `STRINGIFY_FACTS` and `TRUSTED_NODE_DATA` to be set on Puppet 4 as noop instead of fail
+- Fix linting to be more like approved module criteria
+
 ## [0.10.2] - 2015-04-14
 ### Summary:
 A bugfix for puppet 4 coming out, which manages modulepath and environments differently.
