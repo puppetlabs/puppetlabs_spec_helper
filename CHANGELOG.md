@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.10.3] - 2015-05-07
+## [0.10.3] - 2015-05-11
 ### Summary:
 A bugfix for puppet 3 and puppet 4 tests being able to run with the same environment variables.
 
