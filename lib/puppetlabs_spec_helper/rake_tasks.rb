@@ -224,7 +224,7 @@ PuppetLint::RakeTask.new(:lint) do |config|
       'class_parameter_defaults',
       'documentation',
       'single_quote_string_with_variables']
-  config.ignore_paths = ["tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp" "spec/**/*.pp", "pkg/**/*.pp"]
+  config.ignore_paths = ["tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp"]
 end
 
 require 'puppet-syntax/tasks/puppet-syntax'
