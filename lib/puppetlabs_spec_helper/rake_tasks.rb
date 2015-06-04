@@ -29,7 +29,7 @@ end
 
 def fixtures(category)
   begin
-    fixtures = YAML.load_file(".fixtures.yml")["fixtures"]
+    fixtures = YAML.load_file( ENV['FIXTURES_YML'] || '.fixtures.yml' )['fixtures']
   rescue Errno::ENOENT
     return {}
   end
