@@ -1,6 +1,7 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
+require 'json'
 
 task :default => [:help]
 
@@ -124,6 +125,20 @@ task :spec_prep do
       Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
     else
       File::exists?(target) || FileUtils::ln_sf(source, target)
+    end
+  end
+
+  JSON.parse(File.read("metadata.json"))["dependencies"].each do |dependency|
+    target = "spec/fixtures/modules/#{dependency["name"].split("/")[1]}"
+    if dependency.include? "version_requirement" and dependency["version_requirement"] != nil
+      ref = "--version \"#{dependency["version_requirement"]}\""
+    end
+    next if File::exists?(target)
+    unless system("puppet module install " + ref + \
+                  " --ignore-dependencies" \
+                  " --force" \
+                  " --target-dir spec/fixtures/modules #{dependency["name"]}")
+      fail "Failed to install module #{dependency["name"]} to #{target}"
     end
   end
 
