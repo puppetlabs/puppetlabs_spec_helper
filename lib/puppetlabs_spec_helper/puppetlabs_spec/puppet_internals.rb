@@ -8,6 +8,8 @@ module PuppetlabsSpec
     # instance suitable for placing in a test harness with the intent of
     # testing parser functions from modules.
     def scope(parts = {})
+      RSpec.deprecate('scope', :replacement => 'rspec-puppet 2.2.0 provides a scope property')
+
       if Puppet.version =~ /^2\.[67]/
         # loadall should only be necessary prior to 3.x
         # Please note, loadall needs to happen first when creating a scope, otherwise
