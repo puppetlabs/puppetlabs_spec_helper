@@ -1,6 +1,7 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
+require 'json'
 
 task :default => [:help]
 
@@ -133,7 +134,7 @@ task :spec_prep do
       ref = ""
     elsif opts.instance_of?(Hash)
       target = opts["target"]
-      ref = "--version #{opts['ref']}"
+      ref = "--version '#{opts['ref']}'"
     end
     next if File::exists?(target)
     unless system("puppet module install " + ref + \
@@ -253,6 +254,42 @@ task :metadata do
     warn "Skipping metadata validation; the metadata-json-lint gem was not found"
   end
 end
+
+desc "Rebuild .fixture.yml from metadata.json file"
+task :fixture_rebuild do
+  begin
+    fixtures = YAML.load_file('.fixtures.yml')['fixtures']
+  rescue Errno::ENOENT
+    fail "Unable to load .fixtures.yml"
+  end
+  
+  begin
+    metadata = JSON.parse(File.read('metadata.json'))
+  rescue Errno::ENOENT
+    fail ".fixtures.yml does not exist"
+  rescue Errno::EACCES
+    fail "Unable to read .fixtures.yml"
+  end
+  
+  # remove existing fixture setup
+  fixtures['forge_modules'] = {}
+  # now rebuild it
+  metadata['dependencies'].each do |entry|
+    mod = entry['name']
+    fixtures['forge_modules'][mod] = if entry.has_key? 'version_requirement'
+      { 'repo' => mod, 'ref' => entry['version_requirement'] }
+    else
+      mod
+    end
+  end
+  
+  begin
+    File.open('.fixtures.yml', 'w') {|f| f.write({'fixtures' => fixtures}.to_yaml) }
+  rescue Errno::EACCES
+    fail 'Unable to create new .fixtures.yml file'
+  end
+end
+
 
 desc "Display the list of available rake tasks"
 task :help do
