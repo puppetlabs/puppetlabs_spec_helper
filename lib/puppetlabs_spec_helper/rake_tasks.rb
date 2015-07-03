@@ -289,7 +289,7 @@ task :fixture_rebuild do
     fail 'Unable to create new .fixtures.yml file'
   end
 end
-
+task :spec_prep => ['fixture_rebuild']
 
 desc "Display the list of available rake tasks"
 task :help do
