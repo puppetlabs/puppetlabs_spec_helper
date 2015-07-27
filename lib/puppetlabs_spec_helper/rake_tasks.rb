@@ -28,14 +28,20 @@ def source_dir
 end
 
 def fixtures(category)
-  begin
-    fixtures = YAML.load_file(".fixtures.yml")["fixtures"]
-  rescue Errno::ENOENT
-    return {}
+  if File.exists?('.fixtures.yml')
+    fixtures_yaml = '.fixtures.yml'
+  elsif File.exists?('.fixtures.yaml')
+    fixtures_yaml = '.fixtures.yaml'
+  else
+    fixtures_yaml = ''
   end
 
-  if not fixtures
-    abort("malformed fixtures.yml")
+  begin
+    fixtures = YAML.load_file(fixtures_yaml)["fixtures"]
+  rescue Error::ENOENT
+    return {}
+  rescue Psych::SyntaxError
+    abort("malformed #{fixtures_yaml}")
   end
 
   result = {}
