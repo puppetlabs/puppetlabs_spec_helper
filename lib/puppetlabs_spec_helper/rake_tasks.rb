@@ -40,8 +40,8 @@ def fixtures(category)
     fixtures = YAML.load_file(fixtures_yaml)["fixtures"]
   rescue Error::ENOENT
     return {}
-  rescue Psych::SyntaxError
-    abort("malformed #{fixtures_yaml}")
+  rescue Psych::SyntaxError => e
+    abort("Found malformed YAML in #{fixtures_yaml} on line #{e.line} column #{e.column}: #{e.problem}")
   end
 
   result = {}
