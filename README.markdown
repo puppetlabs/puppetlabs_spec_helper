@@ -157,6 +157,7 @@ When specifying the repo source of the fixture you have a few options as to whic
    ref: 880fca52c
    ```
  * branch - used to specify the branch name you want to use ie. `branch: development`
+ * recursive - used to clone the repo with submodules (Optional)
  
  **Note:** ref and branch can be used together to get a specific revision on a specific branch
 
