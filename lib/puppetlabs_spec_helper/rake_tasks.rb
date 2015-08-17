@@ -55,24 +55,26 @@ def fixtures(category)
       elsif opts.instance_of?(Hash)
         target = "spec/fixtures/modules/#{fixture}"
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"] }
+        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"]}
       end
     end
   end
   return result
 end
 
-def clone_repo(scm, remote, target, ref=nil, branch=nil)
+def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
   args = []
   case scm
   when 'hg'
     args.push('clone')
     args.push('-u', ref) if ref
+    args.push(flags) if flags
     args.push(remote, target)
   when 'git'
     args.push('clone')
     args.push('--depth 1') unless ref
     args.push('-b', branch) if branch
+    args.push(flags) if flags
     args.push(remote, target)
   else
       fail "Unfortunately #{scm} is not supported yet"
@@ -115,9 +117,10 @@ task :spec_prep do
       ref = opts["ref"]
       scm = opts["scm"] if opts["scm"]
       branch = opts["branch"] if opts["branch"]
+      flags = opts["flags"]
     end
 
-    unless File::exists?(target) || clone_repo(scm, remote, target, ref, branch)
+    unless File::exists?(target) || clone_repo(scm, remote, target, ref, branch, flags)
       fail "Failed to clone #{scm} repository #{remote} into #{target}"
     end
     revision(scm, target, ref) if ref
@@ -134,18 +137,23 @@ task :spec_prep do
   end
 
   fixtures("forge_modules").each do |remote, opts|
+    ref = ""
+    flags = ""
     if opts.instance_of?(String)
       target = opts
-      ref = ""
     elsif opts.instance_of?(Hash)
       target = opts["target"]
-      ref = "--version #{opts['ref']}"
+      ref = " --version #{opts['ref']}" if not opts['ref'].nil?
+      flags = " #{opts['flags']}" if opts['flags']
     end
     next if File::exists?(target)
-    unless system("puppet module install " + ref + \
-                  " --ignore-dependencies" \
-                  " --force" \
-                  " --target-dir spec/fixtures/modules #{remote}")
+
+    command = "puppet module install" + ref + flags + \
+              " --ignore-dependencies" \
+              " --force" \
+              " --target-dir spec/fixtures/modules #{remote}"
+
+    unless system(command)
       fail "Failed to install module #{remote} to #{target}"
     end
   end
