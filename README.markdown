@@ -157,7 +157,11 @@ When specifying the repo source of the fixture you have a few options as to whic
    ref: 880fca52c
    ```
  * branch - used to specify the branch name you want to use ie. `branch: development`
- 
+ * flags - additional flags passed to the module installer (both puppet and scm)
+   ```yaml
+   flags: --verbose
+   ```
+
  **Note:** ref and branch can be used together to get a specific revision on a specific branch
 
 Fixtures Examples
@@ -199,6 +203,19 @@ Install modules from Puppet Forge:
                 repo: "puppetlabs/stdlib"
                 ref: "2.6.0"
 
+Pass additional flags to module installation:
+
+    fixtures:
+        forge_modules:
+            stdlib:
+                repo: "puppetlabs/stdlib"
+                ref: "2.6.0"
+                flags: "--module_repository https://my_repo.com"
+        repositories:
+            firewall:
+                repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+                ref: "2.6.0"
+                flags: "--verbose"
 
 Testing Parser Functions
 ========================
