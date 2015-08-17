@@ -210,14 +210,12 @@ Pass additional flags to module installation:
             stdlib:
                 repo: "puppetlabs/stdlib"
                 ref: "2.6.0"
-		flags: "--module_repository https://my_repo.com"
+                flags: "--module_repository https://my_repo.com"
         repositories:
             firewall:
                 repo: "git://github.com/puppetlabs/puppetlabs-firewall"
                 ref: "2.6.0"
-		flags: "--verbose"
-
-
+                flags: "--verbose"
 
 Testing Parser Functions
 ========================
