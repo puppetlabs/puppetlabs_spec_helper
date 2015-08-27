@@ -7,7 +7,19 @@ task :default => [:help]
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
-  t.pattern = 'spec/{classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
+
+  pattern = 'spec/{classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
+  if ENV['CI_NODE_TOTAL'] && ENV['CI_NODE_INDEX']
+    ci_total = ENV['CI_NODE_TOTAL'].to_i
+    ci_index = ENV['CI_NODE_INDEX'].to_i
+    raise "CI_NODE_INDEX must be between 1-#{ci_total}" unless ci_index >= 1 && ci_index <= ci_total
+
+    files = Rake::FileList[pattern].to_a
+    per_node = (files.size / ci_total.to_f).ceil
+    t.pattern = files.each_slice(per_node).to_a[ci_index - 1] || files.first
+  else
+    t.pattern = pattern
+  end
 end
 
 desc "Run beaker acceptance tests"

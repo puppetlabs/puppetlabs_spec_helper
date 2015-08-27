@@ -122,6 +122,18 @@ and manifest ordering, you would:
 
     FUTURE_PARSER=yes STRICT_VARIABLES=yes ORDERING=manifest rake spec
 
+When executing tests in a matrix CI environment, tests can be split up to run
+a share of specs per CI node in parallel.  Set the ``CI_NODE_TOTAL`` environment
+variable to the total number of nodes, and the ``CI_NODE_INDEX`` to a number
+between 1 and the ``CI_NODE_TOTAL``.
+
+If using Travis CI, add new lines to the "env" section of .travis.yml per node,
+remembering to duplicate any existing environment variables:
+
+    env:
+      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=1
+      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=2
+
 Using Utility Classes
 =====================
 If you'd like to use the Utility classes (PuppetlabsSpec::Files,
