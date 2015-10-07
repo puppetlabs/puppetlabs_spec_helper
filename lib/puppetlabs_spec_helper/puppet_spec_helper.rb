@@ -32,46 +32,24 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 # You may want to hold your nose before you proceed. :)
 #
 
+# Here we attempt to load the new TestHelper API, and print a warning if we are falling back
+# to compatibility mode for older versions of puppet.
+begin
+  require 'puppet/test/test_helper'
+rescue LoadError => err
+end
 
 # This is just a utility class to allow us to isolate the various version-specific
 # branches of initialization logic into methods without polluting the global namespace.#
 module Puppet
   class PuppetSpecInitializer
-    # This method uses the "new"/preferred approach of delegating all of the test
-    # state initialization to puppet itself, via Puppet::Test::TestHelper API.  This
-    # should be fairly future-proof as long as that API doesn't change, which it
-    # hopefully will not need to.
-    def self.initialize_via_testhelper(config)
-      begin
-        Puppet::Test::TestHelper.initialize
-      rescue NoMethodError
-        Puppet::Test::TestHelper.before_each_test
-      end
-
-      # connect rspec hooks to TestHelper methods.
-      config.before :all do
-        Puppet::Test::TestHelper.before_all_tests
-      end
-
-      config.after :all do
-        Puppet::Test::TestHelper.after_all_tests
-      end
-
-      config.before :each do
-        Puppet::Test::TestHelper.before_each_test
-      end
-
-      config.after :each do
-        Puppet::Test::TestHelper.after_each_test
-      end
-    end
-
     # This method is for initializing puppet state for testing for older versions
     # of puppet that do not support the new TestHelper API.  As you can see,
     # this involves explicitly modifying global variables, directly manipulating
     # Puppet's Settings singleton object, and other fun implementation details
     # that code external to puppet should really never know about.
     def self.initialize_via_fallback_compatibility(config)
+      $stderr.puts("Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.")
       config.before :all do
         # nothing to do for now
       end
@@ -112,17 +90,6 @@ module Puppet
   end
 end
 
-
-
-# Here we attempt to load the new TestHelper API, and print a warning if we are falling back
-# to compatibility mode for older versions of puppet.
-begin
-  require 'puppet/test/test_helper'
-rescue LoadError => err
-  $stderr.puts("Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.")
-end
-
-
 # JJM Hack to make the stdlib tests run in Puppet 2.6 (See puppet commit cf183534)
 if not Puppet.constants.include? "Test" then
   module Puppet::Test
@@ -149,14 +116,14 @@ if not Puppet.constants.include? "Test" then
   end
 end
 
-
 # And here is where we do the main rspec configuration / setup.
 RSpec.configure do |config|
+  # Some modules depend on having mocha set up for them
   config.mock_with :mocha
 
   # determine whether we can use the new API or not, and call the appropriate initializer method.
   if (defined?(Puppet::Test::TestHelper))
-    Puppet::PuppetSpecInitializer.initialize_via_testhelper(config)
+    # This case is handled by rspec-puppet since v1.0.0 (via 41257b33cb1f9ade4426b044f70be511b0c89112)
   else
     Puppet::PuppetSpecInitializer.initialize_via_fallback_compatibility(config)
   end
