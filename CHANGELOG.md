@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2015-11-04
+### Summary:
+The first 1.0 release, though the gem has been considered stable for a while.
+
+### Added:
+- `flags` value for fixtures to allow passing CLI flags when installing modules
+- `spec_standalone` rake task also runs `spec/types` specs
+- Can now use `.fixtures.yaml` instead of `.fixtures.yml`
+
+### Fixed:
+- Remove double-initialization that was conflicting with rspec-puppet
+- Better error handling on malformed fixtures yaml
+- Bug in rake task's ignore\_paths
+
 ## [0.10.3] - 2015-05-11
 ### Summary:
 A bugfix for puppet 3 and puppet 4 tests being able to run with the same environment variables.
@@ -194,7 +208,9 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...master
+[1.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.3...1.0.0
+[0.10.3]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.0...0.10.1
 [0.10.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.1...0.10.0
