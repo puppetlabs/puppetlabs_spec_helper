@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.1] - 2015-11-06
+### Summary:
+This bugfix release fixes the Error vs. Errno bug in 1.0.0
+
+### Fixed:
+- Raise `Errno::ENOENT` instead of `Error::ENOENT`
+
 ## [1.0.0] - 2015-11-04
 ### Summary:
 The first 1.0 release, though the gem has been considered stable for a while.
@@ -208,7 +215,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...master
+[1.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.3...1.0.0
 [0.10.3]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...0.10.2
