@@ -268,6 +268,33 @@ task :metadata do
   end
 end
 
+desc "Print development version of module"
+task :compute_dev_version do
+  version = ''
+  if File.exists?( 'metadata.json' )
+    require 'json'
+
+    modinfo = JSON.parse(File.read( 'metadata.json' ))
+    version = modinfo['version']
+  elsif File.exists?( 'Modulefile' )
+    modfile = File.read('Modulefile')
+    version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+  else
+    fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
+  end
+
+  sha = `git rev-parse HEAD`[0..7]
+
+  # If we're in a CI environment include our build number
+  if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
+    new_version = sprintf('%s-%04d-%s', version, build, sha)
+  else
+    new_version = "#{version}-#{sha}"
+  end
+
+  print new_version
+end
+
 desc "Display the list of available rake tasks"
 task :help do
   system("rake -T")
