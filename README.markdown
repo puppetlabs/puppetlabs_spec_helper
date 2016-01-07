@@ -245,4 +245,29 @@ instances in a manner decoupled from the internal behavior of Puppet:
       end
     end
 
+Some Notes for Windows Users
+==============
+
+A windows users may need to do one of two things to execute 'rake spec'.
+
+Although things may appear to work, the init.pp may not transfer to the fixtures folder as needed 
+or may transfer as an empty file.
+
+This is related to a registry security setting requiring elevated privileges to create symbolic links.
+
+Currently, there are two known approaches to get around this problem.
+
+- run your windows shell (cmd) as an Administrator  
+or
+- modify the registry entry settings to allow symbolic links to be created.
+
+The following links may give you some insight into why...
+
+[Server Fault Post](http://serverfault.com/questions/582944/puppet-file-link-doesnt-create-target-under-windows)
+
+[Stack Overflow Post](http://stackoverflow.com/questions/229643/how-do-i-overcome-the-the-symbolic-link-cannot-be-followed-because-its-type-is)
+
+[Microsoft TechNet](https://technet.microsoft.com/en-us/library/cc754077.aspx)
+
+
 EOF
