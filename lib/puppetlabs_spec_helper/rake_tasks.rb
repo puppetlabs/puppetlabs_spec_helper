@@ -132,7 +132,8 @@ task :spec_prep do
       fail "Cannot symlink on Windows unless using at least Puppet 3.5" if !puppet_symlink_available
       Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
     else
-      File::exists?(target) || FileUtils::ln_sf(source, target)
+      File::exists?(target) || FileUtils::mkdir_p(target)
+      File::exists?("#{target}/manifests") || FileUtils::ln_sf("#{source}/manifests", "#{target}/manifests")
     end
   end
 
