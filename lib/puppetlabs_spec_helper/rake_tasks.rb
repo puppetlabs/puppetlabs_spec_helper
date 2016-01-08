@@ -133,7 +133,11 @@ task :spec_prep do
       Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
     else
       File::exists?(target) || FileUtils::mkdir_p(target)
-      File::exists?("#{target}/manifests") || FileUtils::ln_sf("#{source}/manifests", "#{target}/manifests")
+      ['manifests','lib','files','templates'].each do |dir|
+        if File.exist? "#{source}/#{dir}"
+          File::exists?("#{target}/#{dir}") || FileUtils::ln_sf("#{source}/#{dir}", "#{target}/#{dir}")
+        end
+      end
     end
   end
 
