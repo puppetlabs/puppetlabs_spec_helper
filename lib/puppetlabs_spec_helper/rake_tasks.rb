@@ -2,6 +2,13 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'yaml'
 
+# optional gems
+begin
+  require 'metadata-json-lint/rake_task'
+rescue LoadError
+  # ignore
+end
+
 task :default => [:help]
 
 desc "Run spec tests on an existing fixtures directory"
@@ -248,23 +255,19 @@ PuppetSyntax.exclude_paths << "pkg/**/*"
 PuppetSyntax.exclude_paths << "vendor/**/*"
 PuppetSyntax.future_parser = true if ENV['FUTURE_PARSER'] == 'yes'
 
-desc "Check syntax of Ruby files and call :syntax and :metadata"
+desc "Check syntax of Ruby files and call :syntax and :metadata_lint"
 task :validate do
   Dir['lib/**/*.rb'].each do |lib_file|
     sh "ruby -c #{lib_file}"
   end
 
   Rake::Task[:syntax].invoke
-  Rake::Task[:metadata].invoke if File.exist?('metadata.json')
-end
-
-desc "Validate metadata.json file"
-task :metadata do
-  begin
-    require 'metadata_json_lint'
-    sh "metadata-json-lint metadata.json"
-  rescue LoadError => e
-    warn "Skipping metadata validation; the metadata-json-lint gem was not found"
+  if File.exist?('metadata.json')
+    if Rake::Task.task_defined?(:metadata_lint)
+      Rake::Task[:metadata_lint].invoke
+    else
+      warn "Skipping metadata validation; the metadata-json-lint gem was not found"
+    end
   end
 end
 
