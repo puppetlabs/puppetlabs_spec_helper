@@ -84,7 +84,7 @@ def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
     args.push(flags) if flags
     args.push(remote, target)
   else
-      fail "Unfortunately #{scm} is not supported yet"
+    fail "Unfortunately #{scm} is not supported yet"
   end
   system("#{scm} #{args.flatten.join ' '}")
 end
@@ -97,7 +97,7 @@ def revision(scm, target, ref)
   when 'git'
     args.push('reset', '--hard', ref)
   else
-      fail "Unfortunately #{scm} is not supported yet"
+    fail "Unfortunately #{scm} is not supported yet"
   end
   system("cd #{target} && #{scm} #{args.flatten.join ' '}")
 end
@@ -156,9 +156,9 @@ task :spec_prep do
     next if File::exists?(target)
 
     command = "puppet module install" + ref + flags + \
-              " --ignore-dependencies" \
-              " --force" \
-              " --target-dir spec/fixtures/modules #{remote}"
+      " --ignore-dependencies" \
+      " --force" \
+      " --target-dir spec/fixtures/modules #{remote}"
 
     unless system(command)
       fail "Failed to install module #{remote} to #{target}"
@@ -240,11 +240,11 @@ PuppetLint.configuration.relative = true
 PuppetLint::RakeTask.new(:lint) do |config|
   config.fail_on_warnings = true
   config.disable_checks = [
-      '80chars',
-      'class_inherits_from_params_class',
-      'class_parameter_defaults',
-      'documentation',
-      'single_quote_string_with_variables']
+    '80chars',
+    'class_inherits_from_params_class',
+    'class_parameter_defaults',
+    'documentation',
+    'single_quote_string_with_variables']
   config.ignore_paths = ["tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp"]
 end
 
