@@ -298,6 +298,58 @@ task :compute_dev_version do
   print new_version
 end
 
+desc "Runs all nessesary checks on a module in preparation for a release"
+task :release_checks do
+  Rake::Task[:lint].invoke
+  Rake::Task[:validate].invoke
+  Rake::Task[:spec].invoke
+  Rake::Task["check:symlinks"].invoke
+  Rake::Task["check:test_file"].invoke
+  Rake::Task["check:dot_underscore"].invoke
+  Rake::Task["check:git_ignore"].invoke
+end
+
+namespace :check do
+  desc "Fails if symlinks are present in directory"
+  task :symlinks do
+    symlink = `find . -type l -ls`
+    unless symlink == ""
+      puts symlink
+      fail "A symlink exists within this directory"
+    end
+  end
+
+  desc "Fails if .pp files present in tests folder"
+  task :test_file do
+    if Dir.exist?("tests")
+      Dir.chdir("tests")
+      ppfiles = Dir["*.pp"]
+      unless ppfiles.empty?
+        puts ppfiles
+        fail ".pp files present in tests folder; Move them to an examples folder following the new convention"
+      end
+    end
+  end
+
+  desc "Fails if any ._ files are present in directory"
+  task :dot_underscore do
+    dirs = Dir["._*"]
+    unless dirs.empty?
+      puts dirs
+      fail "._ files are present in the directory"
+    end
+  end
+
+  desc "Fails if directories contain the files specified in .gitignore"
+  task :git_ignore do
+    matched = `git ls-files --ignored --exclude-standard`
+    unless matched == ""
+      puts matched
+      fail "File specified in .gitignore has been committed"
+    end
+  end
+end
+
 desc "Display the list of available rake tasks"
 task :help do
   system("rake -T")
