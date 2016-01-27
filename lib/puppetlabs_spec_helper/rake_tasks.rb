@@ -84,7 +84,7 @@ def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
     args.push(flags) if flags
     args.push(remote, target)
   else
-      fail "Unfortunately #{scm} is not supported yet"
+    fail "Unfortunately #{scm} is not supported yet"
   end
   system("#{scm} #{args.flatten.join ' '}")
 end
@@ -97,7 +97,7 @@ def revision(scm, target, ref)
   when 'git'
     args.push('reset', '--hard', ref)
   else
-      fail "Unfortunately #{scm} is not supported yet"
+    fail "Unfortunately #{scm} is not supported yet"
   end
   system("cd #{target} && #{scm} #{args.flatten.join ' '}")
 end
@@ -156,9 +156,9 @@ task :spec_prep do
     next if File::exists?(target)
 
     command = "puppet module install" + ref + flags + \
-              " --ignore-dependencies" \
-              " --force" \
-              " --target-dir spec/fixtures/modules #{remote}"
+      " --ignore-dependencies" \
+      " --force" \
+      " --target-dir spec/fixtures/modules #{remote}"
 
     unless system(command)
       fail "Failed to install module #{remote} to #{target}"
@@ -240,11 +240,11 @@ PuppetLint.configuration.relative = true
 PuppetLint::RakeTask.new(:lint) do |config|
   config.fail_on_warnings = true
   config.disable_checks = [
-      '80chars',
-      'class_inherits_from_params_class',
-      'class_parameter_defaults',
-      'documentation',
-      'single_quote_string_with_variables']
+    '80chars',
+    'class_inherits_from_params_class',
+    'class_parameter_defaults',
+    'documentation',
+    'single_quote_string_with_variables']
   config.ignore_paths = ["tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp"]
 end
 
@@ -296,6 +296,58 @@ task :compute_dev_version do
   end
 
   print new_version
+end
+
+desc "Runs all nessesary checks on a module in preparation for a release"
+task :release_checks do
+  Rake::Task[:lint].invoke
+  Rake::Task[:validate].invoke
+  Rake::Task[:spec].invoke
+  Rake::Task["check:symlinks"].invoke
+  Rake::Task["check:test_file"].invoke
+  Rake::Task["check:dot_underscore"].invoke
+  Rake::Task["check:git_ignore"].invoke
+end
+
+namespace :check do
+  desc "Fails if symlinks are present in directory"
+  task :symlinks do
+    symlink = `find . -type l -ls`
+    unless symlink == ""
+      puts symlink
+      fail "A symlink exists within this directory"
+    end
+  end
+
+  desc "Fails if .pp files present in tests folder"
+  task :test_file do
+    if Dir.exist?("tests")
+      Dir.chdir("tests")
+      ppfiles = Dir["*.pp"]
+      unless ppfiles.empty?
+        puts ppfiles
+        fail ".pp files present in tests folder; Move them to an examples folder following the new convention"
+      end
+    end
+  end
+
+  desc "Fails if any ._ files are present in directory"
+  task :dot_underscore do
+    dirs = Dir["._*"]
+    unless dirs.empty?
+      puts dirs
+      fail "._ files are present in the directory"
+    end
+  end
+
+  desc "Fails if directories contain the files specified in .gitignore"
+  task :git_ignore do
+    matched = `git ls-files --ignored --exclude-standard`
+    unless matched == ""
+      puts matched
+      fail "File specified in .gitignore has been committed"
+    end
+  end
 end
 
 desc "Display the list of available rake tasks"
