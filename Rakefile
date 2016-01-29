@@ -1,33 +1,50 @@
+# encoding: utf-8
+
+require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
 require 'rake'
-require 'rake/packagetask'
-require 'rubygems/package_task'
+require_relative 'lib/puppetlabs_spec_helper/version'
+require 'jeweler'
+Jeweler::Tasks.new do |gem|
+  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
+  gem.name = "puppetlabs_spec_helper"
+  gem.version = "#{PuppetlabsSpecHelper::Version::STRING}"
+  gem.homepage = "http://github.com/puppetlabs/puppetlabs_spec_helper"
+  gem.license = "Apache-2.0"
+  gem.summary = %Q{Standard tasks and configuration for module spec tests}
+  gem.description = %Q{Contains rake tasks and a standard spec_helper for running spec tests on puppet modules}
+  gem.email = ["modules-dept@puppetlabs.com"]
+  gem.authors = ["Puppet Labs"]
+  # dependencies defined in Gemfile
+end
+Jeweler::RubygemsDotOrgTasks.new
 
-task :default do
-    sh %{rake -T}
+require 'rspec/core'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb'].exclude('spec/fixtures/**/*_spec.rb')
 end
 
-require 'fileutils'
-
-def version
-  require 'puppetlabs_spec_helper/version'
-  PuppetlabsSpecHelper::Version::STRING
-end
-
-namespace :package do
-  desc "Create the gem"
-  task :gem do
-    spec = Gem::Specification.load("puppetlabs_spec_helper.gemspec")
-    Dir.mkdir("pkg") rescue nil
-    if Gem::Version.new(`gem -v`) >= Gem::Version.new("2.0.0.a")
-      Gem::Package.build(spec)
-    else
-      Gem::Builder.new(spec).build
-    end
-    FileUtils.move("puppetlabs_spec_helper-#{version}.gem", "pkg")
+namespace :git do
+  desc "Create a new tag that uses #{PuppetlabsSpecHelper::Version::STRING} as the tag"
+  task :tag do
+    `git tag -m '#{PuppetlabsSpecHelper::Version::STRING}'`
+  end
+  desc "Tag and push to master"
+  task :pl_release do
+    Rake::Task["git:tag"].invoke
+    `git push origin master --tags`
   end
 end
 
-desc "Cleanup pkg directory"
-task :clean do
-  FileUtils.rm_rf("pkg")
-end
+task :default => :spec
+
+require 'yard'
+YARD::Rake::YardocTask.new
