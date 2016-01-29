@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'puppet-lint'
   s.add_runtime_dependency 'puppet-syntax'
   s.add_runtime_dependency 'mocha'
+  s.add_development_dependency 'puppet'
 end
