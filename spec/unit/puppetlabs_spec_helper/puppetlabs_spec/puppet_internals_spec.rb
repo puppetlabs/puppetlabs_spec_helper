@@ -3,29 +3,29 @@ require 'puppetlabs_spec_helper/puppet_spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 
 describe PuppetlabsSpec::PuppetInternals do
+  before(:all) do
+    Puppet.initialize_settings
+  end
   describe ".scope" do
     it "should return a Puppet::Parser::Scope instance" do
       subject.scope.should be_a_kind_of Puppet::Parser::Scope
     end
 
-    it "should be suitable for function testing" do
-      scope = subject.scope
-      scope.function_split(["one;two", ";"]).should == [ 'one', 'two' ]
+    xit "should be suitable for function testing" do
+      # split is now a puppet 4x core function
+      subject.scope.function_split(["one;two", ";"]).should == [ 'one', 'two' ]
     end
 
     it "should accept a compiler" do
       compiler = subject.compiler
-
       scope = subject.scope(:compiler => compiler)
-
       scope.compiler.should == compiler
     end
 
     it "should have a source set" do
       scope = subject.scope
-
       scope.source.should_not be_nil
-      scope.source.should_not be_false
+      scope.source.name.should eq('foo')
     end
   end
 
