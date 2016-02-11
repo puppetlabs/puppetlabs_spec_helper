@@ -34,6 +34,20 @@ def source_dir
   Dir.pwd
 end
 
+# cache the repositories and retruns and hash object
+def repositories
+  unless @repositories
+    @repositories = fixtures('repositories')
+    @repositories.each do |remote, opts|
+      if opts.instance_of?(String)
+        @repositories[remote] = {"target" => opts} # inject a hash
+      end
+    end
+  end
+  @repositories
+end
+
+
 def fixtures(category)
   if File.exists?('.fixtures.yml')
     fixtures_yaml = '.fixtures.yml'
@@ -86,7 +100,11 @@ def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
   else
     fail "Unfortunately #{scm} is not supported yet"
   end
-  system("#{scm} #{args.flatten.join ' '}")
+  result = system("#{scm} #{args.flatten.join ' '}")
+  unless File::exists?(target)
+    fail "Failed to clone #{scm} repository #{remote} into #{target}"
+  end
+  result
 end
 
 def revision(scm, target, ref)
@@ -102,6 +120,51 @@ def revision(scm, target, ref)
   system("cd #{target} && #{scm} #{args.flatten.join ' '}")
 end
 
+# creates a logger so we can log events with certain levels
+def logger
+  unless @logger
+    require 'logger'
+    if ENV['ENABLE_LOGGER']
+       level = Logger::DEBUG
+     else
+       level = Logger::INFO
+    end
+    @logger = Logger.new(STDOUT)
+    @logger.level = level
+  end
+  @logger
+end
+
+# returns the current thread count that is currently active
+# a status of false or nil means the thread completed
+# so when anything else we count that as a active thread
+def current_thread_count(items)
+  active_threads = items.find_all do |item, opts|
+    if opts[:thread]
+      opts[:thread].status
+    else
+      false
+    end
+  end
+  logger.debug "Current thread count #{active_threads.count}"
+  active_threads.count
+end
+
+# returns the max_thread_count
+# because we may want to limit ssh or https connections
+def max_thread_limit
+  unless @max_thread_limit
+    # the default thread count is 10 but can be
+    # raised by using environment variable MAX_FIXTURE_THREAD_COUNT
+    if ENV['MAX_FIXTURE_THREAD_COUNT'].to_i > 0
+      @max_thread_limit = ENV['MAX_FIXTURE_THREAD_COUNT'].to_i
+    else
+      @max_thread_limit = 10 # the default
+    end
+  end
+  @max_thread_limit
+end
+
 desc "Create the fixtures directory"
 task :spec_prep do
   # Ruby only sets File::ALT_SEPARATOR on Windows and Rubys standard library
@@ -114,24 +177,34 @@ task :spec_prep do
   rescue
   end
 
-
-  fixtures("repositories").each do |remote, opts|
+  repositories.each do |remote, opts|
     scm = 'git'
-    if opts.instance_of?(String)
-      target = opts
-    elsif opts.instance_of?(Hash)
-      target = opts["target"]
-      ref = opts["ref"]
-      scm = opts["scm"] if opts["scm"]
-      branch = opts["branch"] if opts["branch"]
-      flags = opts["flags"]
+    target = opts["target"]
+    ref = opts["ref"]
+    scm = opts["scm"] if opts["scm"]
+    branch = opts["branch"] if opts["branch"]
+    flags = opts["flags"]
+    # get the current active threads that are alive
+    count = current_thread_count(repositories)
+    if count < max_thread_limit
+      logger.debug "New Thread started for #{remote}"
+      # start up a new thread and store it in the opts hash
+      opts[:thread] = Thread.new do
+        clone_repo(scm, remote, target, ref, branch, flags)
+        revision(scm, target, ref) if ref
+      end
+    else
+      # the last thread started should be the longest wait
+      item, item_opts = repositories.find_all {|i,o| o.has_key?(:thread)}.last
+      logger.debug "Waiting on #{item}"
+      item_opts[:thread].join  # wait for the thread to finish
+      # now that we waited lets try again
+      redo
     end
-
-    unless File::exists?(target) || clone_repo(scm, remote, target, ref, branch, flags)
-      fail "Failed to clone #{scm} repository #{remote} into #{target}"
-    end
-    revision(scm, target, ref) if ref
   end
+
+  # wait for all the threads to finish
+  repositories.each {|remote, opts| opts[:thread].join }
 
   FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|

@@ -43,6 +43,24 @@ And run the spec tests:
     $ cd $modulename
     $ rake spec
 
+
+### Parallel Fixture Downloads
+Fixture downloads will now execute in parallel to speed up the testing process. Which can represent >= 600% speed increase (depending on number of threads). You can control the amount of threads by setting the `MAX_FIXTURE_THREAD_COUNT` environment variable
+to a positive integer, the default is currently 10.  We don't suggest going higher than 25 as the gains are marginal due to some repos taking a long time to download.  Please be aware that your internal VCS system may not be able to handle a high load in which case the server would fail to clone the repository. Because of this issue, this setting is tunable via `MAX_FIXTURE_THREAD_COUNT`.
+
+Additionally, you can also speed up cloning when using the ssh protocol by multiplexing ssh sessions.  Add something similar to your ssh config.
+Note: you may need to change the host if your using an internal git server.
+
+```shell
+Host github.com
+  ControlMaster auto
+  ControlPath ~/.ssh/ssh-%r@%h:%p
+  ControlPersist yes
+
+```
+
+Note: parallel downloads is only available for repositories and not forge modules.
+
 Issues
 ======
 
@@ -142,7 +160,7 @@ Using Fixtures
 `rake spec_prep` is run. To do so, all required modules should be listed in a
 file named `.fixtures.yml` in the root of the project.
 
-When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use. 
+When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use.
 
  * repo - the url to the repo
  * scm - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
@@ -250,7 +268,7 @@ Some Notes for Windows Users
 
 A windows users may need to do one of two things to execute 'rake spec'.
 
-Although things may appear to work, the init.pp may not transfer to the fixtures folder as needed 
+Although things may appear to work, the init.pp may not transfer to the fixtures folder as needed
 or may transfer as an empty file.
 
 This is related to a registry security setting requiring elevated privileges to create symbolic links.

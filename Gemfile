@@ -1,9 +1,16 @@
-source :rubygems
+source 'https://rubygems.org'
 
-gemspec
+gem 'rake'
+gem 'rspec-puppet'
+gem 'puppet-lint'
+gem 'puppet-syntax'
+gem 'mocha'
 
-if File.exists? "#{__FILE__}.local"
-  eval(File.read("#{__FILE__}.local"), binding)
+group :development do
+  gem 'yard'
+  gem 'pry'
+  gem 'jeweler'
+  gem "puppet", ENV['PUPPET_VERSION'] || '~> 3.8.3'
 end
 
 # vim:filetype=ruby
