@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Puppet Labs"]
-  s.date = "2016-01-29"
+  s.date = "2016-02-12"
   s.description = "Contains rake tasks and a standard spec_helper for running spec tests on puppet modules"
   s.email = ["modules-dept@puppetlabs.com"]
   s.extra_rdoc_files = [
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     ".noexec.yaml",
     ".travis.yml",
     "CHANGELOG.md",
+    "CONTRIBUTING.md",
     "Gemfile",
     "LICENSE",
     "README.markdown",
@@ -37,8 +38,8 @@ Gem::Specification.new do |s|
     "puppetlabs_spec_helper.gemspec",
     "puppetlabs_spec_helper.rb",
     "spec/lib/puppet/type/spechelper.rb",
+    "spec/spec_helper.rb",
     "spec/unit/puppetlabs_spec_helper/puppetlabs_spec/puppet_internals_spec.rb",
-    "spec/unit/spechelper_spec.rb",
     "spec/watchr.rb"
   ]
   s.homepage = "http://github.com/puppetlabs/puppetlabs_spec_helper"
@@ -59,7 +60,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<yard>, [">= 0"])
       s.add_development_dependency(%q<pry>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
-      s.add_development_dependency(%q<puppet>, [">= 0"])
+      s.add_development_dependency(%q<puppet>, ["~> 3.8.3"])
     else
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<rspec-puppet>, [">= 0"])
@@ -69,7 +70,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<yard>, [">= 0"])
       s.add_dependency(%q<pry>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
-      s.add_dependency(%q<puppet>, [">= 0"])
+      s.add_dependency(%q<puppet>, ["~> 3.8.3"])
     end
   else
     s.add_dependency(%q<rake>, [">= 0"])
@@ -80,7 +81,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<yard>, [">= 0"])
     s.add_dependency(%q<pry>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
-    s.add_dependency(%q<puppet>, [">= 0"])
+    s.add_dependency(%q<puppet>, ["~> 3.8.3"])
   end
 end
 
