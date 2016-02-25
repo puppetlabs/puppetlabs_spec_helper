@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0] - 2015-02-25
+### Summary:
+This release adds the ability to clone fixtures from git in parallel, speeding
+up the spec\_prep rake task.
+
+### Added:
+- Parallel fixtures cloning
+- Various rake check tasks for module release preparation
+
+### Fixed:
+- Added travis ci
+- Added contributing doc
+- Don't validate metadata if metadata-json-lint gem is not present
+
 ## [1.0.1] - 2015-11-06
 ### Summary:
 This bugfix release fixes the Error vs. Errno bug in 1.0.0
@@ -215,7 +229,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...master
+[1.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.3...1.0.0
 [0.10.3]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.2...0.10.3
