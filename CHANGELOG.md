@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.1] - 2015-03-02
+### Fixed:
+Readded and properly deprecated the `matadata` rake task. Use the `metadata_lint` task from metadata-json-lint directly instead.
+
 ## [1.1.0] - 2015-02-25
 ### Summary:
 This release adds the ability to clone fixtures from git in parallel, speeding
@@ -229,7 +233,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...master
+[1.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.3...1.0.0
