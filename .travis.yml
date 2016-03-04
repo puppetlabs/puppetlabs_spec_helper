@@ -1,8 +1,9 @@
+sudo: false
 language: ruby
-before_install: 
+before_install:
   # https://github.com/bundler/bundler/issues/3558
   gem update bundler
-script: bundle exec rake spec 
+script: bundle exec rake spec
 rvm:
   - 1.9.3
   - 2.0
