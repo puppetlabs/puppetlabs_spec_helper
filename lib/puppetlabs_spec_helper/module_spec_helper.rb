@@ -8,7 +8,7 @@ end
 
 def verify_contents(subject, title, expected_lines)
   content = subject.resource('file', title).send(:parameters)[:content]
-  (content.split("\n") & expected_lines).should == expected_lines
+  expect(content.split("\n") & expected_lines).to eql expected_lines
 end
 
 spec_path = File.expand_path(File.join(Dir.pwd, 'spec'))
