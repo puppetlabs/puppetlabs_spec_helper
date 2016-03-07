@@ -394,7 +394,7 @@ end
 namespace :check do
   desc "Fails if symlinks are present in directory"
   task :symlinks do
-    symlink = `find . -type l -ls`
+    symlink = `find . -path ./.git -prune -o -type l -ls`
     unless symlink == ""
       puts symlink
       fail "A symlink exists within this directory"
