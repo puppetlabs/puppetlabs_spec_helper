@@ -1,5 +1,12 @@
 # encoding: utf-8
 
+task default: :help
+
+desc 'Display the list of available rake tasks'
+task :help do
+  system('rake -T')
+end
+
 require 'rubygems'
 require 'bundler'
 begin
@@ -43,8 +50,6 @@ namespace :git do
     `git push origin master --tags`
   end
 end
-
-task :default => :spec
 
 require 'rubocop/rake_task'
 RuboCop::RakeTask.new
