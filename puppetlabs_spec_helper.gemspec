@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rake>, [">= 0"])
       s.add_runtime_dependency(%q<rspec-puppet>, [">= 0"])
+      s.add_runtime_dependency(%q<rubocop>, [">= 0"])
       s.add_runtime_dependency(%q<puppet-lint>, [">= 0"])
       s.add_runtime_dependency(%q<puppet-syntax>, [">= 0"])
       s.add_runtime_dependency(%q<mocha>, [">= 0"])
@@ -65,6 +66,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<rspec-puppet>, [">= 0"])
+      s.add_dependency(%q<rubocop>, [">= 0"])
       s.add_dependency(%q<puppet-lint>, [">= 0"])
       s.add_dependency(%q<puppet-syntax>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
@@ -76,6 +78,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<rspec-puppet>, [">= 0"])
+    s.add_dependency(%q<rubocop>, [">= 0"])
     s.add_dependency(%q<puppet-lint>, [">= 0"])
     s.add_dependency(%q<puppet-syntax>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
