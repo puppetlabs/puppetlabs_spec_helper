@@ -23,12 +23,6 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-desc "Generate code coverage information"
-RSpec::Core::RakeTask.new(:coverage) do |t|
-  t.rcov = true
-  t.rcov_opts = ['--exclude', 'spec']
-end
-
 # This is a helper for the self-symlink entry of fixtures.yml
 def source_dir
   Dir.pwd

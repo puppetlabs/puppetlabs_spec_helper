@@ -263,10 +263,93 @@ instances in a manner decoupled from the internal behavior of Puppet:
       end
     end
 
-Some Notes for Windows Users
-==============
+Generating code coverage reports
+================================
 
-A windows users may need to do one of two things to execute 'rake spec'.
+This section describes how to add code coverage reports for Ruby files (types, providers, ...).
+See the documentation of [RSpec-Puppet](https://github.com/rodjek/rspec-puppet)
+for Puppet manifest coverage reports.
+
+Starting with Ruby 1.9, the *de facto* standard for Ruby code coverage is
+[SimpleCov](https://github.com/colszowka/simplecov).
+You can add it to your module like this:
+
+```Ruby
+# First line of spec/spec_helper.rb
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter '/spec/'
+  # Exclude bundled Gems in `/.vendor/`
+  add_filter '/.vendor/'
+end
+
+require 'puppetlabs_spec_helper/module_spec_helper'
+# Further content
+```
+
+The reports will then be generated every time you invoke RSpec, e.g. via `rake spec`,
+and are written to `/coverage/`, which you should add to `.gitignore`.
+
+Remember to add `gem 'simplecov', require: false` to your `Gemfile`.
+
+Using Code Climate
+------------------
+
+You can also use [Code Climate](https://codeclimate.com/) together with SimpleCov:
+
+```Ruby
+# First line of spec/spec_helper.rb
+require 'codeclimate-test-reporter'
+
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  CodeClimate::TestReporter::Formatter
+]
+
+SimpleCov.start do
+  add_filter '/spec/'
+  # Exclude bundled Gems in `/.vendor/`
+  add_filter '/.vendor/'
+end
+
+require 'puppetlabs_spec_helper/module_spec_helper'
+# Further content
+```
+
+Remember to add `gem 'codeclimate-test-reporter', require: false` to your `Gemfile`.
+
+Using Coveralls
+---------------
+
+You can also use [Coveralls](https://coveralls.io/) together with SimpleCov:
+
+```Ruby
+# First line of spec/spec_helper.rb
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+
+SimpleCov.start do
+  add_filter '/spec/'
+  # Exclude bundled Gems in `/.vendor/`
+  add_filter '/.vendor/'
+end
+
+require 'puppetlabs_spec_helper/module_spec_helper'
+# Further content
+```
+
+Remember to add `gem 'coveralls', require: false` to your `Gemfile`.
+
+Some Notes for Windows Users
+============================
+
+A windows users may need to do one of two things to execute `rake spec`.
 
 Although things may appear to work, the init.pp may not transfer to the fixtures folder as needed
 or may transfer as an empty file.
