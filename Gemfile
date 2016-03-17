@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'rspec-puppet'
+gem 'rubocop'
 gem 'puppet-lint'
 gem 'puppet-syntax'
 gem 'mocha'
