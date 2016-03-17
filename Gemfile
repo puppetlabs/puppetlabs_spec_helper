@@ -7,6 +7,7 @@ gem 'puppet-syntax'
 gem 'mocha'
 
 group :development do
+  gem 'rspec', '~> 3'
   gem 'yard'
   gem 'pry'
   gem 'jeweler'
