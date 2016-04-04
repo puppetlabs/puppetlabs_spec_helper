@@ -2,6 +2,8 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'yaml'
+require 'parallel_tests'
+require 'parallel_tests/cli'
 
 # optional gems
 begin
@@ -28,6 +30,15 @@ RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   else
     t.pattern = pattern
   end
+end
+
+desc "Parallel spec tests"
+RSpec::Core::RakeTask.new(:parallel_spec) do |t|
+  files = FileList['spec/{classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb']
+
+  Rake::Task[:spec_prep].invoke
+  ParallelTests::CLI.new.run(['-t', 'rspec'].concat(files))
+  Rake::Task[:spec_clean].invoke
 end
 
 desc "Run beaker acceptance tests"

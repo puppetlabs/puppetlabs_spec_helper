@@ -73,6 +73,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<yard>, [">= 0"])
       s.add_dependency(%q<pry>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<parallel_tests>, [">= 0"])
       s.add_dependency(%q<puppet>, ["~> 3.8.3"])
     end
   else
@@ -85,7 +86,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<yard>, [">= 0"])
     s.add_dependency(%q<pry>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<parallel_tests>, [">= 0"])
     s.add_dependency(%q<puppet>, ["~> 3.8.3"])
   end
 end
-
