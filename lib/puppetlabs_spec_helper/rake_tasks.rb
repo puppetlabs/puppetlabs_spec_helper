@@ -231,6 +231,7 @@ task :spec_prep do
     command = "puppet module install" + ref + flags + \
       " --ignore-dependencies" \
       " --force" \
+      " --module_working_dir spec/fixtures/module-working-dir" \
       " --target-dir spec/fixtures/modules #{remote}"
 
     unless system(command)
@@ -261,6 +262,8 @@ task :spec_clean do
     end
     FileUtils::rm_rf(target)
   end
+
+  FileUtils::rm_rf("spec/fixtures/module-working-dir")
 
   fixtures("symlinks").each do |source, target|
     FileUtils::rm_f(target)
