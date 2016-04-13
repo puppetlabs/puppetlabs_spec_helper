@@ -345,7 +345,7 @@ beaker_node_sets.each do |set|
   end
 
   desc "Use vagrant to login to a node from the set '#{set}'"
-  task "beaker:ssh:#{set}", [:node] do
+  task "beaker:ssh:#{set}", [:node] do |_task, args|
     node = args[:node]
     vagrant_ssh set, node
   end
