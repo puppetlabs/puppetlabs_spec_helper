@@ -23,12 +23,12 @@ Usage
 =====
 
 When developing or testing modules, simply clone this repository and install the
-gem it contains.
+gem it contains. The recommended way to do this is using [bundler](http://bundler.io/#getting-started).
 
-    $ git clone git://github.com/puppetlabs/puppetlabs_spec_helper.git
-    $ cd puppetlabs_spec_helper
-    $ rake package:gem
-    $ gem install pkg/puppetlabs_spec_helper-*.gem
+Example Gemfile:
+
+    source 'https://rubygems.org'
+    gem 'puppetlabs_spec_helper'
 
 Add this to your project's spec\_helper.rb:
 
