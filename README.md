@@ -227,25 +227,25 @@ Specify that the git tag `2.4.2` of `stdlib' should be checked out:
 Install modules from Puppet Forge:
 
     fixtures:
-        forge_modules:
-            firewall: "puppetlabs/firewall"
-            stdlib:
-                repo: "puppetlabs/stdlib"
-                ref: "2.6.0"
+      forge_modules:
+        firewall: "puppetlabs/firewall"
+        stdlib:
+          repo: "puppetlabs/stdlib"
+          ref: "2.6.0"
 
 Pass additional flags to module installation:
 
     fixtures:
-        forge_modules:
-            stdlib:
-                repo: "puppetlabs/stdlib"
-                ref: "2.6.0"
-                flags: "--module_repository https://my_repo.com"
+      forge_modules:
+        stdlib:
+          repo: "puppetlabs/stdlib"
+          ref: "2.6.0"
+          flags: "--module_repository https://my_repo.com"
         repositories:
-            firewall:
-                repo: "git://github.com/puppetlabs/puppetlabs-firewall"
-                ref: "2.6.0"
-                flags: "--verbose"
+          firewall:
+            repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+            ref: "2.6.0"
+            flags: "--verbose"
 
 Testing Parser Functions
 ========================
