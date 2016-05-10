@@ -315,7 +315,7 @@ task :spec_clean do
 
 end
 
-desc "Run spec tests in a clean fixtures directory"
+desc "Run spec tests and clean the fixtures directory if successful"
 task :spec do
   Rake::Task[:spec_prep].invoke
   Rake::Task[:spec_standalone].invoke
