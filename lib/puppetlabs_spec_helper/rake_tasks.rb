@@ -217,6 +217,9 @@ task :spec_prep do
   rescue
   end
 
+  # git has a race condition creating that directory, that would lead to aborted clone operations
+  FileUtils::mkdir_p("spec/fixtures/modules")
+
   repositories.each do |remote, opts|
     scm = 'git'
     target = opts["target"]
@@ -246,7 +249,6 @@ task :spec_prep do
   # wait for all the threads to finish
   repositories.each {|remote, opts| opts[:thread].join }
 
-  FileUtils::mkdir_p("spec/fixtures/modules")
   fixtures("symlinks").each do |source, target|
     if is_windows
       fail "Cannot symlink on Windows unless using at least Puppet 3.5" if !puppet_symlink_available
