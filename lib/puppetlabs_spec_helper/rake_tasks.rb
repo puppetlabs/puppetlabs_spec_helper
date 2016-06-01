@@ -1,6 +1,5 @@
 require 'rake'
 require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
 require 'yaml'
 
 # optional gems
@@ -372,8 +371,6 @@ desc "Clean a built module package"
 task :clean do
   FileUtils.rm_rf("pkg/")
 end
-
-RuboCop::RakeTask.new
 
 require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for

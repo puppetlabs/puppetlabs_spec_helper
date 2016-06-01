@@ -46,8 +46,5 @@ end
 
 task :default => :spec
 
-require 'rubocop/rake_task'
-RuboCop::RakeTask.new
-
 require 'yard'
 YARD::Rake::YardocTask.new
