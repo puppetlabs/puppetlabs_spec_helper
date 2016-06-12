@@ -14,11 +14,12 @@ end
 
 task :default => [:help]
 
+pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
+
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
 
-  pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
   if ENV['CI_NODE_TOTAL'] && ENV['CI_NODE_INDEX']
     ci_total = ENV['CI_NODE_TOTAL'].to_i
     ci_index = ENV['CI_NODE_INDEX'].to_i
@@ -344,6 +345,22 @@ task :spec do
   Rake::Task[:spec_prep].invoke
   Rake::Task[:spec_standalone].invoke
   Rake::Task[:spec_clean].invoke
+end
+
+desc "Parallel spec tests"
+task :parallel_spec do
+  begin
+    require 'parallel_tests'
+
+    args = ['-t', 'rspec'].
+      concat(Rake::FileList[pattern].to_a)
+
+    Rake::Task[:spec_prep].invoke
+    ParallelTests::CLI.new.run(args)
+    Rake::Task[:spec_clean].invoke
+  rescue LoadError
+    fail 'Add the parallel_tests gem to Gemfile to enable this task'
+  end
 end
 
 desc "List available beaker nodesets"

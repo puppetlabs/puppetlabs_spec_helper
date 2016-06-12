@@ -61,6 +61,21 @@ Host github.com
 
 Note: parallel downloads is only available for repositories and not forge modules.
 
+### Parallel tests
+It is also possible to use the `parallel_tests` Gem via the `:parallel_spec` Rake task to run rspec commands in parallel on groups of spec files.
+
+Use of parallelization at this level can result in large performance benefits when the Rspec examples tend to cause a number of large, CPU-intensive catalog compilations to occur.  An example of where this might be the case is in a complex module with a lot of tests or a control repo with many hosts.
+
+Be aware however that in other circumstances this parallelization can result in the tests actually taking longer to run.  The best thing to do is time `rspec spec` and `rspec parallel_spec` and use the parallelization only when there is a clear benefit.
+
+To enable this feature, add the `parallel_tests` Gem to your project's Gemfile:
+
+    gem 'parallel_tests'
+
+And then to run spec tests in parallel:
+
+    $ rake parallel_spec
+
 Issues
 ======
 
