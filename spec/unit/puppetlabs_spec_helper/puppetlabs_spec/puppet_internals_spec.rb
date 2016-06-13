@@ -19,8 +19,13 @@ describe PuppetlabsSpec::PuppetInternals do
     end
 
     it 'should be suitable for function testing' do
-      # split is now a puppet 4x core function
-      expect(subject.function_split(['one;two', ';'])).to eq(%w(one two))
+      resource = Puppet::Parser::Resource.new(:file, "/file", :scope => subject)
+      expect(subject).to receive(:resource).and_return(resource)
+
+      subject.function_tag ["one", "two"]
+
+      expect(resource).to be_tagged("one")
+      expect(resource).to be_tagged("two")
     end
 
     it 'should accept a compiler' do
