@@ -2,11 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.1] - 2015-03-02
+## [1.1.1] - 2016-03-02
 ### Fixed:
-Readded and properly deprecated the `matadata` rake task. Use the `metadata_lint` task from metadata-json-lint directly instead.
+Readded and properly deprecated the `metadata` rake task. Use the `metadata_lint` task from metadata-json-lint directly instead.
 
-## [1.1.0] - 2015-02-25
+## [1.1.0] - 2016-02-25
 ### Summary:
 This release adds the ability to clone fixtures from git in parallel, speeding
 up the spec\_prep rake task.
