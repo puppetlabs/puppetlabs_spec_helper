@@ -24,12 +24,6 @@ RSpec.configure do |c|
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
   c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
-  ## This depends on rspec-puppet #209 being released
-  #c.strict_variables = true if ENV['STRICT_VARIABLES'] == 'yes'
-  ## These depend on rspec-puppet #212 being released
-  #c.stringify_facts = false if ENV['STRINGIFY_FACTS'] == 'no'
-  #c.trusted_node_data = true if ENV['TRUSTED_NODE_DATA'] == 'yes'
-  #c.ordering = ENV['ORDERING'] if ENV['ORDERING']
 
   c.before :each do
     Puppet.features.stubs(:root?).returns(true)
