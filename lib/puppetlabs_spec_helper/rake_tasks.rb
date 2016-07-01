@@ -1,6 +1,7 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
+require 'securerandom'
 require 'yaml'
 
 # optional gems
@@ -116,14 +117,14 @@ def fixtures(category)
       elsif opts.instance_of?(Hash)
         target = "spec/fixtures/modules/#{fixture}"
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"]}
+        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "dirpath" => opts["dirpath"]}
       end
     end
   end
   return result
 end
 
-def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
+def clone_repo(scm, remote, target, dirpath=nil, ref=nil, branch=nil, flags = nil)
   args = []
   case scm
   when 'hg'
@@ -141,6 +142,15 @@ def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
     fail "Unfortunately #{scm} is not supported yet"
   end
   result = system("#{scm} #{args.flatten.join ' '}")
+  unless dirpath.nil?
+    tmpdir = SecureRandom.hex
+    system('setopt -s dotglob')
+    system("mkdir #{target}/#{tmpdir}")
+    system("mv #{target}/#{dirpath}/* #{target}/#{tmpdir}")
+    system("rm -rf #{target}/#{dirpath}")
+    system("mv #{target}/#{tmpdir}/* #{target}")
+    system("rm -rf #{target}/#{tmpdir}")
+  end
   unless File::exists?(target)
     fail "Failed to clone #{scm} repository #{remote} into #{target}"
   end
@@ -223,6 +233,7 @@ task :spec_prep do
   repositories.each do |remote, opts|
     scm = 'git'
     target = opts["target"]
+    dirpath = opts["dirpath"]
     ref = opts["ref"]
     scm = opts["scm"] if opts["scm"]
     branch = opts["branch"] if opts["branch"]
@@ -233,7 +244,7 @@ task :spec_prep do
       logger.debug "New Thread started for #{remote}"
       # start up a new thread and store it in the opts hash
       opts[:thread] = Thread.new do
-        clone_repo(scm, remote, target, ref, branch, flags)
+        clone_repo(scm, remote, target, dirpath, ref, branch, flags)
         revision(scm, target, ref) if ref
       end
     else
