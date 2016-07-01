@@ -1,6 +1,8 @@
+require 'fileutils'
 require 'rake'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
+require 'tmpdir'
 require 'yaml'
 
 # optional gems
@@ -124,14 +126,14 @@ def fixtures(category)
       elsif opts.instance_of?(Hash)
         target = "spec/fixtures/modules/#{fixture}"
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"]}
+        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
       end
     end
   end
   return result
 end
 
-def clone_repo(scm, remote, target, ref=nil, branch=nil, flags = nil)
+def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil)
   args = []
   case scm
   when 'hg'
@@ -166,6 +168,16 @@ def revision(scm, target, ref)
     fail "Unfortunately #{scm} is not supported yet"
   end
   system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+end
+
+def remove_subdirectory(target, subdir)
+  unless subdir.nil?
+    Dir.mktmpdir {|tmpdir|
+       FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+       FileUtils.rm_rf("#{target}/#{subdir}")
+       FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
+    }
+  end
 end
 
 # creates a logger so we can log events with certain levels
@@ -231,6 +243,7 @@ task :spec_prep do
   repositories.each do |remote, opts|
     scm = 'git'
     target = opts["target"]
+    subdir = opts["subdir"]
     ref = opts["ref"]
     scm = opts["scm"] if opts["scm"]
     branch = opts["branch"] if opts["branch"]
@@ -241,8 +254,9 @@ task :spec_prep do
       logger.debug "New Thread started for #{remote}"
       # start up a new thread and store it in the opts hash
       opts[:thread] = Thread.new do
-        clone_repo(scm, remote, target, ref, branch, flags)
+        clone_repo(scm, remote, target, subdir, ref, branch, flags)
         revision(scm, target, ref) if ref
+	remove_subdirectory(target, subdir) if subdir
       end
     else
       # the last thread started should be the longest wait
