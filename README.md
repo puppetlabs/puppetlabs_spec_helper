@@ -181,6 +181,7 @@ When specifying the repo source of the fixture you have a few options as to whic
    scm: hg
    ```
  * target - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
+ * subdir - directory to be removed from the cloned repo. Its contents will be moved to the root directory (Optional)
  * ref - used to specify the tag name like version hash of commit (Optional)
    ```yaml
    ref: 1.0.0
@@ -224,6 +225,14 @@ Specify that the git tag `2.4.2` of `stdlib' should be checked out:
       symlinks:
         my_module: "#{source_dir}"
 
+Move content of `manifests` directory to the root:
+
+    fixtures:
+      repositories:
+        stdlib:
+          repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
+          subdir: "manifests"
+        
 Install modules from Puppet Forge:
 
     fixtures:
