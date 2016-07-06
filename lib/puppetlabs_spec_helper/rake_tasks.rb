@@ -143,15 +143,15 @@ def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil
     fail "Unfortunately #{scm} is not supported yet"
   end
   result = system("#{scm} #{args.flatten.join ' '}")
+  unless File::exists?(target)
+    fail "Failed to clone #{scm} repository #{remote} into #{target}"
+  end
   unless subdir.nil?
     Dir.mktmpdir {|tmpdir|
        FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
        FileUtils.rm_rf("#{target}/#{subdir}")
        FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
     }
-  end
-  unless File::exists?(target)
-    fail "Failed to clone #{scm} repository #{remote} into #{target}"
   end
   result
 end
