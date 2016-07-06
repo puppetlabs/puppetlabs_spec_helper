@@ -225,13 +225,13 @@ Specify that the git tag `2.4.2` of `stdlib' should be checked out:
       symlinks:
         my_module: "#{source_dir}"
 
-Move content of `manifests` directory to the root:
+Move manifests and siblings to root directory when they are inside a `code` directory:
 
     fixtures:
       repositories:
         stdlib:
-          repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
-          subdir: "manifests"
+          repo: "git://github.com/puppetlabs/puppetlabs-extradirectory"
+          subdir: "code"
         
 Install modules from Puppet Forge:
 
