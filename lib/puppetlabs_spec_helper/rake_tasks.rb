@@ -146,13 +146,6 @@ def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil
   unless File::exists?(target)
     fail "Failed to clone #{scm} repository #{remote} into #{target}"
   end
-  unless subdir.nil?
-    Dir.mktmpdir {|tmpdir|
-       FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
-       FileUtils.rm_rf("#{target}/#{subdir}")
-       FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
-    }
-  end
   result
 end
 
@@ -167,6 +160,16 @@ def revision(scm, target, ref)
     fail "Unfortunately #{scm} is not supported yet"
   end
   system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+end
+
+def remove_subdirectory(target, subdir)
+  unless subdir.nil?
+    Dir.mktmpdir {|tmpdir|
+       FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+       FileUtils.rm_rf("#{target}/#{subdir}")
+       FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
+    }
+  end
 end
 
 # creates a logger so we can log events with certain levels
@@ -245,6 +248,7 @@ task :spec_prep do
       opts[:thread] = Thread.new do
         clone_repo(scm, remote, target, subdir, ref, branch, flags)
         revision(scm, target, ref) if ref
+	remove_subdirectory(target, subdir) if subdir
       end
     else
       # the last thread started should be the longest wait
