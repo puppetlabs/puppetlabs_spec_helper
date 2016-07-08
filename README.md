@@ -176,18 +176,22 @@ When specifying the repo source of the fixture you have a few options as to whic
 
  * repo - the url to the repo
  * scm - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
+ 
    ```yaml
    scm: git
    scm: hg
    ```
+   
  * target - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
  * ref - used to specify the tag name like version hash of commit (Optional)
+ 
    ```yaml
    ref: 1.0.0
    ref: 880fca52c
    ```
  * branch - used to specify the branch name you want to use ie. `branch: development`
  * flags - additional flags passed to the module installer (both puppet and scm)
+ 
    ```yaml
    flags: --verbose
    ```
