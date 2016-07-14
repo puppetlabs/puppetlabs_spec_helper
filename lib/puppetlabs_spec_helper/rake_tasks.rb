@@ -39,38 +39,6 @@ task :spec do
   Rake::Task[:spec_clean].invoke
 end
 
-desc "List available beaker nodesets"
-task 'beaker:sets' do
-  beaker_node_sets.each do |set|
-    puts set
-  end
-end
-
-# alias for compatibility
-task 'beaker_nodes' => 'beaker:sets'
-
-desc 'Try to use vagrant to login to the Beaker node'
-task 'beaker:ssh', [:set, :node] do |_task, args|
-  set = args[:set] || ENV['BEAKER_set'] || ENV['RS_SET'] || 'default'
-  node = args[:node]
-  vagrant_ssh set, node
-end
-
-beaker_node_sets.each do |set|
-  desc "Run the Beaker acceptance tests for the node set '#{set}'"
-  task "beaker:#{set}" do
-    ENV['BEAKER_set'] = set
-    Rake::Task['beaker'].reenable
-    Rake::Task['beaker'].invoke
-  end
-
-  desc "Use vagrant to login to a node from the set '#{set}'"
-  task "beaker:ssh:#{set}", [:node] do |_task, args|
-    node = args[:node]
-    vagrant_ssh set, node
-  end
-end
-
 desc "Build puppet module package"
 task :build do
   # This will be deprecated once puppet-module is a face.
