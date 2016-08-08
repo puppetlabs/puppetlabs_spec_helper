@@ -16,7 +16,7 @@ desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
 
-  pattern = 'spec/{classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
+  pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
   if ENV['CI_NODE_TOTAL'] && ENV['CI_NODE_INDEX']
     ci_total = ENV['CI_NODE_TOTAL'].to_i
     ci_index = ENV['CI_NODE_INDEX'].to_i
