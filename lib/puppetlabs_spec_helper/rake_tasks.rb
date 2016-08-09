@@ -88,6 +88,10 @@ def vagrant_ssh(set, node = nil)
   end
 end
 
+def auto_symlink
+  { Dir.pwd.split('/').last.split('-').last => '#{source_dir}' }
+end
+
 def fixtures(category)
   if File.exists?('.fixtures.yml')
     fixtures_yaml = '.fixtures.yml'
@@ -100,9 +104,13 @@ def fixtures(category)
   begin
     fixtures = YAML.load_file(fixtures_yaml)["fixtures"]
   rescue Errno::ENOENT
-    return {}
+    fixtures = {}
   rescue Psych::SyntaxError => e
     abort("Found malformed YAML in #{fixtures_yaml} on line #{e.line} column #{e.column}: #{e.problem}")
+  end
+
+  if fixtures['symlinks'].nil?
+    fixtures['symlinks'] = auto_symlink
   end
 
   result = {}
