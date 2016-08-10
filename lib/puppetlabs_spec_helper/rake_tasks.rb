@@ -547,3 +547,13 @@ desc "Display the list of available rake tasks"
 task :help do
   system("rake -T")
 end
+
+RuboCop::RakeTask.new(:rubocop) do |task|
+  # These make the rubocop experience maybe slightly less terrible
+  task.options = ['-D', '-S', '-E']
+end
+
+RuboCop::RakeTask.new("rubocop:auto_correct") do |task|
+  # These make the rubocop experience maybe slightly less terrible
+  task.options = ['-D', '-S', '-E', '-a']
+end
