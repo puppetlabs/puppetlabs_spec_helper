@@ -491,7 +491,7 @@ task :compute_dev_version do
   print new_version
 end
 
-desc "Runs all nessesary checks on a module in preparation for a release"
+desc "Runs all necessary checks on a module in preparation for a release"
 task :release_checks do
   Rake::Task[:lint].invoke
   Rake::Task[:validate].invoke
