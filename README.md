@@ -219,61 +219,70 @@ Fixtures Examples
 Basic fixtures that will symlink `spec/fixtures/modules/my_modules` to the
 project root:
 
-    fixtures:
-      symlinks:
-        my_module: "#{source_dir}"
+```yaml
+fixtures:
+  symlinks:
+    my_module: "#{source_dir}"
+```
 
+This is the same as specifying no symlinks fixtures at all.
 
 Add `firewall` and `stdlib` as required module fixtures:
 
-    fixtures:
-      repositories:
-        firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
-        stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
-      symlinks:
-        my_module: "#{source_dir}"
+```yaml
+fixtures:
+  repositories:
+    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
+```
 
 Specify that the git tag `2.4.2` of `stdlib' should be checked out:
 
-    fixtures:
-      repositories:
-        firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
-        stdlib:
-          repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
-          ref: "2.6.0"
-      symlinks:
-        my_module: "#{source_dir}"
+```yaml
+fixtures:
+  repositories:
+    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+    stdlib:
+      repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
+      ref: "2.6.0"
+```
 
 Move manifests and siblings to root directory when they are inside a `code` directory:
 
-    fixtures:
-      repositories:
-        stdlib:
-          repo: "git://github.com/puppetlabs/puppetlabs-extradirectory"
-          subdir: "code"
+```yaml
+fixtures:
+  repositories:
+    stdlib:
+      repo: "git://github.com/puppetlabs/puppetlabs-extradirectory"
+      subdir: "code"
+```
 
 Install modules from Puppet Forge:
 
-    fixtures:
-      forge_modules:
-        firewall: "puppetlabs/firewall"
-        stdlib:
-          repo: "puppetlabs/stdlib"
-          ref: "2.6.0"
+```yaml
+fixtures:
+  forge_modules:
+    firewall: "puppetlabs/firewall"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "2.6.0"
+```
 
 Pass additional flags to module installation:
 
-    fixtures:
-      forge_modules:
-        stdlib:
-          repo: "puppetlabs/stdlib"
-          ref: "2.6.0"
-          flags: "--module_repository https://my_repo.com"
-        repositories:
-          firewall:
-            repo: "git://github.com/puppetlabs/puppetlabs-firewall"
-            ref: "2.6.0"
-            flags: "--verbose"
+```yaml
+fixtures:
+  forge_modules:
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "2.6.0"
+      flags: "--module_repository https://my_repo.com"
+    repositories:
+      firewall:
+        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+        ref: "2.6.0"
+        flags: "--verbose"
+```
 
 Testing Parser Functions
 ========================

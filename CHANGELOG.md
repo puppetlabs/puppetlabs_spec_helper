@@ -2,6 +2,43 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2016-08-23
+### Summary:
+
+Add a bunch of new features, and fix a bunch of annoying bugs: parallel test execution, default to strict variable checking on Puppet 4, code coverage, and rubocop tasks.
+
+Thanks to all community contributors: Alexander Fisher, Alex Harvey, Chris Tessmer, David Moreno García, Dmitry Ilyin, Dominic Cleal, Federico Voges, Garrett Honeycutt, Leo Arnold, Matthew Haughton, Mickaël Canévet, and Rob Nelson.
+
+### Added:
+
+New tasks:
+* Add code coverage for Ruby >= 1.9 using SimpleCov.
+* Add a rubocop rake task.
+* Use beaker:ssh to log into your running beaker machines.
+
+Spec parallelization
+* Add `parallel_spec` task to run specs in parallel.
+* Use CI_NODE_TOTAL and CI_NODE_INDEX to split tests across nodes.
+
+Fixtures improvements:
+* Automatically symlink the module directory, if no symlink fixtures are specified.
+* Add the `subdir` key to repository fixtures to only use a part of that repository.
+* Set `FIXTURES_YML` environment variable to load fixtures from somewhere else than `.fixtures.yml`.
+
+## Changed:
+* Updated default excludes and rspec patterns.
+* Updated default disabled lint checks to work with puppet-lint 2.0.0.
+* Testing on Puppet 4 will now default to strict variable checking. Set STRICT_VARIABLES=no to disable.
+* `PuppetInternals.scope` is now deprecated. Use the new `scope` property from rspec-puppet.
+* beaker_nodes is now called beaker:sets.
+
+### Fixed:
+* Ignore symlinks inside .git when running check:symlinks rake task.
+* Allow multiple invocations of spec_prep to run in parallel.
+* Address a race condition when cloning multiple git fixtures.
+* Restrict gem dependencies to work with ruby 1.9.
+* Update verify_contents() to work with duplicates in the arguments.
+
 ## [1.1.1] - 2016-03-02
 ### Fixed:
 Readded and properly deprecated the `metadata` rake task. Use the `metadata_lint` task from metadata-json-lint directly instead.
@@ -234,6 +271,7 @@ compatible yet.
  * Initial release
 
 [unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...master
+[1.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.0...1.0.1

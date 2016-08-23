@@ -2,7 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'rspec-puppet'
-gem 'rubocop', '0.41.2'
+if RUBY_VERSION =~ /^1\./
+  gem 'rubocop', '0.41.2'
+else
+  gem 'rubocop'
+  gem 'rubocop-rspec', '~> 1.6' if RUBY_VERSION >= '2.3.0'
+end
 gem 'puppet-lint'
 gem 'puppet-syntax'
 gem 'mocha'
