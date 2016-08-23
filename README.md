@@ -278,30 +278,8 @@ Pass additional flags to module installation:
 Testing Parser Functions
 ========================
 
-This library provides a consistent way to create a Puppet::Parser::Scope object
-suitable for use in a testing harness with the intent of testing the expected
-behavior of parser functions distributed in modules.
-
-Previously, modules would do something like this:
-
-    describe "split()" do
-      let(:scope) { Puppet::Parser::Scope.new }
-      it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
-        scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
-      end
-    end
-
-This will not work beyond Puppet 2.7 as we have changed the behavior of the
-scope initializer in Puppet 3.0.  Modules should instead initialize scope
-instances in a manner decoupled from the internal behavior of Puppet:
-
-    require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
-    describe "split()" do
-      let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
-      it "should split 'one;two' on ';' into [ 'one', 'two' ]" do
-        scope.function_split(['one;two', ';']).should == [ 'one', 'two' ]
-      end
-    end
+This whole section is superseded by improved support of accessing the scope in
+rspec-puppet.
 
 Generating code coverage reports
 ================================
