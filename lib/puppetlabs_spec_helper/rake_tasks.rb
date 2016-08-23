@@ -257,7 +257,7 @@ task :spec_prep do
       opts[:thread] = Thread.new do
         clone_repo(scm, remote, target, subdir, ref, branch, flags)
         revision(scm, target, ref) if ref
-	remove_subdirectory(target, subdir) if subdir
+        remove_subdirectory(target, subdir) if subdir
       end
     else
       # the last thread started should be the longest wait
@@ -429,7 +429,14 @@ PuppetLint::RakeTask.new(:lint) do |config|
     'class_parameter_defaults',
     'documentation',
     'single_quote_string_with_variables']
-  config.ignore_paths = ["tests/**/*.pp", "vendor/**/*.pp","examples/**/*.pp", "spec/**/*.pp", "pkg/**/*.pp"]
+  config.ignore_paths = [
+    "bundle/**/*.pp",
+    "pkg/**/*.pp",
+    "spec/**/*.pp",
+    "tests/**/*.pp",
+    "types/**/*.pp",
+    "vendor/**/*.pp",
+  ]
 end
 
 require 'puppet-syntax/tasks/puppet-syntax'
@@ -437,6 +444,9 @@ PuppetSyntax.exclude_paths ||= []
 PuppetSyntax.exclude_paths << "spec/fixtures/**/*"
 PuppetSyntax.exclude_paths << "pkg/**/*"
 PuppetSyntax.exclude_paths << "vendor/**/*"
+if Puppet.version.to_f < 4.0
+  PuppetSyntax.exclude_paths << "types/**/*"
+end
 PuppetSyntax.future_parser = true if ENV['FUTURE_PARSER'] == 'yes'
 
 desc "Check syntax of Ruby files and call :syntax and :metadata_lint"
