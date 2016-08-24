@@ -1,7 +1,6 @@
 require 'fileutils'
 require 'rake'
 require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
 require 'tmpdir'
 require 'yaml'
 
@@ -556,12 +555,15 @@ task :help do
   system("rake -T")
 end
 
-RuboCop::RakeTask.new(:rubocop) do |task|
-  # These make the rubocop experience maybe slightly less terrible
-  task.options = ['-D', '-S', '-E']
-end
-
-RuboCop::RakeTask.new("rubocop:auto_correct") do |task|
-  # These make the rubocop experience maybe slightly less terrible
-  task.options = ['-D', '-S', '-E', '-a']
+begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    # These make the rubocop experience maybe slightly less terrible
+    task.options = ['-D', '-S', '-E']
+  end
+rescue LoadError
+  desc "rubocop is not available in this installation"
+  task :rubocop do
+    fail "rubocop is not available in this installation"
+  end
 end

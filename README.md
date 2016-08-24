@@ -108,6 +108,17 @@ branch of this project from github, and install it as a rubygem.
 There should be few or no cases where you would want to have any other
 branch of this project besides master/HEAD.
 
+Running on non-current ruby versions
+------------------------------------
+
+Since gem and bundler, ruby's package management tools, do not take the target ruby version into account when downloading packages, the puppetlabs_spec_helper gem can only depend on gems that are available for all supported ruby versions. If you can/want to use features from other packages, install those additional packages manually, or have a look at the Gemfile, which provides code to specify those dependencies in a more "friendly" way. This currently affects the following gems:
+
+* puppet
+* rubocop
+* rubocop-rspec
+* json_pure
+* rack
+
 Initializing Puppet for Testing
 ===============================
 
