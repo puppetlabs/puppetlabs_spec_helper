@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.1]
+### Summary:
+
+The previous release was taken down, as some optional gem dependencies slipped through into the gemspec, breaking builds using ruby 2.2 and earlier. This release updates the gem build process, so this should not happen again.
+
 ## [1.2.0] - 2016-08-23
 ### Summary:
 
@@ -271,6 +276,7 @@ compatible yet.
  * Initial release
 
 [unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...master
+[1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...1.1.0

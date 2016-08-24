@@ -1,5 +1,9 @@
-Gemfile.lock
-pkg/
-.*.sw*
-.bundle/
-.idea
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/

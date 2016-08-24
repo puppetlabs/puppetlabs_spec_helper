@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'puppetlabs_spec_helper/puppet_spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 
+# reset mock integration
 RSpec.configure do |c|
   c.mock_with :rspec
 end
@@ -19,8 +20,7 @@ describe PuppetlabsSpec::PuppetInternals do
     end
 
     it 'should be suitable for function testing' do
-      # split is now a puppet 4x core function
-      expect(subject.function_split(['one;two', ';'])).to eq(%w(one two))
+      expect(subject.function_inline_template(['foo'])).to eq('foo')
     end
 
     it 'should accept a compiler' do
