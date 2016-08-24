@@ -2,36 +2,27 @@
 
 require 'rubygems'
 require 'bundler'
+require "bundler/gem_tasks"
+require "rake/testtask"
+require './lib/puppetlabs_spec_helper/version'
+
 begin
-  Bundler.setup(:default, :development)
+  Bundler.setup(:default, :development, :test)
 rescue Bundler::BundlerError => e
   $stderr.puts e.message
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'rake'
-require_relative 'lib/puppetlabs_spec_helper/version'
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "puppetlabs_spec_helper"
-  gem.version = "#{PuppetlabsSpecHelper::Version::STRING}"
-  gem.homepage = "http://github.com/puppetlabs/puppetlabs_spec_helper"
-  gem.license = "Apache-2.0"
-  gem.summary = %Q{Standard tasks and configuration for module spec tests}
-  gem.description = %Q{Contains rake tasks and a standard spec_helper for running spec tests on puppet modules}
-  gem.email = ["modules-dept@puppetlabs.com"]
-  gem.authors = ["Puppet Labs"]
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
 
+require 'rake'
 require 'rspec/core'
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb'].exclude('spec/fixtures/**/*_spec.rb')
 end
 
+# this is required because the gem has historically used tags without the `v` ie.
+# v1.3.1 vs 1.3.1.  By default bundler now enforces v1.3.1 as the default standard.
 namespace :git do
   desc "Create a new tag that uses #{PuppetlabsSpecHelper::Version::STRING} as the tag"
   task :tag do
@@ -42,6 +33,12 @@ namespace :git do
     Rake::Task["git:tag"].invoke
     `git push origin master --tags`
   end
+end
+
+desc "Show the generated gemspec"
+task :show_gemspec do
+  Rake::Task['build'].invoke
+  puts `gem specification pkg/puppetlabs_spec_helper-#{PuppetlabsSpecHelper::Version::STRING}.gem --ruby`
 end
 
 task :default => :spec
