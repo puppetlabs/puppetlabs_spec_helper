@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.2]
+### Summary:
+
+Dominic Cleal reported and fixed an issue with the STRICT_VARIABLES setting on puppet versions before 3.5.
+
 ## [1.2.1]
 ### Summary:
 
@@ -276,6 +281,7 @@ compatible yet.
  * Initial release
 
 [unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...master
+[1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.1...1.2.2
 [1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...1.1.1
