@@ -34,8 +34,8 @@ end
 
 desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
-  t.rspec_opts = ['--color']
-  t.pattern = 'spec/acceptance'
+  t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
+  t.pattern = 'spec/acceptance/**/**_spec.rb'
 end
 
 # This is a helper for the self-symlink entry of fixtures.yml
