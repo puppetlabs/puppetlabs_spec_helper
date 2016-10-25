@@ -3,6 +3,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'yaml'
+require 'puppet_blacksmith'
 
 # optional gems
 begin
@@ -34,8 +35,60 @@ end
 
 desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
-  t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
-  t.pattern = 'spec/acceptance/**/**_spec.rb'
+  t.rspec_opts = ['--color']
+  t.pattern = 'spec/acceptance'
+end
+
+namespace :modular do
+
+  "Run acceptance tests on Jenkins"
+  RSpec::Core::RakeTask.new :spec_ci do |t|
+    puts "SPEC_CI"
+    t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
+    t.pattern = 'spec/acceptance/**/**_spec.rb'
+  end
+
+  "Run acceptance tests"
+  RSpec::Core::RakeTask.new :spec do
+    puts "SPEC"
+    `bundle exec rspec --color -f documentation --pattern spec/acceptance/**/**_spec.rb`
+  end
+
+  desc "Compute a module's version"
+  task :compute_version do |t|
+    puts "COMPUTE"
+    Rake::Task[:compute_dev_version].invoke
+  end
+
+  desc "Promote a module"
+  task :promote do
+    puts "PROMOTE"
+    Rake::Task[:build].invoke
+    Rake::Task["modular:push"].invoke
+  end
+
+  desc "Release a module"
+  RSpec::Core::RakeTask.new :push do
+    puts "PUSH"
+    module_name = ''
+    if File.exists?('metadata.json')
+      modinfo = JSON.parse(File.read('metadata.json'))
+      module_name = modinfo['name'].split(/[\/-]/)[1]
+    elsif File.exists?( 'Modulefile' )
+      m = Blacksmith::Modulefile.new
+      module_name = m.name
+    end
+
+    pkg_username = ENV['PKG_USERNAME'] || "puppetlabs"
+    pkg_password = ENV['PKG_PASSWORD'] || "1234asdf"
+    pkg_forge = ENV['PKG_FORGE'] || "https://api-module-staging.puppetlabs.com"
+
+    forge = Blacksmith::Forge.new(pkg_username, pkg_password, pkg_forge)
+
+    puts "Uploading to Puppet Forge #{forge.username}/#{module_name}"
+    forge.push!(module_name)
+  end
+
 end
 
 # This is a helper for the self-symlink entry of fixtures.yml
@@ -244,7 +297,7 @@ task :spec_prep do
     scm = 'git'
     target = opts["target"]
     subdir = opts["subdir"]
-    ref = opts["ref"]
+
     scm = opts["scm"] if opts["scm"]
     branch = opts["branch"] if opts["branch"]
     flags = opts["flags"]
