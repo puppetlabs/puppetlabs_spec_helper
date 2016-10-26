@@ -39,37 +39,77 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-namespace :modular do
+def get_versions
+  current_version = ''
+  if File.exists?( 'metadata.json' )
+    require 'json'
 
-  "Run acceptance tests on Jenkins"
-  RSpec::Core::RakeTask.new :spec_ci do |t|
-    puts "SPEC_CI"
+    modinfo = JSON.parse(File.read( 'metadata.json' ))
+    current_version = modinfo['version']
+  elsif File.exists?( 'Modulefile' )
+    modfile = File.read('Modulefile')
+    current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+  else
+    fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
+  end
+
+  sha = `git rev-parse HEAD`[0..7]
+
+  # If we're in a CI environment include our build number
+  if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
+    dev_version = sprintf('%s-%04d-%s', current_version, build, sha)
+  else
+    dev_version = "#{current_version}-#{sha}"
+  end
+
+  versions = [current_version, dev_version]
+end
+
+namespace :module_dev do
+
+  desc "Run acceptance tests with system-spec-helper."
+  RSpec::Core::RakeTask.new :spec_sys do |t|
     t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
     t.pattern = 'spec/acceptance/**/**_spec.rb'
   end
 
-  "Run acceptance tests"
+  desc "Run acceptance tests."
   RSpec::Core::RakeTask.new :spec do
-    puts "SPEC"
     `bundle exec rspec --color -f documentation --pattern spec/acceptance/**/**_spec.rb`
   end
 
-  desc "Compute a module's version"
-  task :compute_version do |t|
-    puts "COMPUTE"
-    Rake::Task[:compute_dev_version].invoke
+  desc "Bump module version."
+  task :bump_dev do
+    old_version = get_versions[0]
+    new_version = get_versions[1]
+
+    if File.exist?( 'metadata.json' )
+      require 'json'
+
+      modinfo = JSON.parse(File.read( 'metadata.json' ))
+      modinfo['version'] = new_version
+
+      File.open('metadata.json', 'w') {|f| f.puts JSON.dump(modinfo) }
+    end
+
+    if File.exist?( 'Modulefile' )
+      modfile = File.read('Modulefile')
+      modfile.gsub!(/\n\s*version[ ]+['"](.*)['"]/, "\nversion '#{new_version}'")
+
+      File.open('Modulefile', 'w') {|f| f.puts modfile }
+    end
+
+    puts "Bumped version from: #{old_version} to #{new_version}"
   end
 
-  desc "Promote a module"
-  task :promote do
-    puts "PROMOTE"
-    Rake::Task[:build].invoke
-    Rake::Task["modular:push"].invoke
+  desc "Get a module's current version."
+  task :current_version do
+    current_version = get_versions[0]
+    puts "Current version is: #{current_version}"
   end
 
-  desc "Release a module"
-  RSpec::Core::RakeTask.new :push do
-    puts "PUSH"
+  desc "Push a module package to the Forge (default: staging)"
+  task :push do
     module_name = ''
     if File.exists?('metadata.json')
       modinfo = JSON.parse(File.read('metadata.json'))
@@ -89,6 +129,12 @@ namespace :modular do
     forge.push!(module_name)
   end
 
+  desc "Promote a module to the forge (complete: build,push)."
+  task :promote_dev do
+    Rake::Task["module_dev:bump"]
+    Rake::Task[:build].invoke
+    Rake::Task["module_dev:push"].invoke
+  end
 end
 
 # This is a helper for the self-symlink entry of fixtures.yml
@@ -297,7 +343,7 @@ task :spec_prep do
     scm = 'git'
     target = opts["target"]
     subdir = opts["subdir"]
-
+    ref = opts["ref"]
     scm = opts["scm"] if opts["scm"]
     branch = opts["branch"] if opts["branch"]
     flags = opts["flags"]
@@ -526,29 +572,8 @@ end
 
 desc "Print development version of module"
 task :compute_dev_version do
-  version = ''
-  if File.exists?( 'metadata.json' )
-    require 'json'
-
-    modinfo = JSON.parse(File.read( 'metadata.json' ))
-    version = modinfo['version']
-  elsif File.exists?( 'Modulefile' )
-    modfile = File.read('Modulefile')
-    version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
-  else
-    fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
-  end
-
-  sha = `git rev-parse HEAD`[0..7]
-
-  # If we're in a CI environment include our build number
-  if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
-    new_version = sprintf('%s-%04d-%s', version, build, sha)
-  else
-    new_version = "#{version}-#{sha}"
-  end
-
-  print new_version
+  dev_version = get_versions[1]
+  print dev_version
 end
 
 desc "Runs all necessary checks on a module in preparation for a release"
