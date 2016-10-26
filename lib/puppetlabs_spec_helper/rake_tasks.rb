@@ -39,34 +39,29 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
   t.pattern = 'spec/acceptance'
 end
 
-def get_versions
-  current_version = ''
-  if File.exists?( 'metadata.json' )
-    require 'json'
-
-    modinfo = JSON.parse(File.read( 'metadata.json' ))
-    current_version = modinfo['version']
-  elsif File.exists?( 'Modulefile' )
-    modfile = File.read('Modulefile')
-    current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
-  else
-    fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
-  end
-
-  sha = `git rev-parse HEAD`[0..7]
-
-  # If we're in a CI environment include our build number
-  if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
-    dev_version = sprintf('%s-%04d-%s', current_version, build, sha)
-  else
-    dev_version = "#{current_version}-#{sha}"
-  end
-
-  versions = [current_version, dev_version]
-end
 
 namespace :module_dev do
 
+  def get_versions
+    current_version = ''
+    if File.exists?( 'metadata.json' )
+      require 'json'
+
+      modinfo = JSON.parse(File.read( 'metadata.json' ))
+      current_version = modinfo['version']
+    elsif File.exists?( 'Modulefile' )
+      modfile = File.read('Modulefile')
+      current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+    else
+      fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
+    end
+
+    dev_version = ENV['PKG_VERSION'] || ENV['BUILD_NUMBER']
+
+    msg = "Bumping version from #{current_version} to #{dev_version}"
+
+    return msg, current_version, dev_version
+  end
   desc "Run acceptance tests with system-spec-helper."
   RSpec::Core::RakeTask.new :spec_sys do |t|
     t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
@@ -79,9 +74,8 @@ namespace :module_dev do
   end
 
   desc "Bump module version."
-  task :bump_dev do
-    old_version = get_versions[0]
-    new_version = get_versions[1]
+  task :bump do
+    msg, old_version, new_version = get_versions
 
     if File.exist?( 'metadata.json' )
       require 'json'
@@ -99,7 +93,7 @@ namespace :module_dev do
       File.open('Modulefile', 'w') {|f| f.puts modfile }
     end
 
-    puts "Bumped version from: #{old_version} to #{new_version}"
+    puts msg
   end
 
   desc "Get a module's current version."
@@ -125,14 +119,17 @@ namespace :module_dev do
 
     forge = Blacksmith::Forge.new(pkg_username, pkg_password, pkg_forge)
 
-    puts "Uploading to Puppet Forge #{forge.username}/#{module_name}"
+    puts "Uploading to #{forge.url} #{forge.username}/#{module_name}"
     forge.push!(module_name)
   end
 
   desc "Promote a module to the forge (complete: build,push)."
-  task :promote_dev do
-    Rake::Task["module_dev:bump"]
-    Rake::Task[:build].invoke
+  task :promote do
+    Rake::Task["module_dev:bump"].invoke
+    printf('%-60s', 'Building module')
+
+    puts `puppet module build .`
+    puts '...ok'
     Rake::Task["module_dev:push"].invoke
   end
 end
@@ -572,7 +569,28 @@ end
 
 desc "Print development version of module"
 task :compute_dev_version do
-  dev_version = get_versions[1]
+  current_version = ''
+  if File.exists?( 'metadata.json' )
+    require 'json'
+
+    modinfo = JSON.parse(File.read( 'metadata.json' ))
+    current_version = modinfo['version']
+  elsif File.exists?( 'Modulefile' )
+    modfile = File.read('Modulefile')
+    current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+  else
+    fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
+  end
+
+  sha = `git rev-parse HEAD`[0..7]
+
+  # If we're in a CI environment include our build number
+  if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
+    dev_version = sprintf('%s-%04d-%s', current_version, build, sha)
+  else
+    dev_version = "#{current_version}-#{sha}"
+  end
+
   print dev_version
 end
 
