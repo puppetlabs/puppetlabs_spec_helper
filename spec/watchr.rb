@@ -24,7 +24,7 @@ end
 
 def run_spec_test(file)
   if File.exist? file
-    result = run "rspec --format p --color #{file}"
+    result = run "rspec --format p #{file}"
     growl result.split("\n").last
     puts result
   else
