@@ -292,11 +292,17 @@ task :spec_prep do
     end
     next if File::exists?(target)
 
+    # https://tickets.puppetlabs.com/browse/PUP-4884
+    working_dir = File.expand_path('spec/fixtures/work-dir')
+    working_dir = working_dir.gsub(/\\/, '/')
+    target_dir = File.expand_path('spec/fixtures/modules')
+    target_dir = target_dir.gsub(/\\/, '/')
+
     command = "puppet module install" + ref + flags + \
       " --ignore-dependencies" \
       " --force" \
-      " --module_working_dir spec/fixtures/module-working-dir" \
-      " --target-dir spec/fixtures/modules #{remote}"
+      " --module_working_dir #{working_dir}" \
+      " --target-dir #{target_dir} #{remote}"
 
     unless system(command)
       fail "Failed to install module #{remote} to #{target}"
