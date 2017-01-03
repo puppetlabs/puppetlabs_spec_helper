@@ -292,11 +292,11 @@ task :spec_prep do
     end
     next if File::exists?(target)
 
-    # https://tickets.puppetlabs.com/browse/PUP-4884
+    # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
+    # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
+    # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
     working_dir = File.expand_path('spec/fixtures/work-dir')
-    working_dir = working_dir.gsub(/\\/, '/')
     target_dir = File.expand_path('spec/fixtures/modules')
-    target_dir = target_dir.gsub(/\\/, '/')
 
     command = "puppet module install" + ref + flags + \
       " --ignore-dependencies" \
