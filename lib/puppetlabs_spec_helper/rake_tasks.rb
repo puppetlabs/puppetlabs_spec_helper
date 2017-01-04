@@ -3,6 +3,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'yaml'
+require 'puppet_blacksmith'
 
 # optional gems
 begin
@@ -36,6 +37,101 @@ desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
   t.rspec_opts = ['--color']
   t.pattern = 'spec/acceptance'
+end
+
+
+namespace :module_dev do
+
+  def get_versions
+    current_version = ''
+    if File.exists?( 'metadata.json' )
+      require 'json'
+
+      modinfo = JSON.parse(File.read( 'metadata.json' ))
+      current_version = modinfo['version']
+    elsif File.exists?( 'Modulefile' )
+      modfile = File.read('Modulefile')
+      current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+    else
+      fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
+    end
+
+    dev_version = ENV['PKG_VERSION'] || ENV['BUILD_NUMBER']
+
+    msg = "Bumping version from #{current_version} to #{dev_version}"
+
+    return msg, current_version, dev_version
+  end
+  desc "Run acceptance tests with system-spec-helper."
+  RSpec::Core::RakeTask.new :spec_sys do |t|
+    t.rspec_opts = ['--color','-fd','-r /usr/local/share/qe-helpers/system-spec-helper']
+    t.pattern = 'spec/acceptance/**/**_spec.rb'
+  end
+
+  desc "Run acceptance tests."
+  RSpec::Core::RakeTask.new :spec do
+    `bundle exec rspec --color -f documentation --pattern spec/acceptance/**/**_spec.rb`
+  end
+
+  desc "Bump module version."
+  task :bump do
+    msg, old_version, new_version = get_versions
+
+    if File.exist?( 'metadata.json' )
+      require 'json'
+
+      modinfo = JSON.parse(File.read( 'metadata.json' ))
+      modinfo['version'] = new_version
+
+      File.open('metadata.json', 'w') {|f| f.puts JSON.dump(modinfo) }
+    end
+
+    if File.exist?( 'Modulefile' )
+      modfile = File.read('Modulefile')
+      modfile.gsub!(/\n\s*version[ ]+['"](.*)['"]/, "\nversion '#{new_version}'")
+
+      File.open('Modulefile', 'w') {|f| f.puts modfile }
+    end
+
+    puts msg
+  end
+
+  desc "Get a module's current version."
+  task :current_version do
+    current_version = get_versions[0]
+    puts "Current version is: #{current_version}"
+  end
+
+  desc "Push a module package to the Forge (default: staging)"
+  task :push do
+    module_name = ''
+    if File.exists?('metadata.json')
+      modinfo = JSON.parse(File.read('metadata.json'))
+      module_name = modinfo['name'].split(/[\/-]/)[1]
+    elsif File.exists?( 'Modulefile' )
+      m = Blacksmith::Modulefile.new
+      module_name = m.name
+    end
+
+    pkg_username = ENV['PKG_USERNAME'] || "puppetlabs"
+    pkg_password = ENV['PKG_PASSWORD'] || "1234asdf"
+    pkg_forge = ENV['PKG_FORGE'] || "https://api-module-staging.puppetlabs.com"
+
+    forge = Blacksmith::Forge.new(pkg_username, pkg_password, pkg_forge)
+
+    puts "Uploading to #{forge.url} #{forge.username}/#{module_name}"
+    forge.push!(module_name)
+  end
+
+  desc "Promote a module to the forge (complete: build,push)."
+  task :promote do
+    Rake::Task["module_dev:bump"].invoke
+    printf('%-60s', 'Building module')
+
+    puts `puppet module build .`
+    puts '...ok'
+    Rake::Task["module_dev:push"].invoke
+  end
 end
 
 # This is a helper for the self-symlink entry of fixtures.yml
@@ -479,15 +575,15 @@ end
 
 desc "Print development version of module"
 task :compute_dev_version do
-  version = ''
+  current_version = ''
   if File.exists?( 'metadata.json' )
     require 'json'
 
     modinfo = JSON.parse(File.read( 'metadata.json' ))
-    version = modinfo['version']
+    current_version = modinfo['version']
   elsif File.exists?( 'Modulefile' )
     modfile = File.read('Modulefile')
-    version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
+    current_version = modfile.match(/\nversion[ ]+['"](.*)['"]/)[1]
   else
     fail "Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!"
   end
@@ -496,12 +592,12 @@ task :compute_dev_version do
 
   # If we're in a CI environment include our build number
   if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
-    new_version = sprintf('%s-%04d-%s', version, build, sha)
+    dev_version = sprintf('%s-%04d-%s', current_version, build, sha)
   else
-    new_version = "#{version}-#{sha}"
+    dev_version = "#{current_version}-#{sha}"
   end
 
-  print new_version
+  print dev_version
 end
 
 desc "Runs all necessary checks on a module in preparation for a release"
