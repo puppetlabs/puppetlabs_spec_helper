@@ -15,6 +15,16 @@ task :default => [:help]
 
 pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,types}/**/*_spec.rb'
 
+spec = Gem::Specification.find_by_name 'gettext-setup'
+load "#{spec.gem_dir}/lib/tasks/gettext.rake"
+locales_dir = File.absolute_path('locales', File.dirname(__FILE__))
+# Initialization requires a valid locales directory
+if File.exist? locales_dir
+  GettextSetup.initialize(locales_dir)
+else
+  puts "No 'locales' directory found in #{File.dirname(__FILE__)}, skipping gettext initialization"
+end
+
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   t.rspec_opts = ['--color']
