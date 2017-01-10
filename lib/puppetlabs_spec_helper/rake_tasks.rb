@@ -508,7 +508,7 @@ desc "Runs all necessary checks on a module in preparation for a release"
 task :release_checks do
   Rake::Task[:lint].invoke
   Rake::Task[:validate].invoke
-  Rake::Task[:spec].invoke
+  Rake::Task[:parallel_spec].invoke
   Rake::Task["check:symlinks"].invoke
   Rake::Task["check:test_file"].invoke
   Rake::Task["check:dot_underscore"].invoke
