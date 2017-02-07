@@ -199,6 +199,9 @@ Using Fixtures
 `rake spec_prep` is run. To do so, all required modules should be listed in a
 file named `.fixtures.yml` in the root of the project. You can specify a alternate location for that file in the `FIXTURES_YML` environment variable.
 
+You can use the `MODULE_WORKING_DIR` environment variable to specify a diffent location when installing module fixtures via the forge. By default the
+working directory is `<module directory>/spec/fixtures/work-dir`.
+
 When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use.
 
  * repo - the url to the repo

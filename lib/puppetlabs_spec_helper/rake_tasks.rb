@@ -205,6 +205,13 @@ def logger
   @logger
 end
 
+def module_working_directory
+  # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
+  # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
+  # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
+  File.expand_path(ENV['MODULE_WORKING_DIR'] ? ENV['MODULE_WORKING_DIR'] : 'spec/fixtures/work-dir')
+end
+
 # returns the current thread count that is currently active
 # a status of false or nil means the thread completed
 # so when anything else we count that as a active thread
@@ -302,10 +309,7 @@ task :spec_prep do
     end
     next if File::exists?(target)
 
-    # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
-    # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
-    # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
-    working_dir = File.expand_path('spec/fixtures/work-dir')
+    working_dir = module_working_directory
     target_dir = File.expand_path('spec/fixtures/modules')
 
     command = "puppet module install" + ref + flags + \
@@ -343,7 +347,7 @@ task :spec_clean do
     FileUtils::rm_rf(target)
   end
 
-  FileUtils::rm_rf("spec/fixtures/module-working-dir")
+  FileUtils::rm_rf(module_working_directory)
 
   fixtures("symlinks").each do |source, target|
     FileUtils::rm_f(target)
