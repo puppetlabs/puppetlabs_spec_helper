@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0]
+### Summary:
+This release makes the module working dir configurable, adds features for future puppet features, and updates the spec rake task for TravisCI
+
+### Changed:
+- The `release_tasks` rake task now calls `parallel_spec` instead of `spec`
+
+### Added:
+- Make `module_working_dir` configurable
+- Check `type_aliases` directory for spec tests
+- Locales support for i18n
+
+### Fixed:
+- Ensure /-only used on windows
+
 ## [1.2.2]
 ### Summary:
 
@@ -280,9 +295,10 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...master
-[1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.1...1.2.2
-[1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.0...1.2.1
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.0...master
+[2.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.2...v2.0.0
+[1.2.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.0...v1.2.1
 [1.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.0.1...1.1.0
