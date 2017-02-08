@@ -23,10 +23,10 @@ begin
   if File.exist? locales_dir
     GettextSetup.initialize(locales_dir)
   else
-    puts "No 'locales' directory found in #{File.dirname(__FILE__)}, skipping gettext initialization"
+    puts "No 'locales' directory found in #{File.dirname(__FILE__)}, skipping gettext initialization" if Rake.verbose == true
   end
 rescue Gem::LoadError
-  puts "No gettext-setup gem found, skipping gettext initialization"
+  puts "No gettext-setup gem found, skipping gettext initialization" if Rake.verbose == true
 end
 
 desc "Run spec tests on an existing fixtures directory"
