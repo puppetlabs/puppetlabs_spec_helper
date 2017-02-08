@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.1]
+### Summary:
+Fixes an issue where older puppets don't bring in the gettext gem requirement causing the psh rake tasks to fail.
+
+### Fixed:
+- Don't define gettext rake tasks if gettext library is not present
+
 ## [2.0.0]
 ### Summary:
 This release makes the module working dir configurable, adds features for future puppet features, and updates the spec rake task for TravisCI
@@ -295,7 +302,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.1...master
+[2.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.2...v2.0.0
 [1.2.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.2.0...v1.2.1
