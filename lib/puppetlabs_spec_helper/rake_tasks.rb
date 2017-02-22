@@ -297,7 +297,12 @@ task :spec_prep do
       fail "Cannot symlink on Windows unless using at least Puppet 3.5" if !puppet_symlink_available
       Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
     else
-      File::exists?(target) || FileUtils::ln_sf(source, target)
+      File::exists?(target) || FileUtils::mkdir_p(target)
+      ['manifests','lib','files','templates'].each do |dir|
+        if File.exist? "#{source}/#{dir}"
+          File::exists?("#{target}/#{dir}") || FileUtils::ln_sf("#{source}/#{dir}", "#{target}/#{dir}")
+        end
+      end
     end
   end
 
@@ -354,7 +359,7 @@ task :spec_clean do
   FileUtils::rm_rf(module_working_directory)
 
   fixtures("symlinks").each do |source, target|
-    FileUtils::rm_f(target)
+    FileUtils::rm_rf(target)
   end
 
   if File.zero?("spec/fixtures/manifests/site.pp")
