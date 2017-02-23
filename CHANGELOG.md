@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.2]
+### Summary:
+Fixes an issue where the gettext rake tasks look in the spec\_helper and not the current module for the `locales/` directory.
+
 ## [2.0.1]
 ### Summary:
 Fixes an issue where older puppets don't bring in the gettext gem requirement causing the psh rake tasks to fail.
