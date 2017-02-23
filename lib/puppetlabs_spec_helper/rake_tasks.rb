@@ -18,12 +18,12 @@ pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,type_a
 begin
   spec = Gem::Specification.find_by_name 'gettext-setup'
   load "#{spec.gem_dir}/lib/tasks/gettext.rake"
-  locales_dir = File.absolute_path('locales', File.dirname(__FILE__))
+  locales_dir = File.absolute_path('locales',  Dir.pwd )
   # Initialization requires a valid locales directory
   if File.exist? locales_dir
     GettextSetup.initialize(locales_dir)
   else
-    puts "No 'locales' directory found in #{File.dirname(__FILE__)}, skipping gettext initialization" if Rake.verbose == true
+    puts "No 'locales' directory found in #{ Dir.pwd }, skipping gettext initialization" if Rake.verbose == true
   end
 rescue Gem::LoadError
   puts "No gettext-setup gem found, skipping gettext initialization" if Rake.verbose == true
