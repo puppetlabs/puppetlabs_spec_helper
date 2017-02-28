@@ -305,6 +305,31 @@ Testing Parser Functions
 This whole section is superseded by improved support of accessing the scope in
 rspec-puppet.
 
+
+Modify rspec behavior
+================================
+You can add command line options to rspec using the `CI_SPEC_OPTIONS` environment variable.  Any text in the `CI_SPEC_OPTIONS` environment variable is added as an rspec option.  For example:
+
+If you wanted to output JUnit test reports for a Jenkins CI server you could use;
+
+Bash
+``` bash
+export CI_SPEC_OPTIONS = "-r yarjuf -f JUnit -o result.xml"
+```
+
+PowerShell
+``` bash
+$ENV:CI_SPEC_OPTIONS = '-r yarjuf -f JUnit -o result.xml'
+```
+
+And then run
+```
+bundle exec rake spec
+```
+
+This would cause rspec to load the `yarjuf` gem and output the results in JUnit format to the file `result.xml`
+
+
 Generating code coverage reports
 ================================
 
