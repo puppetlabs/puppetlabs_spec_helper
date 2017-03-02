@@ -167,17 +167,6 @@ and manifest ordering, you would:
 
     FUTURE_PARSER=yes STRICT_VARIABLES=yes ORDERING=manifest rake spec
 
-When executing tests in a matrix CI environment, tests can be split up to run
-a share of specs per CI node in parallel.  Set the ``CI_NODE_TOTAL`` environment
-variable to the total number of nodes, and the ``CI_NODE_INDEX`` to a number
-between 1 and the ``CI_NODE_TOTAL``.
-
-If using Travis CI, add new lines to the "env" section of .travis.yml per node,
-remembering to duplicate any existing environment variables:
-
-    env:
-      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=1
-      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=2
 
 Using Utility Classes
 =====================
@@ -304,6 +293,46 @@ Testing Parser Functions
 
 This whole section is superseded by improved support of accessing the scope in
 rspec-puppet.
+
+
+Modify rspec behavior
+================================
+
+#### Running Rspec with additional settings
+
+You can add command line options to rspec using the `CI_SPEC_OPTIONS` environment variable.  Any text in the `CI_SPEC_OPTIONS` environment variable is added as an rspec option.  For example:
+
+If you wanted to output JUnit test reports for a Jenkins CI server you could use;
+
+Bash
+``` bash
+export CI_SPEC_OPTIONS = "-r yarjuf -f JUnit -o result.xml"
+```
+
+PowerShell
+``` bash
+$ENV:CI_SPEC_OPTIONS = '-r yarjuf -f JUnit -o result.xml'
+```
+
+And then run
+```
+bundle exec rake spec
+```
+
+This would cause rspec to load the `yarjuf` gem and output the results in JUnit format to the file `result.xml`
+
+#### Running specs in parallel
+When executing tests in a matrix CI environment, tests can be split up to run
+a share of specs per CI node in parallel.  Set the ``CI_NODE_TOTAL`` environment
+variable to the total number of nodes, and the ``CI_NODE_INDEX`` to a number
+between 1 and the ``CI_NODE_TOTAL``.
+
+If using Travis CI, add new lines to the "env" section of .travis.yml per node,
+remembering to duplicate any existing environment variables:
+
+    env:
+      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=1
+      - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=2
 
 Generating code coverage reports
 ================================
