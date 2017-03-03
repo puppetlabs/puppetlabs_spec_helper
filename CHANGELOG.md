@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0]
+### Summary:
+Minor version bump for new CI_SPEC_OPTIONS variable and bug fix.
+
+### Added:
+- use CI_SPEC_OPTIONS to pass options to rspec
+
+### Fixed:
+- an issue where gettext:setup tasks were being loaded in the wrong order within a module and causing the POT file to be created in the Puppet gem, not the module.
+
 ## [2.0.2]
 ### Summary:
 Fixes an issue where the gettext rake tasks look in the spec\_helper and not the current module for the `locales/` directory.
