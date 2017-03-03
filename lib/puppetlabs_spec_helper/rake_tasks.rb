@@ -15,19 +15,6 @@ task :default => [:help]
 
 pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,type_aliases,types}/**/*_spec.rb'
 
-begin
-  spec = Gem::Specification.find_by_name 'gettext-setup'
-  load "#{spec.gem_dir}/lib/tasks/gettext.rake"
-  locales_dir = File.absolute_path('locales',  Dir.pwd )
-  # Initialization requires a valid locales directory
-  if File.exist? locales_dir
-    GettextSetup.initialize(locales_dir)
-  else
-    puts "No 'locales' directory found in #{ Dir.pwd }, skipping gettext initialization" if Rake.verbose == true
-  end
-rescue Gem::LoadError
-  puts "No gettext-setup gem found, skipping gettext initialization" if Rake.verbose == true
-end
 
 desc "Run spec tests on an existing fixtures directory"
 RSpec::Core::RakeTask.new(:spec_standalone) do |t|
@@ -591,5 +578,21 @@ rescue LoadError
   desc "rubocop is not available in this installation"
   task :rubocop do
     fail "rubocop is not available in this installation"
+  end
+end
+
+module_dir = Dir.pwd
+locales_dir = File.absolute_path('locales',  module_dir )
+# if the task is allowed to run when the module does not have a locales directory,
+# the task is run in the puppet gem instead and creates a POT there.
+puts "gettext-setup tasks will only be loaded if the locales/ directory is present" if Rake.verbose == true
+if File.exist? locales_dir
+  begin
+    spec = Gem::Specification.find_by_name 'gettext-setup'
+    load "#{spec.gem_dir}/lib/tasks/gettext.rake"
+    # Initialization requires a valid locales directory
+    GettextSetup.initialize(locales_dir)
+  rescue Gem::LoadError
+    puts "No gettext-setup gem found, skipping gettext initialization" if Rake.verbose == true
   end
 end
