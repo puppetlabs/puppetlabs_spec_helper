@@ -371,7 +371,7 @@ task :parallel_spec do
     ParallelTests::CLI.new.run(args)
     Rake::Task[:spec_clean].invoke
   rescue LoadError
-    fail 'Add the parallel_tests gem to Gemfile to enable this task'
+    raise 'Add the parallel_tests gem to Gemfile to enable this task'
   end
 end
 
@@ -515,7 +515,11 @@ desc "Runs all necessary checks on a module in preparation for a release"
 task :release_checks do
   Rake::Task[:lint].invoke
   Rake::Task[:validate].invoke
-  Rake::Task[:parallel_spec].invoke
+  begin
+    Rake::Task[:parallel_spec].invoke
+  rescue RuntimeError
+    Rake::Task[:spec].invoke
+  end
   Rake::Task["check:symlinks"].invoke
   Rake::Task["check:test_file"].invoke
   Rake::Task["check:dot_underscore"].invoke

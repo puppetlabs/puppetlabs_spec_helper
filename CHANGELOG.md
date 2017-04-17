@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.2]
+### Summary:
+The `release_tasks` now falls back to `spec` if the `parallel_spec` test fails due to the `parallel_tests` gem being absent.
+
+### Fixed:
+- Make `release_tasks` fall back to `spec` when missing the `parallel_tests` gem
+
 ## [2.1.1]
 ### Summary:
 Bugfix for an unstated dependency on parallel\_spec that was added in 2.0.0
@@ -323,7 +330,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.1...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.2...master
+[2.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.0...v2.0.1
