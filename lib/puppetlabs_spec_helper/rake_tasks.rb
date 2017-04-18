@@ -407,16 +407,10 @@ beaker_node_sets.each do |set|
   end
 end
 
-desc "Build puppet module package"
+desc 'Build puppet module package'
 task :build do
-  # This will be deprecated once puppet-module is a face.
-  begin
-    Gem::Specification.find_by_name('puppet-module')
-  rescue Gem::LoadError, NoMethodError
-    require 'puppet/face'
-    pmod = Puppet::Face['module', :current]
-    pmod.build('./')
-  end
+  require 'puppet/face'
+  Puppet::Face['module', :current].build('./')
 end
 
 desc "Clean a built module package"
