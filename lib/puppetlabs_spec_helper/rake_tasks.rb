@@ -500,10 +500,18 @@ task :compute_dev_version do
   end
 
   sha = `git rev-parse HEAD`[0..7]
+  branch = `git rev-parse --abbrev-ref HEAD`
 
   # If we're in a CI environment include our build number
+  # If the branch is a release branch we append an 'r' into the new_version,
+  # this is due to the release branch buildID conflicting with master branch when trying to push to the staging forge.
+  # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
   if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
-    new_version = sprintf('%s-%04d-%s', version, build, sha)
+    if branch.eql? "release"
+      new_version = sprintf('%s-%s%04d-%s', version, "r", build, sha)
+    else 
+      new_version = sprintf('%s-%04d-%s', version, build, sha)
+    end
   else
     new_version = "#{version}-#{sha}"
   end
