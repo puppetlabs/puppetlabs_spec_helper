@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.3]
+### Summary:
+This release fixes puppet module install into paths with spaces, and fix conflicting build names for CI jobs.
+
+### Fixed:
+- Properly exscape paths for puppet module install
+- Add "r" to the beginning of `rake compute_dev_version`
+
 ## [2.1.2]
 ### Summary:
 The `release_tasks` now falls back to `spec` if the `parallel_spec` test fails due to the `parallel_tests` gem being absent.
@@ -330,8 +338,9 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.2...master
-[2.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.1...v2.1.2
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.3...master
+[2.1.3]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.2...v2.1.3
+[2.1.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.0...v2.0.1
