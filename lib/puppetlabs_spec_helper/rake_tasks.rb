@@ -308,11 +308,11 @@ task :spec_prep do
     command = "puppet module install" + ref + flags + \
       " --ignore-dependencies" \
       " --force" \
-      " --module_working_dir #{working_dir}" \
-      " --target-dir #{target_dir} #{remote}"
+      " --module_working_dir \"#{working_dir}\"" \
+      " --target-dir \"#{target_dir}\" \"#{remote}\""
 
     unless system(command)
-      fail "Failed to install module #{remote} to #{target}"
+      fail "Failed to install module #{remote} to #{target_dir}"
     end
   end
 
