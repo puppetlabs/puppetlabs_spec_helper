@@ -3,6 +3,7 @@ require 'rake'
 require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'yaml'
+require 'pathname'
 
 # optional gems
 begin
@@ -534,13 +535,28 @@ task :release_checks do
   Rake::Task["check:git_ignore"].invoke
 end
 
+def check_directory_for_symlinks(dir='.')
+  dir = Pathname.new(dir) unless dir.is_a?(Pathname)
+  results = []
+
+  dir.each_child(true) do |child|
+    if child.symlink?
+      results << child
+    elsif child.directory? && child.basename.to_s != '.git'
+      results.concat(check_directory_for_symlinks(child))
+    end
+  end
+
+  results
+end
+
 namespace :check do
   desc "Fails if symlinks are present in directory"
   task :symlinks do
-    symlink = `find . -path ./.git -prune -o -type l -ls`
-    unless symlink == ""
-      puts symlink
-      fail "A symlink exists within this directory"
+    symlinks = check_directory_for_symlinks
+    unless symlinks.empty?
+      symlinks.each { |r| puts "Symlink found: #{r.to_s} => #{r.readlink}" }
+      fail "Symlink(s) exist within this directory"
     end
   end
 
