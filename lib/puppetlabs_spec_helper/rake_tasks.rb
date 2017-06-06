@@ -607,4 +607,11 @@ if File.exist? locales_dir
   rescue Gem::LoadError
     puts "No gettext-setup gem found, skipping gettext initialization" if Rake.verbose == true
   end
+  namespace :module do
+  desc "Runs all tasks to build a modules POT file for internationalization"
+    task :pot_gen do
+      Rake::Task["gettext:pot"].invoke()
+      Rake::Task["gettext:metadata_pot"].invoke("#{module_dir}/metadata.json")
+    end
+  end
 end
