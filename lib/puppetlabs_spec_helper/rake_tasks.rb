@@ -241,11 +241,12 @@ task :spec_prep do
   # Ruby only sets File::ALT_SEPARATOR on Windows and Rubys standard library
   # uses this to check for Windows
   is_windows = !!File::ALT_SEPARATOR
-  puppet_symlink_available = false
-  begin
-    require 'puppet'
-    puppet_symlink_available = Puppet::FileSystem.respond_to?(:symlink)
-  rescue
+  if is_windows
+    begin
+      require 'win32/dir'
+    rescue LoadError
+      $stderr.puts "win32-dir gem not installed, falling back to executing mklink directly"
+    end
   end
 
   # git has a race condition creating that directory, that would lead to aborted clone operations
@@ -283,11 +284,16 @@ task :spec_prep do
   repositories.each {|remote, opts| opts[:thread].join }
 
   fixtures("symlinks").each do |source, target|
-    if is_windows
-      fail "Cannot symlink on Windows unless using at least Puppet 3.5" if !puppet_symlink_available
-      Puppet::FileSystem::exist?(target) || Puppet::FileSystem::symlink(source, target)
+    unless File.symlink(target)
+      if is_windows
+        if Dir.respond_to?(:create_junction)
+          Dir.create_junction(target, source)
+        else
+          system("call mklink /J \"#{target.gsub('/', '\\')}\" \"#{source.gsub('/', '\\')}\"")
+        end
+      end
     else
-      File::exists?(target) || FileUtils::ln_sf(source, target)
+      FileUtils::ln_sf(source, target)
     end
   end
 
