@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.4]
+### Summary:
+Better Windows support.
+
+### Fixed:
+- Create directory junctions instead of symlinks on windows (#192)
+- Replace check:symlinks with platform independent alternative (#193)
+
 ## [2.1.3]
 ### Summary:
 This release fixes puppet module install into paths with spaces, and fix conflicting build names for CI jobs.
