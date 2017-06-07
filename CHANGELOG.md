@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.5]
+### Summary:
+Fix symlinks fixtures code.
+
 ## [2.1.4]
 ### Summary:
 Better Windows support.
@@ -346,7 +350,9 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.3...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.5...master
+[2.1.5]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.4...v2.1.5
+[2.1.4]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.0...v2.1.1

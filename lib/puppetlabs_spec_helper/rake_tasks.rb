@@ -283,17 +283,18 @@ task :spec_prep do
   # wait for all the threads to finish
   repositories.each {|remote, opts| opts[:thread].join }
 
-  fixtures("symlinks").each do |source, target|
-    unless File.symlink(target)
+  fixtures("symlinks").each do |target, link|
+    unless File.symlink?(link)
+      logger.info("Creating symlink from #{link} to #{target}")
       if is_windows
         if Dir.respond_to?(:create_junction)
-          Dir.create_junction(target, source)
+          Dir.create_junction(link, target)
         else
-          system("call mklink /J \"#{target.gsub('/', '\\')}\" \"#{source.gsub('/', '\\')}\"")
+          system("call mklink /J \"#{link.gsub('/', '\\')}\" \"#{target.gsub('/', '\\')}\"")
         end
+      else
+        FileUtils::ln_sf(target, link)
       end
-    else
-      FileUtils::ln_sf(source, target)
     end
   end
 
