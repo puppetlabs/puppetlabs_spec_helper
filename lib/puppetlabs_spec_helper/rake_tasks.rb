@@ -95,7 +95,7 @@ def vagrant_ssh(set, node = nil)
 end
 
 def auto_symlink
-  { Dir.pwd.split('/').last.split('-').last => '#{source_dir}' }
+  { File.basename(Dir.pwd).split('-').last => '#{source_dir}' }
 end
 
 def fixtures(category)
