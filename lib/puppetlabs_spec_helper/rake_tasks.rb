@@ -193,7 +193,7 @@ def logger
      else
        level = Logger::INFO
     end
-    @logger = Logger.new(STDOUT)
+    @logger = Logger.new(STDERR)
     @logger.level = level
   end
   @logger
