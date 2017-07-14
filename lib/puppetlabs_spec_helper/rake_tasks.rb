@@ -372,8 +372,9 @@ task :parallel_spec do
   begin
     require 'parallel_tests'
 
-    args = ['-t', 'rspec'].
-      concat(Rake::FileList[pattern].to_a)
+    args = ['-t', 'rspec']
+    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil?
+    args.concat(Rake::FileList[pattern].to_a)
 
     Rake::Task[:spec_prep].invoke
     ParallelTests::CLI.new.run(args)
