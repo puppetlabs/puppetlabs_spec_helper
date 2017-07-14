@@ -373,7 +373,7 @@ task :parallel_spec do
     require 'parallel_tests'
 
     args = ['-t', 'rspec']
-    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil?
+    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
     args.concat(Rake::FileList[pattern].to_a)
 
     Rake::Task[:spec_prep].invoke
