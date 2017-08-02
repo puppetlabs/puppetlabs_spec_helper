@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.1]
+### Summary
+Adds a `spec_list_json` rake task
+
+### Added
+- `spec_list_json` rake task to output a module's spec tests as a JSON document 
+
 ## [2.3.0]
 ### Added
 - `CI_SPEC_OPTIONS` environment variable for `parallel_spec` rake task
@@ -369,6 +376,7 @@ compatible yet.
  * Initial release
 
 [unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...master
+[2.3.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.5...v2.2.0
 [2.1.5]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.4...v2.1.5
