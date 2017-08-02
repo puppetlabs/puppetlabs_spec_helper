@@ -36,6 +36,12 @@ RSpec::Core::RakeTask.new(:spec_standalone) do |t|
   end
 end
 
+desc "List spec tests in a JSON document"
+RSpec::Core::RakeTask.new(:spec_list_json) do |t|
+  t.rspec_opts = ['--dry-run', '--format', 'json']
+  t.pattern = pattern
+end
+
 desc "Run beaker acceptance tests"
 RSpec::Core::RakeTask.new(:beaker) do |t|
   t.rspec_opts = ['--color']
