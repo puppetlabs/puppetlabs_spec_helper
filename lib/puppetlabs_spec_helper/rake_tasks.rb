@@ -369,9 +369,12 @@ end
 
 desc "Run spec tests and clean the fixtures directory if successful"
 task :spec do
-  Rake::Task[:spec_prep].invoke
-  Rake::Task[:spec_standalone].invoke
-  Rake::Task[:spec_clean].invoke
+  begin
+    Rake::Task[:spec_prep].invoke
+    Rake::Task[:spec_standalone].invoke
+  ensure
+    Rake::Task[:spec_clean].invoke
+  end
 end
 
 desc "Parallel spec tests"
@@ -385,9 +388,10 @@ task :parallel_spec do
 
     Rake::Task[:spec_prep].invoke
     ParallelTests::CLI.new.run(args)
-    Rake::Task[:spec_clean].invoke
   rescue LoadError
     raise 'Add the parallel_tests gem to Gemfile to enable this task'
+  ensure
+    Rake::Task[:spec_clean].invoke
   end
 end
 
