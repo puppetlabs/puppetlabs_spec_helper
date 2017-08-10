@@ -293,6 +293,7 @@ task :spec_prep do
     unless File.symlink?(link)
       logger.info("Creating symlink from #{link} to #{target}")
       if is_windows
+        target = File.join(File.dirname(link), target) unless Pathname.new(target).absolute?
         if Dir.respond_to?(:create_junction)
           Dir.create_junction(link, target)
         else
