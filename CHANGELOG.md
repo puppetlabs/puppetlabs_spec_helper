@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.2]
+### Summary
+Cleanups and fixes around fixture handling.
+
+### Fixed
+- Do not error when no fixtures file is found or specified.
+- Clean up fixtures, even if tests fail. Especially on Windows this is important to not keep lingering symlinks around.
+- Fix creating of directory junctions (symlinks) on Windows for fixtures.
+
+
 ## [2.3.1]
 ### Summary
 Adds a `spec_list_json` rake task
@@ -375,7 +385,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...master
+[2.3.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.1...v2.3.2
 [2.3.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.5...v2.2.0
