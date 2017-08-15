@@ -171,7 +171,7 @@ def revision(scm, target, ref)
   args = []
   case scm
   when 'hg'
-    args.push('update', 'clean', '-r', ref)
+    args.push('update', '--clean', '-r', ref)
   when 'git'
     args.push('reset', '--hard', ref)
   else
