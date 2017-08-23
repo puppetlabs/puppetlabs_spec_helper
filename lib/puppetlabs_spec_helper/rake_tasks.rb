@@ -66,6 +66,23 @@ def repositories
   @repositories
 end
 
+def puppetfile
+  unless @puppetfile
+    @puppetfile = fixtures('puppetfile')
+    return nil if @puppetfile.empty?
+    require 'r10k/action/puppetfile/install'
+
+    opts = {
+      root: './spec/fixtures',
+      moduledir: './spec/fixtures/modules',
+      puppetfile: @puppetfile
+    }
+
+    @puppetfile = R10K::Action::Puppetfile::Install.new(opts, [])
+  end
+  @puppetfile
+end
+
 # get the array of Beaker set names
 # @return [Array<String>]
 def beaker_node_sets
@@ -127,6 +144,7 @@ def fixtures(category)
 
   result = {}
   if fixtures.include? category and fixtures[category] != nil
+    return fixtures[category] if category == 'puppetfile'
     fixtures[category].each do |fixture, opts|
       if opts.instance_of?(String)
         source = opts
@@ -257,6 +275,8 @@ task :spec_prep do
 
   # git has a race condition creating that directory, that would lead to aborted clone operations
   FileUtils::mkdir_p("spec/fixtures/modules")
+
+  puppetfile.call if puppetfile
 
   repositories.each do |remote, opts|
     scm = 'git'
@@ -529,7 +549,7 @@ task :compute_dev_version do
   if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
     if branch.eql? "release"
       new_version = sprintf('%s-%s%04d-%s', version, "r", build, sha)
-    else 
+    else
       new_version = sprintf('%s-%04d-%s', version, build, sha)
     end
   else
