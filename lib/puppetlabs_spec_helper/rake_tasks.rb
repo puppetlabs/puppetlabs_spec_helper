@@ -148,7 +148,7 @@ def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil
   case scm
   when 'hg'
     args.push('clone')
-    args.push('-u', ref) if ref
+    args.push('-b', branch) if branch
     args.push(flags) if flags
     args.push(remote, target)
   when 'git'
@@ -529,7 +529,7 @@ task :compute_dev_version do
   if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
     if branch.eql? "release"
       new_version = sprintf('%s-%s%04d-%s', version, "r", build, sha)
-    else 
+    else
       new_version = sprintf('%s-%04d-%s', version, build, sha)
     end
   else
