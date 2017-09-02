@@ -240,6 +240,18 @@ fixtures:
     stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
 ```
 
+Put a supplementary repository at a different location
+
+```yaml
+fixtures:
+  repositories:
+    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
+    control_repo:
+      repo: "https://github.com/puppetlabs/control-repo"
+      target: "spec/fixtures/control_repos"
+```
+
 Specify that the git tag `2.4.2` of `stdlib' should be checked out:
 
 ```yaml
