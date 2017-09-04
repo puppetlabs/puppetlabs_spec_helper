@@ -134,9 +134,18 @@ def fixtures(category)
         real_source = eval('"'+source+'"')
         result[real_source] = target
       elsif opts.instance_of?(Hash)
-        target = "spec/fixtures/modules/#{fixture}"
+
+        if opts["target"]
+          real_target = eval('"'+opts["target"]+'"')
+        end
+
+        unless real_target
+          real_target = "spec/fixtures/modules"
+        end
+
         real_source = eval('"'+opts["repo"]+'"')
-        result[real_source] = { "target" => target, "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
+
+        result[real_source] = { "target" => File.join(real_target,fixture), "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
       end
     end
   end
