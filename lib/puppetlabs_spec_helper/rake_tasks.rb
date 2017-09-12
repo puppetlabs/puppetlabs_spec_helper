@@ -389,7 +389,10 @@ end
 desc "Parallel spec tests"
 task :parallel_spec do
   begin
-    require 'parallel_tests'
+    begin
+      require 'parallel_tests'
+    rescue LoadError
+      raise 'Add the parallel_tests gem to Gemfile to enable this task'
 
     args = ['-t', 'rspec']
     args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
@@ -397,8 +400,6 @@ task :parallel_spec do
 
     Rake::Task[:spec_prep].invoke
     ParallelTests::CLI.new.run(args)
-  rescue LoadError
-    raise 'Add the parallel_tests gem to Gemfile to enable this task'
   ensure
     Rake::Task[:spec_clean].invoke
   end
