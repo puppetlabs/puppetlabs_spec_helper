@@ -12,6 +12,15 @@ rescue LoadError
   # ignore
 end
 
+parallel_tests_loaded = false
+begin
+  require 'parallel_tests'
+  parallel_tests_loaded = true
+rescue LoadError
+  # ignore
+end
+
+
 task :default => [:help]
 
 pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,type_aliases,types}/**/*_spec.rb'
@@ -388,17 +397,14 @@ end
 
 desc "Parallel spec tests"
 task :parallel_spec do
+  raise 'Add the parallel_tests gem to Gemfile to enable this task' unless parallel_tests_loaded
   begin
-    require 'parallel_tests'
-
     args = ['-t', 'rspec']
     args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
     args.concat(Rake::FileList[pattern].to_a)
 
     Rake::Task[:spec_prep].invoke
     ParallelTests::CLI.new.run(args)
-  rescue LoadError
-    raise 'Add the parallel_tests gem to Gemfile to enable this task'
   ensure
     Rake::Task[:spec_clean].invoke
   end
@@ -552,9 +558,9 @@ desc "Runs all necessary checks on a module in preparation for a release"
 task :release_checks do
   Rake::Task[:lint].invoke
   Rake::Task[:validate].invoke
-  begin
+  if parallel_tests_loaded
     Rake::Task[:parallel_spec].invoke
-  rescue RuntimeError
+  else
     Rake::Task[:spec].invoke
   end
   Rake::Task["check:symlinks"].invoke
