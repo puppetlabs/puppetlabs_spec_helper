@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0]
+### Summary
+Fix mercurial stuff, allow fixtures other than spec/fixtures/modules/, and allow running specific tags for beaker tests.
+
+### Added
+- Ability to check out branches in mercurial
+- Ability to target alternative locations to clone fixtures
+- `TEST_TIERS` environment variable for beaker rake task
+
+### Fixed
+- mercurial cleanup command
+- handle parallel spec load failure better
+
 ## [2.3.2]
 ### Summary
 Cleanups and fixes around fixture handling.
@@ -385,7 +398,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...master
+[2.4.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...v2.4.0
 [2.3.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.1...v2.3.2
 [2.3.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.2.0...v2.3.0
