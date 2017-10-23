@@ -61,8 +61,9 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
     test_tiers = ENV['TEST_TIERS'].split(',')
     raise 'TEST_TIERS env variable must have at least 1 tier specified. low, medium or high (comma separated).' if test_tiers.count == 0
     test_tiers.each do |tier|
-      raise "#{tier} not a valid test tier." unless %w(low medium high).include?(tier)
-      tiers += "tier_#{tier},"
+      tier_to_add = tier.strip
+      raise "#{tier_to_add} not a valid test tier." unless %w(low medium high).include?(tier_to_add)
+      tiers += "tier_#{tier_to_add},"
     end
     tiers = tiers.chomp(',')
     t.rspec_opts.push(tiers)
