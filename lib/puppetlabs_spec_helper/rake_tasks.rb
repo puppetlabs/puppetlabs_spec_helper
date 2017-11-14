@@ -25,23 +25,26 @@ task :default => [:help]
 
 pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,type_aliases,types}/**/*_spec.rb'
 
-
-desc "Run spec tests on an existing fixtures directory"
-RSpec::Core::RakeTask.new(:spec_standalone) do |t|
+RSpec::Core::RakeTask.new(:spec_standalone) do |t, args|
   t.rspec_opts = ['--color']
-
   t.rspec_opts << ENV['CI_SPEC_OPTIONS'] unless ENV['CI_SPEC_OPTIONS'].nil?
-
   if ENV['CI_NODE_TOTAL'] && ENV['CI_NODE_INDEX']
     ci_total = ENV['CI_NODE_TOTAL'].to_i
     ci_index = ENV['CI_NODE_INDEX'].to_i
     raise "CI_NODE_INDEX must be between 1-#{ci_total}" unless ci_index >= 1 && ci_index <= ci_total
-
     files = Rake::FileList[pattern].to_a
     per_node = (files.size / ci_total.to_f).ceil
-    t.pattern = files.each_slice(per_node).to_a[ci_index - 1] || files.first
+    t.pattern = if args.extras.nil? || args.extras.empty?
+                  files.each_slice(per_node).to_a[ci_index - 1] || files.first
+                else
+                  args.extras.join(",")
+                end
   else
-    t.pattern = pattern
+    if args.extras.nil? || args.extras.empty?
+      t.pattern = pattern
+    else
+      t.pattern = args.extras.join(",")
+    end
   end
 end
 
@@ -401,10 +404,10 @@ task :spec_clean do
 end
 
 desc "Run spec tests and clean the fixtures directory if successful"
-task :spec do
+task :spec do |t, args|
   begin
     Rake::Task[:spec_prep].invoke
-    Rake::Task[:spec_standalone].invoke
+    Rake::Task[:spec_standalone].invoke(*args.extras)
   ensure
     Rake::Task[:spec_clean].invoke
   end
