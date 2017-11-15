@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.0]
+### Summary
+Adds a feature to pass test file targets from 'rake spec' to 'rspec', also fixes a parsing issue with test\_tiers.
+
+### Added
+- Allows passing test file targets through to 'rspec' from 'rake spec'.
+
+### Fixed
+- Trim whitespace from test\_tiers before parsing.
+
 ## [2.4.0]
 ### Summary
 Fix mercurial stuff, allow fixtures other than spec/fixtures/modules/, and allow running specific tags for beaker tests.
@@ -398,7 +408,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.0...master
+[2.5.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...v2.4.0
 [2.3.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.1...v2.3.2
 [2.3.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.0...v2.3.1
