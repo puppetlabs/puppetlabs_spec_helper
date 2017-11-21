@@ -416,15 +416,19 @@ end
 desc "Parallel spec tests"
 task :parallel_spec do
   raise 'Add the parallel_tests gem to Gemfile to enable this task' unless parallel_tests_loaded
-  begin
-    args = ['-t', 'rspec']
-    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
-    args.concat(Rake::FileList[pattern].to_a)
+  if Rake::FileList[pattern].to_a.empty?
+    warn "No files for parallel_spec to run against"
+  else
+    begin
+      args = ['-t', 'rspec']
+      args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
+      args.concat(Rake::FileList[pattern].to_a)
 
-    Rake::Task[:spec_prep].invoke
-    ParallelTests::CLI.new.run(args)
-  ensure
-    Rake::Task[:spec_clean].invoke
+      Rake::Task[:spec_prep].invoke
+      ParallelTests::CLI.new.run(args)
+    ensure
+      Rake::Task[:spec_clean].invoke
+    end
   end
 end
 
