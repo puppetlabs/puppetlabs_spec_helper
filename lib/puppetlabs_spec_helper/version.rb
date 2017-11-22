@@ -1,5 +1,5 @@
 module PuppetlabsSpecHelper
-  VERSION = "2.5.0"
+  VERSION = "2.5.1"
 
   # compat for pre-1.2.0 users; deprecated
   module Version
