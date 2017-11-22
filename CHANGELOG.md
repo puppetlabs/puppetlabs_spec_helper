@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.1]
+### Summary
+Adds a fix to the parallel_spec rake task.
+
+### Fixed
+- In parallel_spec, warn when there are no files to test against rather than fail.
+
 ## [2.5.0]
 ### Summary
 Adds a feature to pass test file targets from 'rake spec' to 'rspec', also fixes a parsing issue with test\_tiers.
@@ -408,7 +415,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...master
+[2.5.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...v2.4.0
 [2.3.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.1...v2.3.2
