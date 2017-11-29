@@ -80,15 +80,10 @@ def source_dir
   Dir.pwd
 end
 
-# cache the repositories and retruns and hash object
+# cache the repositories and return a hash object
 def repositories
   unless @repositories
     @repositories = fixtures('repositories')
-    @repositories.each do |remote, opts|
-      if opts.instance_of?(String)
-        @repositories[remote] = {"target" => opts} # inject a hash
-      end
-    end
   end
   @repositories
 end
@@ -141,12 +136,20 @@ def fixtures(category)
   end
 
   begin
-    fixtures = (YAML.load_file(ENV['FIXTURES_YML'] || fixtures_yaml) || { fixtures: {} })["fixtures"]
+    fixtures = (YAML.load_file(ENV['FIXTURES_YML'] || fixtures_yaml) || { fixtures: {} })
   rescue Errno::ENOENT
     fixtures = {}
   rescue Psych::SyntaxError => e
     abort("Found malformed YAML in #{fixtures_yaml} on line #{e.line} column #{e.column}: #{e.problem}")
   end
+
+  if fixtures.include? 'defaults'
+    fixture_defaults = fixtures['defaults']
+  else
+    fixture_defaults = {}
+  end
+
+  fixtures = fixtures['fixtures']
 
   if fixtures['symlinks'].nil?
     fixtures['symlinks'] = auto_symlink
@@ -154,22 +157,28 @@ def fixtures(category)
 
   result = {}
   if fixtures.include? category and fixtures[category] != nil
+
+    defaults = { "target" => "spec/fixtures/modules" }
+
+    # load defaults from the `.fixtures.yml` `defaults` section
+    # for the requested category and merge them into my defaults
+    if fixture_defaults.include? category
+      defaults = defaults.merge(fixture_defaults[category])
+    end
+
     fixtures[category].each do |fixture, opts|
+      # convert a simple string fixture to a hash, by
+      # using the string fixture as the `repo` option of the hash.
       if opts.instance_of?(String)
-        source = opts
-        target = "spec/fixtures/modules/#{fixture}"
-        real_source = eval('"'+source+'"')
-        result[real_source] = target
-      elsif opts.instance_of?(Hash)
+        opts = { "repo" => opts }
+      end
+      # there should be a warning or something if it's not a hash...
+      if opts.instance_of?(Hash)
+        # merge our options into the defaults to get the
+        # final option list
+        opts = defaults.merge(opts)
 
-        if opts["target"]
-          real_target = eval('"'+opts["target"]+'"')
-        end
-
-        unless real_target
-          real_target = "spec/fixtures/modules"
-        end
-
+        real_target = eval('"'+opts["target"]+'"')
         real_source = eval('"'+opts["repo"]+'"')
 
         result[real_source] = { "target" => File.join(real_target,fixture), "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
@@ -326,6 +335,7 @@ task :spec_prep do
   repositories.each {|remote, opts| opts[:thread].join }
 
   fixtures("symlinks").each do |target, link|
+    link = link['target']
     unless File.symlink?(link)
       logger.info("Creating symlink from #{link} to #{target}")
       if is_windows
@@ -374,26 +384,19 @@ end
 desc "Clean up the fixtures directory"
 task :spec_clean do
   fixtures("repositories").each do |remote, opts|
-    if opts.instance_of?(String)
-      target = opts
-    elsif opts.instance_of?(Hash)
-      target = opts["target"]
-    end
+    target = opts["target"]
     FileUtils::rm_rf(target)
   end
 
   fixtures("forge_modules").each do |remote, opts|
-    if opts.instance_of?(String)
-      target = opts
-    elsif opts.instance_of?(Hash)
-      target = opts["target"]
-    end
+    target = opts["target"]
     FileUtils::rm_rf(target)
   end
 
   FileUtils::rm_rf(module_working_directory)
 
-  fixtures("symlinks").each do |source, target|
+  fixtures("symlinks").each do |source, opts|
+    target = opts["target"]
     FileUtils::rm_f(target)
   end
 
