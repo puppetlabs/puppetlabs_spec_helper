@@ -149,7 +149,7 @@ def fixtures(category)
     fixture_defaults = {}
   end
 
-  fixtures = fixtures['fixtures']
+  fixtures = fixtures['fixtures'] || {}
 
   if fixtures['symlinks'].nil?
     fixtures['symlinks'] = auto_symlink
