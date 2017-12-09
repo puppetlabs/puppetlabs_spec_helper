@@ -127,29 +127,33 @@ def auto_symlink
 end
 
 def fixtures(category)
-  if File.exists?('.fixtures.yml')
-    fixtures_yaml = '.fixtures.yml'
-  elsif File.exists?('.fixtures.yaml')
-    fixtures_yaml = '.fixtures.yaml'
+  if ENV['FIXTURES_YML']
+    fixtures_yaml = ENV['FIXTURES_YML']
   else
-    fixtures_yaml = ''
+    if File.exists?('.fixtures.yml')
+      fixtures_yaml = '.fixtures.yml'
+    elsif File.exists?('.fixtures.yaml')
+      fixtures_yaml = '.fixtures.yaml'
+    else
+      fixtures_yaml = ''
+    end
   end
 
   begin
-    fixtures = (YAML.load_file(ENV['FIXTURES_YML'] || fixtures_yaml) || { fixtures: {} })
+    fixtures_file = YAML.load_file(fixtures_yaml) || {}
   rescue Errno::ENOENT
-    fixtures = {}
+    fixtures_file = {}
   rescue Psych::SyntaxError => e
     abort("Found malformed YAML in #{fixtures_yaml} on line #{e.line} column #{e.column}: #{e.problem}")
   end
 
-  if fixtures.include? 'defaults'
-    fixture_defaults = fixtures['defaults']
+  if fixtures_file.include? 'defaults'
+    fixture_defaults = fixtures_file['defaults']
   else
     fixture_defaults = {}
   end
 
-  fixtures = fixtures['fixtures']
+  fixtures = fixtures_file['fixtures'] || {}
 
   if fixtures['symlinks'].nil?
     fixtures['symlinks'] = auto_symlink
