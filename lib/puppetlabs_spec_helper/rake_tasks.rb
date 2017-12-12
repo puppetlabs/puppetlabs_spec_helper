@@ -4,6 +4,7 @@ require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'yaml'
 require 'pathname'
+require 'puppetlabs_spec_helper/version'
 
 # optional gems
 begin
@@ -75,217 +76,246 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
   end
 end
 
-# This is a helper for the self-symlink entry of fixtures.yml
-def source_dir
-  Dir.pwd
-end
-
-# cache the repositories and return a hash object
-def repositories
-  unless @repositories
-    @repositories = fixtures('repositories')
-  end
-  @repositories
-end
-
-# get the array of Beaker set names
-# @return [Array<String>]
-def beaker_node_sets
-  return @beaker_nodes if @beaker_nodes
-  @beaker_nodes = Dir['spec/acceptance/nodesets/*.yml'].sort.map do |node_set|
-    node_set.slice!('.yml')
-    File.basename(node_set)
-  end
-end
-
-# Use "vagrant ssh" to login to the given node in the node set
-# @param set [String] The name of the node set (yml file)
-# @param node [String] The name of the node in the set. For multi-node sets.
-def vagrant_ssh(set, node = nil)
-  vagrant_yml_dir = File.join '.vagrant', 'beaker_vagrant_files', "#{set}.yml"
-  vagrant_file = File.join vagrant_yml_dir, 'Vagrantfile'
-  unless File.file? vagrant_file
-    puts "There is no Vagrantfile at: '#{vagrant_file}'. Perhaps, the node is not created or is destroyed."
-    exit 1
-  end
-  Dir.chdir(vagrant_yml_dir) do
-    command = 'vagrant ssh'
-    command += " #{node}" if node
-    # Vagrant is not distributed as a normal gem
-    # and we should protect it from the current Ruby environment
-    env = {
-        'RUBYLIB' => nil,
-        'GEM_PATH' => nil,
-        'BUNDLE_BIN_PATH' => nil,
-    }
-    system env, command
-  end
-end
-
-def auto_symlink
-  { File.basename(Dir.pwd).split('-').last => '#{source_dir}' }
-end
-
-def fixtures(category)
-  if File.exists?('.fixtures.yml')
-    fixtures_yaml = '.fixtures.yml'
-  elsif File.exists?('.fixtures.yaml')
-    fixtures_yaml = '.fixtures.yaml'
-  else
-    fixtures_yaml = ''
+module PuppetlabsSpecHelper::RakeTasks
+  # This is a helper for the self-symlink entry of fixtures.yml
+  def source_dir
+    Dir.pwd
   end
 
-  begin
-    fixtures = (YAML.load_file(ENV['FIXTURES_YML'] || fixtures_yaml) || { fixtures: {} })
-  rescue Errno::ENOENT
-    fixtures = {}
-  rescue Psych::SyntaxError => e
-    abort("Found malformed YAML in #{fixtures_yaml} on line #{e.line} column #{e.column}: #{e.problem}")
-  end
-
-  if fixtures.include? 'defaults'
-    fixture_defaults = fixtures['defaults']
-  else
-    fixture_defaults = {}
-  end
-
-  fixtures = fixtures['fixtures']
-
-  if fixtures['symlinks'].nil?
-    fixtures['symlinks'] = auto_symlink
-  end
-
-  result = {}
-  if fixtures.include? category and fixtures[category] != nil
-
-    defaults = { "target" => "spec/fixtures/modules" }
-
-    # load defaults from the `.fixtures.yml` `defaults` section
-    # for the requested category and merge them into my defaults
-    if fixture_defaults.include? category
-      defaults = defaults.merge(fixture_defaults[category])
+  # cache the repositories and return a hash object
+  def repositories
+    unless @repositories
+      @repositories = fixtures('repositories')
     end
+    @repositories
+  end
 
-    fixtures[category].each do |fixture, opts|
-      # convert a simple string fixture to a hash, by
-      # using the string fixture as the `repo` option of the hash.
-      if opts.instance_of?(String)
-        opts = { "repo" => opts }
-      end
-      # there should be a warning or something if it's not a hash...
-      if opts.instance_of?(Hash)
-        # merge our options into the defaults to get the
-        # final option list
-        opts = defaults.merge(opts)
-
-        real_target = eval('"'+opts["target"]+'"')
-        real_source = eval('"'+opts["repo"]+'"')
-
-        result[real_source] = { "target" => File.join(real_target,fixture), "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
-      end
+  # get the array of Beaker set names
+  # @return [Array<String>]
+  def beaker_node_sets
+    return @beaker_nodes if @beaker_nodes
+    @beaker_nodes = Dir['spec/acceptance/nodesets/*.yml'].sort.map do |node_set|
+      node_set.slice!('.yml')
+      File.basename(node_set)
     end
   end
-  return result
-end
 
-def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil)
-  args = []
-  case scm
-  when 'hg'
-    args.push('clone')
-    args.push('-b', branch) if branch
-    args.push(flags) if flags
-    args.push(remote, target)
-  when 'git'
-    args.push('clone')
-    args.push('--depth 1') unless ref
-    args.push('-b', branch) if branch
-    args.push(flags) if flags
-    args.push(remote, target)
-  else
-    fail "Unfortunately #{scm} is not supported yet"
-  end
-  result = system("#{scm} #{args.flatten.join ' '}")
-  unless File::exists?(target)
-    fail "Failed to clone #{scm} repository #{remote} into #{target}"
-  end
-  result
-end
-
-def revision(scm, target, ref)
-  args = []
-  case scm
-  when 'hg'
-    args.push('update', '--clean', '-r', ref)
-  when 'git'
-    args.push('reset', '--hard', ref)
-  else
-    fail "Unfortunately #{scm} is not supported yet"
-  end
-  system("cd #{target} && #{scm} #{args.flatten.join ' '}")
-end
-
-def remove_subdirectory(target, subdir)
-  unless subdir.nil?
-    Dir.mktmpdir {|tmpdir|
-       FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
-       FileUtils.rm_rf("#{target}/#{subdir}")
-       FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
-    }
-  end
-end
-
-# creates a logger so we can log events with certain levels
-def logger
-  unless @logger
-    require 'logger'
-    if ENV['ENABLE_LOGGER']
-       level = Logger::DEBUG
-     else
-       level = Logger::INFO
+  # Use "vagrant ssh" to login to the given node in the node set
+  # @param set [String] The name of the node set (yml file)
+  # @param node [String] The name of the node in the set. For multi-node sets.
+  def vagrant_ssh(set, node = nil)
+    vagrant_yml_dir = File.join '.vagrant', 'beaker_vagrant_files', "#{set}.yml"
+    vagrant_file = File.join vagrant_yml_dir, 'Vagrantfile'
+    unless File.file? vagrant_file
+      puts "There is no Vagrantfile at: '#{vagrant_file}'. Perhaps, the node is not created or is destroyed."
+      exit 1
     end
-    @logger = Logger.new(STDERR)
-    @logger.level = level
+    Dir.chdir(vagrant_yml_dir) do
+      command = 'vagrant ssh'
+      command += " #{node}" if node
+      # Vagrant is not distributed as a normal gem
+      # and we should protect it from the current Ruby environment
+      env = {
+          'RUBYLIB' => nil,
+          'GEM_PATH' => nil,
+          'BUNDLE_BIN_PATH' => nil,
+      }
+      system env, command
+    end
   end
-  @logger
-end
 
-def module_working_directory
-  # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
-  # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
-  # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
-  File.expand_path(ENV['MODULE_WORKING_DIR'] ? ENV['MODULE_WORKING_DIR'] : 'spec/fixtures/work-dir')
-end
+  def auto_symlink
+    { File.basename(Dir.pwd).split('-').last => '#{source_dir}' }
+  end
 
-# returns the current thread count that is currently active
-# a status of false or nil means the thread completed
-# so when anything else we count that as a active thread
-def current_thread_count(items)
-  active_threads = items.find_all do |item, opts|
-    if opts[:thread]
-      opts[:thread].status
+  def fixtures(category)
+    if ENV['FIXTURES_YML']
+      fixtures_yaml = ENV['FIXTURES_YML']
+    elsif File.exists?('.fixtures.yml')
+      fixtures_yaml = '.fixtures.yml'
+    elsif File.exists?('.fixtures.yaml')
+      fixtures_yaml = '.fixtures.yaml'
     else
-      false
+      fixtures_yaml = false
     end
-  end
-  logger.debug "Current thread count #{active_threads.count}"
-  active_threads.count
-end
 
-# returns the max_thread_count
-# because we may want to limit ssh or https connections
-def max_thread_limit
-  unless @max_thread_limit
-    # the default thread count is 10 but can be
-    # raised by using environment variable MAX_FIXTURE_THREAD_COUNT
-    if ENV['MAX_FIXTURE_THREAD_COUNT'].to_i > 0
-      @max_thread_limit = ENV['MAX_FIXTURE_THREAD_COUNT'].to_i
+    begin
+      if fixtures_yaml
+        fixtures = YAML.load_file(fixtures_yaml) || { 'fixtures' => {} }
+      else
+        fixtures = { 'fixtures' => {} }
+      end
+    rescue Errno::ENOENT
+      fail("Fixtures file not found: '#{fixtures_yaml}'")
+    rescue Psych::SyntaxError => e
+      fail("Found malformed YAML in '#{fixtures_yaml}' on line #{e.line} column #{e.column}: #{e.problem}")
+    end
+
+    unless fixtures.include?('fixtures')
+      # File is non-empty, but does not specify fixtures
+      fail("No 'fixtures' entries found in '#{fixtures_yaml}'; required")
+    end
+
+    if fixtures.include? 'defaults'
+      fixture_defaults = fixtures['defaults']
     else
-      @max_thread_limit = 10 # the default
+      fixture_defaults = {}
+    end
+
+    fixtures = fixtures['fixtures']
+
+    if fixtures['symlinks'].nil?
+      fixtures['symlinks'] = auto_symlink
+    end
+
+    result = {}
+    if fixtures.include? category and fixtures[category] != nil
+
+      defaults = { "target" => "spec/fixtures/modules" }
+
+      # load defaults from the `.fixtures.yml` `defaults` section
+      # for the requested category and merge them into my defaults
+      if fixture_defaults.include? category
+        defaults = defaults.merge(fixture_defaults[category])
+      end
+
+      fixtures[category].each do |fixture, opts|
+        # convert a simple string fixture to a hash, by
+        # using the string fixture as the `repo` option of the hash.
+        if opts.instance_of?(String)
+          opts = { "repo" => opts }
+        end
+        # there should be a warning or something if it's not a hash...
+        if opts.instance_of?(Hash)
+          # merge our options into the defaults to get the
+          # final option list
+          opts = defaults.merge(opts)
+
+          real_target = eval('"'+opts["target"]+'"')
+          real_source = eval('"'+opts["repo"]+'"')
+
+          result[real_source] = { "target" => File.join(real_target,fixture), "ref" => opts["ref"], "branch" => opts["branch"], "scm" => opts["scm"], "flags" => opts["flags"], "subdir" => opts["subdir"]}
+        end
+      end
+    end
+    return result
+  end
+
+  def clone_repo(scm, remote, target, subdir=nil, ref=nil, branch=nil, flags = nil)
+    args = []
+    case scm
+    when 'hg'
+      args.push('clone')
+      args.push('-b', branch) if branch
+      args.push(flags) if flags
+      args.push(remote, target)
+    when 'git'
+      args.push('clone')
+      args.push('--depth 1') unless ref
+      args.push('-b', branch) if branch
+      args.push(flags) if flags
+      args.push(remote, target)
+    else
+      fail "Unfortunately #{scm} is not supported yet"
+    end
+    result = system("#{scm} #{args.flatten.join ' '}")
+    unless File::exists?(target)
+      fail "Failed to clone #{scm} repository #{remote} into #{target}"
+    end
+    result
+  end
+
+  def revision(scm, target, ref)
+    args = []
+    case scm
+    when 'hg'
+      args.push('update', '--clean', '-r', ref)
+    when 'git'
+      args.push('reset', '--hard', ref)
+    else
+      fail "Unfortunately #{scm} is not supported yet"
+    end
+    system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+  end
+
+  def remove_subdirectory(target, subdir)
+    unless subdir.nil?
+      Dir.mktmpdir {|tmpdir|
+         FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+         FileUtils.rm_rf("#{target}/#{subdir}")
+         FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), "#{target}")
+      }
     end
   end
-  @max_thread_limit
+
+  # creates a logger so we can log events with certain levels
+  def logger
+    unless @logger
+      require 'logger'
+      if ENV['ENABLE_LOGGER']
+         level = Logger::DEBUG
+       else
+         level = Logger::INFO
+      end
+      @logger = Logger.new(STDERR)
+      @logger.level = level
+    end
+    @logger
+  end
+
+  def module_working_directory
+    # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
+    # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
+    # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
+    File.expand_path(ENV['MODULE_WORKING_DIR'] ? ENV['MODULE_WORKING_DIR'] : 'spec/fixtures/work-dir')
+  end
+
+  # returns the current thread count that is currently active
+  # a status of false or nil means the thread completed
+  # so when anything else we count that as a active thread
+  def current_thread_count(items)
+    active_threads = items.find_all do |item, opts|
+      if opts[:thread]
+        opts[:thread].status
+      else
+        false
+      end
+    end
+    logger.debug "Current thread count #{active_threads.count}"
+    active_threads.count
+  end
+
+  # returns the max_thread_count
+  # because we may want to limit ssh or https connections
+  def max_thread_limit
+    unless @max_thread_limit
+      # the default thread count is 10 but can be
+      # raised by using environment variable MAX_FIXTURE_THREAD_COUNT
+      if ENV['MAX_FIXTURE_THREAD_COUNT'].to_i > 0
+        @max_thread_limit = ENV['MAX_FIXTURE_THREAD_COUNT'].to_i
+      else
+        @max_thread_limit = 10 # the default
+      end
+    end
+    @max_thread_limit
+  end
+
+  def check_directory_for_symlinks(dir='.')
+    dir = Pathname.new(dir) unless dir.is_a?(Pathname)
+    results = []
+
+    dir.each_child(true) do |child|
+      if child.symlink?
+        results << child
+      elsif child.directory? && child.basename.to_s != '.git'
+        results.concat(check_directory_for_symlinks(child))
+      end
+    end
+
+    results
+  end
 end
+include PuppetlabsSpecHelper::RakeTasks
 
 desc "Create the fixtures directory"
 task :spec_prep do
@@ -592,21 +622,6 @@ task :release_checks do
   Rake::Task["check:test_file"].invoke
   Rake::Task["check:dot_underscore"].invoke
   Rake::Task["check:git_ignore"].invoke
-end
-
-def check_directory_for_symlinks(dir='.')
-  dir = Pathname.new(dir) unless dir.is_a?(Pathname)
-  results = []
-
-  dir.each_child(true) do |child|
-    if child.symlink?
-      results << child
-    elsif child.directory? && child.basename.to_s != '.git'
-      results.concat(check_directory_for_symlinks(child))
-    end
-  end
-
-  results
 end
 
 namespace :check do
