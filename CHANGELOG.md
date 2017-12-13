@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.6.0]
+## [2.6.1]
+### Summary
+Includes changes for 2.6.0 plus tests and bugfix of said feature.
+
+## 2.6.0 - Yanked
 ### Summary
 Adds a `defaults` section to `.fixtures.yml` to specify properties such as `flags` that apply to all fixtures in a category. One example use case is to specify an alternate forge URI for the `forge_modules` fixtures.
 
@@ -422,8 +426,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.0...master
-[2.6.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...v2.6.0
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.1...master
+[2.6.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...v2.6.1
 [2.5.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.0...v2.5.1
 [2.5.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...v2.4.0
