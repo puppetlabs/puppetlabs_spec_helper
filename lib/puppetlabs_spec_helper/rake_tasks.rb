@@ -613,11 +613,6 @@ desc "Runs all necessary checks on a module in preparation for a release"
 task :release_checks do
   Rake::Task[:lint].invoke
   Rake::Task[:validate].invoke
-  if parallel_tests_loaded
-    Rake::Task[:parallel_spec].invoke
-  else
-    Rake::Task[:spec].invoke
-  end
   Rake::Task["check:symlinks"].invoke
   Rake::Task["check:test_file"].invoke
   Rake::Task["check:dot_underscore"].invoke
