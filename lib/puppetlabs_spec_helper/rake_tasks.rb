@@ -5,6 +5,7 @@ require 'tmpdir'
 require 'yaml'
 require 'pathname'
 require 'puppetlabs_spec_helper/version'
+require 'json'
 
 # optional gems
 begin
@@ -665,6 +666,42 @@ namespace :check do
   end
 end
 
+desc "Rebuild .fixture.yml from metadata.json file"
+task :fixture_rebuild do
+  begin
+    fixtures = YAML.load_file('.fixtures.yml')['fixtures']
+  rescue Errno::ENOENT
+    fail "Unable to load .fixtures.yml"
+  end
+
+  begin
+    metadata = JSON.parse(File.read('metadata.json'))
+  rescue Errno::ENOENT
+    fail "metadata.json does not exist"
+  rescue Errno::EACCES
+    fail "Unable to read metadata.json"
+  end
+
+  # remove existing fixture setup
+  fixtures['forge_modules'] = {}
+  # now rebuild it
+  metadata['dependencies'].each do |entry|
+    mod = entry['name']
+    fixtures['forge_modules'][mod] = if entry.has_key? 'version_requirement'
+                                       { 'repo' => mod, 'ref' => entry['version_requirement'] }
+                                     else
+                                       mod
+                                     end
+  end
+
+  begin
+    File.open('.fixtures.yml', 'w') {|f| f.write({'fixtures' => fixtures}.to_yaml) }
+  rescue Errno::EACCES
+    fail 'Unable to create new .fixtures.yml file'
+  end
+end
+
+task :spec_prep => ['fixture_rebuild']
 desc "Display the list of available rake tasks"
 task :help do
   system("rake -T")
