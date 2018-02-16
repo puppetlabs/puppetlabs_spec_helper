@@ -61,16 +61,14 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
   t.pattern = 'spec/acceptance'
   # TEST_TIERS env variable is a comma separated list of tiers to run. e.g. low, medium, high
   if ENV['TEST_TIERS']
-    tiers = '--tag '
-    test_tiers = ENV['TEST_TIERS'].split(',')
+    test_tiers = test_tiers.split(',')
     raise 'TEST_TIERS env variable must have at least 1 tier specified. low, medium or high (comma separated).' if test_tiers.count == 0
     test_tiers.each do |tier|
-      tier_to_add = tier.strip
+      tier_to_add = tier.strip.downcase
       raise "#{tier_to_add} not a valid test tier." unless %w(low medium high).include?(tier_to_add)
-      tiers += "tier_#{tier_to_add},"
+      tiers = "--tag tier_#{tier_to_add}"
+      t.rspec_opts.push(tiers)
     end
-    tiers = tiers.chomp(',')
-    t.rspec_opts.push(tiers)
   else
     puts 'TEST_TIERS env variable not defined. Defaulting to run all tests.'
   end
