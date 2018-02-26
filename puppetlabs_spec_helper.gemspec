@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Standard tasks and configuration for module spec tests.}
   spec.description   = %q{Contains rake tasks and a standard spec_helper for running spec tests on puppet modules.}
   spec.homepage      = "http://github.com/puppetlabs/puppetlabs_spec_helper"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
