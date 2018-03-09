@@ -335,6 +335,10 @@ fixtures:
         ref: "2.6.0"
 ```
 
+Fixture Loading
+---------------
+Any module that has a `spec/lib` directory will be available on the ruby `LOAD_PATH` for tests to consume. This allows modules to provide additional helper code to be supplied. The [augeasprovider_core](https://github.com/hercules-team/augeasproviders_core) module has [some examples](https://github.com/hercules-team/augeasproviders_core/tree/master/spec/lib).
+
 Testing Parser Functions
 ========================
 
