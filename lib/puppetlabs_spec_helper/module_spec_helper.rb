@@ -26,7 +26,12 @@ RSpec.configure do |c|
   c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
 
   c.before :each do
-    Puppet.features.stubs(:root?).returns(true)
+    if c.mock_framework == :mocha
+      Puppet.features.stubs(:root?).returns(true)
+    else
+      allow(Puppet.features).to receive(:root?).and_return(true)
+    end
+
     # stringify_facts and trusted_node_data were removed in puppet4
     if Puppet.version.to_f < 4.0
       Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
