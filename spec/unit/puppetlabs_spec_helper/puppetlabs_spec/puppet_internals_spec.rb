@@ -1,11 +1,4 @@
 require 'spec_helper'
-require 'puppetlabs_spec_helper/puppet_spec_helper'
-require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
-
-# reset mock integration
-RSpec.configure do |c|
-  c.mock_with :rspec
-end
 
 describe PuppetlabsSpec::PuppetInternals do
   before(:all) do
@@ -88,12 +81,12 @@ describe PuppetlabsSpec::PuppetInternals do
     it 'accepts an injected scope' do
       expect(Puppet::Parser::Functions).to receive(:function).with('my_func').and_return(true)
       scope = double(described_class.scope)
-      scope.expects(:method).with(:function_my_func).returns(:fake_method)
+      expect(scope).to receive(:method).with(:function_my_func).and_return(:fake_method)
       expect(described_class.function_method('my_func', scope: scope)).to eq(:fake_method)
     end
 
     it "returns nil if the function doesn't exist" do
-      Puppet::Parser::Functions.expects(:function).with('my_func').returns(false)
+      expect(Puppet::Parser::Functions).to receive(:function).with('my_func').and_return(false)
       scope = double(described_class.scope)
       expect(described_class.function_method('my_func', scope: scope)).to be_nil
     end

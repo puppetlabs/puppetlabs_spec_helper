@@ -1,10 +1,4 @@
-require 'puppetlabs_spec_helper/puppet_spec_helper'
-require 'puppetlabs_spec_helper/rake_tasks'
-
-RSpec.configure do |config|
-  config.mock_with :rspec
-  config.include PuppetlabsSpecHelper::RakeTasks
-end
+require 'spec_helper'
 
 describe SetupBeaker do
   describe '.setup_beaker' do
