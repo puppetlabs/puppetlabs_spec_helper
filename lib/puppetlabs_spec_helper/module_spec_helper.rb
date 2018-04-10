@@ -26,7 +26,7 @@ RSpec.configure do |c|
   c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
 
   c.before :each do
-    if c.mock_framework == :rspec
+    if c.mock_framework.framework_name == :rspec
       allow(Puppet.features).to receive(:root?).and_return(true)
     else
       Puppet.features.stubs(:root?).returns(true)

@@ -463,5 +463,52 @@ The following links may give you some insight into why...
 
 [Microsoft TechNet](https://technet.microsoft.com/en-us/library/cc754077.aspx)
 
+mock_with
+=========
+
+There are two major mocking frameworks in modules test suites today: [mocha](https://rubygems.org/gems/mocha) and [rspec-mocks](https://rubygems.org/gems/rspec-mocks). It is recommended to choose rspec-mocks explicitely by specifying `mock_with` either in your `spec_helper.rb` like so:
+
+```
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+require 'puppetlabs_spec_helper/module_spec_helper'
+```
+
+or by using the PDK's [`mock_with` option in `.sync.yml`](https://github.com/puppetlabs/pdk-templates#specspec_helperrb) and `pdk update`.
+
+You can also continue to use mocha by explicitly specifying `:mocha`, following the [mocha documentation](http://gofreerange.com/mocha/docs/).
+
+Migration
+---------
+
+To migrate from mocha to rspec-mocks, in many simple cases the following two kinds of changes are all you need:
+
+Translate all stubs:
+```
+context.stubs(:some_method).with(arguments).returns('value')
+```
+to this:
+```
+allow(context).to receive(:some_method).with(arguments).and_returns('value')
+```
+
+Translate all expectations:
+```
+context.expects(:some_method).with(arguments).returns('value')
+```
+to this:
+```
+expect(context).to receive(:some_method).with(arguments).and_returns('value')
+```
+
+Rationale
+---------
+
+* As a part of the RSpec project, rspec-mocks integration is better.
+* mocha is extending base ruby objects with its `stubs`, and `expects` methods, polluting the global namespace, with a potential for subtle and gnarly errors.
+* Currently both rspec-mocks and mocha get loaded, leading to test suites that use both.
+* puppetlabs_spec_helper loads and configures mocha unconditionally, causing friction when a different mocking framework is wanted.
+* mocha is an additional dependency to carry.
 
 EOF
