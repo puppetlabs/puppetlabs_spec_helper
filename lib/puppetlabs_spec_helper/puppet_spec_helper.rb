@@ -3,12 +3,21 @@ require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 # Don't want puppet getting the command line arguments for rake or autotest
 ARGV.clear
 
-# This is needed because we're using mocha with rspec instead of Test::Unit or MiniTest
-ENV['MOCHA_OPTIONS']='skip_integration'
-
 require 'puppet'
 require 'rspec/expectations'
-require 'mocha/api'
+
+# Detect whether the module is overriding the choice of mocking framework
+# @mock_framework is used since more than seven years, and we need to avoid
+# `mock_framework`'s autoloading to distinguish between the default, and
+# the module's choice.
+# See also below in RSpec.configure
+if RSpec.configuration.instance_variable_get(:@mock_framework).nil?
+  # This is needed because we're using mocha with rspec instead of Test::Unit or MiniTest
+  ENV['MOCHA_OPTIONS']='skip_integration'
+
+  # Current versions of RSpec already load this for us, but who knows what's used out there?
+  require 'mocha/api'
+end
 
 require 'pathname'
 require 'tmpdir'
@@ -118,8 +127,14 @@ end
 
 # And here is where we do the main rspec configuration / setup.
 RSpec.configure do |config|
-  # Some modules depend on having mocha set up for them
-  config.mock_with :mocha
+  # Detect whether the module is overriding the choice of mocking framework
+  # @mock_framework is used since more than seven years, and we need to avoid
+  # `mock_framework`'s autoloading to distinguish between the default, and
+  # the module's choice.
+  if config.instance_variable_get(:@mock_framework).nil?
+    RSpec.warn_deprecation('puppetlabs_spec_helper: defaults `mock_with` to `:mocha`. See https://github.com/puppetlabs/puppetlabs_spec_helper#mock_with to choose a sensible value for you')
+    config.mock_with :mocha
+  end
 
   # determine whether we can use the new API or not, and call the appropriate initializer method.
   if (defined?(Puppet::Test::TestHelper))
