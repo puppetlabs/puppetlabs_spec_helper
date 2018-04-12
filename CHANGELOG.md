@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.7.0]
+### Summary
+Feature release to begin moving away from mocha as a testing (specifically, mocking) framework for modules.
+
+### Added
+- spec/plans/**/*_spec.rb to spec discovery pattern
+- [mocha as default](README.md#mock_with) test framework unless explicitly set by a module
+
+### Fixed
+- parsing for test tiers in beaker rake task
+- module_spec_helper compatibility with mocha 1.5.0
+
 ## [2.6.2]
 ### Summary
 A bugfix release to remove dependency on GettextSetup.initialize() in the Rake tasks.
@@ -430,7 +442,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.2...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.7.0...master
+[2.7.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.2...v2.7.0
 [2.6.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...v2.6.1
 [2.5.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.0...v2.5.1
