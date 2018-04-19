@@ -466,7 +466,7 @@ The following links may give you some insight into why...
 mock_with
 =========
 
-There are two major mocking frameworks in modules test suites today: [mocha](https://rubygems.org/gems/mocha) and [rspec-mocks](https://rubygems.org/gems/rspec-mocks). It is recommended to choose rspec-mocks explicitely by specifying `mock_with` either in your `spec_helper.rb` like so:
+There are two major mocking frameworks in modules test suites today: [mocha](https://rubygems.org/gems/mocha) and [rspec-mocks](https://rubygems.org/gems/rspec-mocks). We recommend that you choose rspec-mocks explicitly by specifying `mock_with`, either in your `spec_helper.rb` like so:
 
 ```
 RSpec.configure do |c|
@@ -475,7 +475,7 @@ end
 require 'puppetlabs_spec_helper/module_spec_helper'
 ```
 
-or by using the PDK's [`mock_with` option in `.sync.yml`](https://github.com/puppetlabs/pdk-templates#specspec_helperrb) and `pdk update`.
+or by using Puppet Development Kit's [`mock_with` option in `.sync.yml`](https://github.com/puppetlabs/pdk-templates#specspec_helperrb) and `pdk update`.
 
 You can also continue to use mocha by explicitly specifying `:mocha`, following the [mocha documentation](http://gofreerange.com/mocha/docs/).
 
