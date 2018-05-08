@@ -317,12 +317,17 @@ task :spec_clean do
 
   FileUtils::rm_rf(module_working_directory)
 
-  fixtures("symlinks").each do |source, opts|
-    target = opts["target"]
-    FileUtils::rm_f(target)
-  end
+  Rake::Task[:spec_clean_symlinks].invoke
 
   if File.zero?("spec/fixtures/manifests/site.pp")
     FileUtils::rm_f("spec/fixtures/manifests/site.pp")
+  end
+end
+
+desc "Clean up any fixture symlinks"
+task :spec_clean_symlinks do
+  fixtures("symlinks").each do |source, opts|
+    target = opts["target"]
+    FileUtils::rm_f(target)
   end
 end
