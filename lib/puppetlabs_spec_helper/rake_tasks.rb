@@ -60,8 +60,9 @@ task :spec do |t, args|
   begin
     Rake::Task[:spec_prep].invoke
     Rake::Task[:spec_standalone].invoke(*args.extras)
-  ensure
     Rake::Task[:spec_clean].invoke
+  ensure
+    Rake::Task[:spec_clean_symlinks].invoke
   end
 end
 
@@ -78,8 +79,9 @@ task :parallel_spec do
 
       Rake::Task[:spec_prep].invoke
       ParallelTests::CLI.new.run(args)
-    ensure
       Rake::Task[:spec_clean].invoke
+    ensure
+      Rake::Task[:spec_clean_symlinks].invoke
     end
   end
 end
