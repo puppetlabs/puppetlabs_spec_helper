@@ -66,8 +66,19 @@ task :spec do |t, args|
   end
 end
 
+desc "Run spec tests in parallel and clean the fixtures directory if successful"
+task :parallel_spec do |t, args|
+  begin
+    Rake::Task[:spec_prep].invoke
+    Rake::Task[:parallel_spec_standalone].invoke(*args.extras)
+    Rake::Task[:spec_clean].invoke
+  ensure
+    Rake::Task[:spec_clean_symlinks].invoke
+  end
+end
+
 desc "Parallel spec tests"
-task :parallel_spec do
+task :parallel_spec_standalone do |t, args|
   raise 'Add the parallel_tests gem to Gemfile to enable this task' unless parallel_tests_loaded
   if Rake::FileList[pattern].to_a.empty?
     warn "No files for parallel_spec to run against"
@@ -77,11 +88,7 @@ task :parallel_spec do
       args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
       args.concat(Rake::FileList[pattern].to_a)
 
-      Rake::Task[:spec_prep].invoke
       ParallelTests::CLI.new.run(args)
-      Rake::Task[:spec_clean].invoke
-    ensure
-      Rake::Task[:spec_clean_symlinks].invoke
     end
   end
 end
