@@ -117,6 +117,20 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     result
   end
 
+  def update_repo(scm, target)
+    args = case scm
+           when 'hg'
+             ['pull']
+           when 'git'
+             ['fetch']
+           else
+             fail "Unfortunately #{scm} is not supported yet"
+           end
+    Dir.chdir(target) do
+      system("#{scm} #{args.flatten.join(' ')}")
+    end
+  end
+
   def revision(scm, target, ref)
     args = []
     case scm
@@ -239,7 +253,11 @@ task :spec_prep do
       logger.debug "New Thread started for #{remote}"
       # start up a new thread and store it in the opts hash
       opts[:thread] = Thread.new do
-        clone_repo(scm, remote, target, subdir, ref, branch, flags)
+        if File.directory?(target)
+          update_repo(scm, target)
+        else
+          clone_repo(scm, remote, target, subdir, ref, branch, flags)
+        end
         revision(scm, target, ref) if ref
         remove_subdirectory(target, subdir) if subdir
       end
