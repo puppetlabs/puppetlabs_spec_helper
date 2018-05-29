@@ -301,7 +301,8 @@ task :spec_prep do
       ref = " --version #{opts['ref']}" if not opts['ref'].nil?
       flags = " #{opts['flags']}" if opts['flags']
     end
-    next if File::exists?(target)
+
+    next if File.directory?(target)
 
     working_dir = module_working_directory
     target_dir = File.expand_path('spec/fixtures/modules')
