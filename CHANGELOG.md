@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.8.0]
+### Summary
+This feature release adds a new rake task `parallel_spec_standalone` which is a parallel version of `spec_standalone`
+
+### Added
+- `parallel_spec_standalone` rake task
+- `spec_clean_symlinks` rake task to just clean symlink fixtures, not all fixtures
+- Leave downloaded fixtures on test failure to speed up test runs.
+- Update already-existing fixtures instead of doing nothing to them.
+
 ## [2.7.0]
 ### Summary
 Feature release to begin moving away from mocha as a testing (specifically, mocking) framework for modules.
@@ -442,7 +452,8 @@ compatible yet.
 ### Added
  * Initial release
 
-[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.7.0...master
+[unreleased]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.8.0...master
+[2.8.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.2...v2.7.0
 [2.6.2]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...v2.6.1
