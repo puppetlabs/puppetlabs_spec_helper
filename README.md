@@ -79,8 +79,7 @@ And then to run spec tests in parallel:
 Issues
 ======
 
-Please file issues against this project at the [Puppet Labs Issue
-Tracker](https://tickets.puppetlabs.com/browse/MODULES)
+Please file issues against this project at the [Puppet Labs Issue Tracker](https://tickets.puppetlabs.com/browse/MODULES)
 
 The Long Version
 ----------------
@@ -364,27 +363,18 @@ See the documentation of [RSpec-Puppet](https://github.com/rodjek/rspec-puppet)
 for Puppet manifest coverage reports.
 
 Starting with Ruby 1.9, the *de facto* standard for Ruby code coverage is
-[SimpleCov](https://github.com/colszowka/simplecov).
-You can add it to your module like this:
+[SimpleCov](https://github.com/colszowka/simplecov). It is implemented as a Rake task in this gem.
 
-```Ruby
-# First line of spec/spec_helper.rb
-require 'simplecov'
+To run code coverage:
 
-SimpleCov.start do
-  add_filter '/spec/'
-  # Exclude bundled Gems in `/.vendor/`
-  add_filter '/.vendor/'
-end
+    $ rake spec:simplecov
 
-require 'puppetlabs_spec_helper/module_spec_helper'
-# Further content
-```
+Reports are written to `/coverage/`, which you should add to `.gitignore`.
 
-The reports will then be generated every time you invoke RSpec, e.g. via `rake spec`,
-and are written to `/coverage/`, which you should add to `.gitignore`.
+The reports can be generated every time you invoke RSpec, e.g. via `rake spec`,
+You can enable it, set the following environment variable:
 
-Remember to add `gem 'simplecov', require: false` to your `Gemfile`.
+``SIMPLECOV=yes``
 
 Using Code Climate
 ------------------
