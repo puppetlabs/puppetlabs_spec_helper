@@ -1,0 +1,106 @@
+PATH
+  remote: .
+  specs:
+    puppetlabs_spec_helper (2.8.0)
+      mocha (~> 1.0)
+      puppet-lint (~> 2.0)
+      puppet-syntax (~> 2.0)
+      rspec-puppet (~> 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.0)
+    coderay (1.1.2)
+    diff-lcs (1.3)
+    docile (1.3.1)
+    facter (2.5.1)
+    fast_gettext (1.1.2)
+    gettext (3.2.9)
+      locale (>= 2.0.5)
+      text (>= 1.3.0)
+    gettext-setup (0.30)
+      fast_gettext (~> 1.1.0)
+      gettext (>= 3.0.2)
+      locale
+    hiera (3.4.3)
+    json (2.1.0)
+    json_pure (1.8.6)
+    locale (2.1.2)
+    metaclass (0.0.4)
+    method_source (0.9.0)
+    mocha (1.5.0)
+      metaclass (~> 0.0.1)
+    parallel (1.12.1)
+    parser (2.5.1.0)
+      ast (~> 2.4.0)
+    powerpack (0.1.2)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    puppet (4.10.11)
+      facter (> 2.0, < 4)
+      gettext-setup (>= 0.10, < 1)
+      hiera (>= 2.0, < 4)
+      json_pure (~> 1.8)
+      locale (~> 2.1)
+    puppet-lint (2.3.5)
+    puppet-syntax (2.4.1)
+      rake
+    rack (1.6.10)
+    rainbow (2.2.2)
+      rake
+    rake (10.5.0)
+    rspec (3.7.0)
+      rspec-core (~> 3.7.0)
+      rspec-expectations (~> 3.7.0)
+      rspec-mocks (~> 3.7.0)
+    rspec-core (3.7.1)
+      rspec-support (~> 3.7.0)
+    rspec-expectations (3.7.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.7.0)
+    rspec-mocks (3.7.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.7.0)
+    rspec-puppet (2.6.12)
+      rspec
+    rspec-support (3.7.1)
+    rubocop (0.49.1)
+      parallel (~> 1.10)
+      parser (>= 2.3.3.1, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    rubocop-rspec (1.16.0)
+      rubocop (>= 0.49.0)
+    ruby-progressbar (1.9.0)
+    simplecov (0.16.1)
+      docile (~> 1.1)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
+    text (1.3.1)
+    unicode-display_width (1.4.0)
+    yard (0.9.14)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.12)
+  gettext-setup (~> 0.29)
+  pry
+  puppet (~> 4.0)
+  puppetlabs_spec_helper!
+  rack (~> 1)
+  rake (~> 10.0)
+  rspec (~> 3.0)
+  rubocop (< 0.50)
+  rubocop-rspec (~> 1)
+  simplecov (~> 0)
+  yard
+
+BUNDLED WITH
+   1.16.2

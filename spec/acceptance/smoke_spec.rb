@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'open3'
 
 # some smoke tests to verify overall sanity
 RSpec.describe "rake" do
