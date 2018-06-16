@@ -86,7 +86,14 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         real_target = eval('"' + opts['target'] + '"')
         real_source = eval('"' + opts['repo'] + '"')
 
-        result[real_source] = { 'target' => File.join(real_target, fixture), 'ref' => opts['ref'], 'branch' => opts['branch'], 'scm' => opts['scm'], 'flags' => opts['flags'], 'subdir' => opts['subdir'] }
+        result[real_source] = {
+          'target' => File.join(real_target, fixture),
+          'ref' => opts['ref'],
+          'branch' => opts['branch'],
+          'scm' => opts['scm'],
+          'flags' => opts['flags'],
+          'subdir' => opts['subdir'],
+        }
       end
     end
     result

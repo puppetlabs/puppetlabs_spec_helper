@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PuppetlabsSpec::PuppetInternals do
-  before(:all) do
+  before(:all) do # this is only needed once # rubocop:disable RSpec/BeforeAfterAll
     Puppet.initialize_settings
   end
 
