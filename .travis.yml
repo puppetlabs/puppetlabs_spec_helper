@@ -6,6 +6,8 @@ before_install:
   # https://github.com/bundler/bundler/issues/3558
   gem update bundler
 script: bundle exec rake
+env:
+  - COVERAGE=yes
 matrix:
   fast_finish: true
   include:
