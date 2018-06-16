@@ -42,9 +42,9 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
       # Vagrant is not distributed as a normal gem
       # and we should protect it from the current Ruby environment
       env = {
-          'RUBYLIB' => nil,
-          'GEM_PATH' => nil,
-          'BUNDLE_BIN_PATH' => nil,
+        'RUBYLIB' => nil,
+        'GEM_PATH' => nil,
+        'BUNDLE_BIN_PATH' => nil,
       }
       system env, command
     end
@@ -52,7 +52,7 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
 end
 include PuppetlabsSpecHelper::Tasks::BeakerHelpers
 
-desc "Run beaker acceptance tests"
+desc 'Run beaker acceptance tests'
 RSpec::Core::RakeTask.new(:beaker) do |t|
   SetupBeaker.setup_beaker(t)
 end
@@ -67,18 +67,18 @@ class SetupBeaker
       raise 'TEST_TIERS env variable must have at least 1 tier specified. low, medium or high (comma separated).' if test_tiers.count == 0
       test_tiers.each do |tier|
         tier_to_add = tier.strip.downcase
-        raise "#{tier_to_add} not a valid test tier." unless %w(low medium high).include?(tier_to_add)
+        raise "#{tier_to_add} not a valid test tier." unless %w[low medium high].include?(tier_to_add)
         tiers = "--tag tier_#{tier_to_add}"
         t.rspec_opts.push(tiers)
       end
     else
       puts 'TEST_TIERS env variable not defined. Defaulting to run all tests.'
     end
-    return t
+    t
   end
 end
 
-desc "List available beaker nodesets"
+desc 'List available beaker nodesets'
 task 'beaker:sets' do
   beaker_node_sets.each do |set|
     puts set

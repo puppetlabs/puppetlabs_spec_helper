@@ -13,7 +13,7 @@ require 'rspec/expectations'
 # See also below in RSpec.configure
 if RSpec.configuration.instance_variable_get(:@mock_framework).nil?
   # This is needed because we're using mocha with rspec instead of Test::Unit or MiniTest
-  ENV['MOCHA_OPTIONS']='skip_integration'
+  ENV['MOCHA_OPTIONS'] = 'skip_integration'
 
   # Current versions of RSpec already load this for us, but who knows what's used out there?
   require 'mocha/api'
@@ -58,7 +58,7 @@ module Puppet
     # Puppet's Settings singleton object, and other fun implementation details
     # that code external to puppet should really never know about.
     def self.initialize_via_fallback_compatibility(config)
-      $stderr.puts("Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.")
+      $stderr.puts('Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.')
       config.before :all do
         # nothing to do for now
       end
@@ -79,11 +79,11 @@ module Puppet
 
         # Set the confdir and vardir to gibberish so that tests
         # have to be correctly mocked.
-        Puppet[:confdir] = "/dev/null"
-        Puppet[:vardir] = "/dev/null"
+        Puppet[:confdir] = '/dev/null'
+        Puppet[:vardir] = '/dev/null'
 
         # Avoid opening ports to the outside world
-        Puppet.settings[:bindaddress] = "127.0.0.1"
+        Puppet.settings[:bindaddress] = '127.0.0.1'
       end
 
       config.after :each do
@@ -91,7 +91,7 @@ module Puppet
 
         Puppet::Node::Environment.clear
         Puppet::Util::Storage.clear
-        Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? "ExecutionStub"
+        Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? 'ExecutionStub'
 
         PuppetlabsSpec::Files.cleanup
       end
@@ -100,7 +100,7 @@ module Puppet
 end
 
 # JJM Hack to make the stdlib tests run in Puppet 2.6 (See puppet commit cf183534)
-if not Puppet.constants.include? "Test" then
+unless Puppet.constants.include? 'Test'
   module Puppet::Test
     class LogCollector
       def initialize(logs)
@@ -113,7 +113,7 @@ if not Puppet.constants.include? "Test" then
     end
   end
   Puppet::Util::Log.newdesttype :log_collector do
-    match "Puppet::Test::LogCollector"
+    match 'Puppet::Test::LogCollector'
 
     def initialize(messages)
       @messages = messages
@@ -137,7 +137,7 @@ RSpec.configure do |config|
   end
 
   # determine whether we can use the new API or not, and call the appropriate initializer method.
-  if (defined?(Puppet::Test::TestHelper))
+  if defined?(Puppet::Test::TestHelper)
     # This case is handled by rspec-puppet since v1.0.0 (via 41257b33cb1f9ade4426b044f70be511b0c89112)
   else
     Puppet::PuppetSpecInitializer.initialize_via_fallback_compatibility(config)
@@ -173,5 +173,4 @@ RSpec.configure do |config|
     Puppet::Util::Log.close_all
     Puppet::Util::Log.level = @log_level
   end
-
 end

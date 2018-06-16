@@ -8,21 +8,21 @@ describe PuppetlabsSpec::PuppetInternals do
   describe '.scope' do
     let(:subject) { described_class.scope }
 
-    it 'should return a Puppet::Parser::Scope instance' do
+    it 'returns a Puppet::Parser::Scope instance' do
       expect(subject).to be_a_kind_of Puppet::Parser::Scope
     end
 
-    it 'should be suitable for function testing' do
+    it 'is suitable for function testing' do
       expect(subject.function_inline_template(['foo'])).to eq('foo')
     end
 
-    it 'should accept a compiler' do
+    it 'accepts a compiler' do
       compiler = described_class.compiler
       scope = described_class.scope(compiler: compiler)
       expect(scope.compiler).to eq(compiler)
     end
 
-    it 'should have a source set' do
+    it 'has a source set' do
       scope = subject
       expect(scope.source).not_to be_nil
       expect(scope.source.name).to eq('foo')

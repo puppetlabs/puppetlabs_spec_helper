@@ -18,11 +18,11 @@ module PuppetlabsSpec::Files
 
   def self.cleanup
     $global_tempfiles ||= []
-    while path = $global_tempfiles.pop do
-      fail "Not deleting tmpfile #{path} outside regular tmpdir" unless in_tmp(path)
+    while path = $global_tempfiles.pop
+      raise "Not deleting tmpfile #{path} outside regular tmpdir" unless in_tmp(path)
 
       begin
-        FileUtils.rm_r path, :secure => true
+        FileUtils.rm_r path, secure: true
       rescue Errno::ENOENT
         # nothing to do
       end

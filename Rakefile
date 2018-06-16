@@ -1,6 +1,7 @@
 # encoding: utf-8
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+
+require 'bundler/gem_tasks'
+require 'rspec/core/rake_task'
 
 def gem_present(name)
   !Bundler.rubygems.find_name(name).empty?
@@ -21,4 +22,4 @@ if gem_present 'rubocop'
   default_tasks.unshift(:rubocop)
 end
 
-task :default => default_tasks
+task default: default_tasks
