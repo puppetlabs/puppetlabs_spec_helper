@@ -5,8 +5,10 @@ source 'https://rubygems.org'
 gemspec
 
 group :development do
+  gem 'codecov'
   gem 'puppet', ENV['PUPPET_GEM_VERSION'] || ENV['PUPPET_VERSION'] || '~> 4.0'
   gem 'simplecov', '~> 0'
+  gem 'simplecov-console'
   if RUBY_VERSION >= '2.1'
     gem 'rubocop', '< 0.50'
     gem 'rubocop-rspec', '~> 1'
