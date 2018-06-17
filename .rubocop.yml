@@ -2,7 +2,7 @@ require: rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.1.9
+  TargetRubyVersion: 1.9
   Exclude:
     # binstubs, and other utilities
     - bin/**/*
