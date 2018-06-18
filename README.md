@@ -372,35 +372,11 @@ To run code coverage:
 Reports are written to `/coverage/`, which you should add to `.gitignore`.
 
 The reports can be generated every time you invoke RSpec, e.g. via `rake spec`,
-You can enable it, set the following environment variable:
+You can enable it, set the following environment variable:s
 
 ``SIMPLECOV=yes``
 
-Using Code Climate
-------------------
-
-You can also use [Code Climate](https://codeclimate.com/) together with SimpleCov:
-
-```Ruby
-# First line of spec/spec_helper.rb
-require 'codeclimate-test-reporter'
-
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  CodeClimate::TestReporter::Formatter
-]
-
-SimpleCov.start do
-  add_filter '/spec/'
-  # Exclude bundled Gems in `/.vendor/`
-  add_filter '/.vendor/'
-end
-
-require 'puppetlabs_spec_helper/module_spec_helper'
-# Further content
-```
-
-Remember to add `gem 'codeclimate-test-reporter', require: false` to your `Gemfile`.
+Remember to add the simplecov-console and codecov gems to your `Gemfile`.
 
 Using Coveralls
 ---------------
