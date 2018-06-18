@@ -66,6 +66,14 @@ task :spec do |t, args|
   end
 end
 
+desc "Run spec tests with ruby simplecov code coverage"
+namespace :spec do
+  task :simplecov do
+    ENV['SIMPLECOV'] = 'yes'
+    Rake::Task['spec'].execute
+  end
+end
+
 desc "Run spec tests in parallel and clean the fixtures directory if successful"
 task :parallel_spec do |t, args|
   begin
