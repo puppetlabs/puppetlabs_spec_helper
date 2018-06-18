@@ -23,3 +23,23 @@ if gem_present 'rubocop'
 end
 
 task default: default_tasks
+
+#### CHANGELOG ####
+begin
+  require 'github_changelog_generator/task'
+  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+    require 'puppetlabs_spec_helper/version'
+    config.since_tag = 'v2.8.0'
+    config.future_release = "v#{PuppetlabsSpecHelper::VERSION}"
+    config.header = "# Changelog\n\n" \
+      "All significant changes to this repo will be summarized in this file.\n"
+    # config.include_labels = %w[enhancement bug]
+    config.user = 'puppetlabs'
+    config.project = 'puppetlabs_spec_helper'
+  end
+rescue LoadError
+  desc 'Install github_changelog_generator to get access to automatic changelog generation'
+  task :changelog do
+    raise 'Install github_changelog_generator to get access to automatic changelog generation'
+  end
+end

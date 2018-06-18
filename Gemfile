@@ -6,6 +6,7 @@ gemspec
 
 group :development do
   gem 'codecov'
+  gem 'github_changelog_generator'
   gem 'puppet', ENV['PUPPET_GEM_VERSION'] || ENV['PUPPET_VERSION'] || '~> 4.0'
   gem 'simplecov', '~> 0'
   gem 'simplecov-console'
