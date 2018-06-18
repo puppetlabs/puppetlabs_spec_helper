@@ -4,19 +4,27 @@ cache: bundler
 before_install:
   # https://github.com/bundler/bundler/issues/3558
   gem update bundler
-script: bundle exec rake spec
+script: env COVERAGE=yes bundle exec rake
 matrix:
   fast_finish: true
   include:
-  - rvm: 2.3.1
+  - rvm: '2.4'
+    env: PUPPET_GEM_VERSION='~> 5.0'
+  - rvm: '2.3'
+    env: PUPPET_GEM_VERSION='~> 5.0'
+  - rvm: '2.1'
+    env: PUPPET_GEM_VERSION='~> 5.0'
+  - rvm: '2.4'
     env: PUPPET_GEM_VERSION='~> 4.0'
-  - rvm: 2.1
+  - rvm: '2.3'
     env: PUPPET_GEM_VERSION='~> 4.0'
-  - rvm: 2.1
+  - rvm: '2.1'
+    env: PUPPET_GEM_VERSION='~> 4.0'
+  - rvm: '2.1'
     env: PUPPET_GEM_VERSION='~> 3.0'
-  - rvm: 2.0
+  - rvm: '2.0'
     env: PUPPET_GEM_VERSION='~> 3.0'
-  - rvm: 1.9.3
+  - rvm: '1.9'
     env: PUPPET_GEM_VERSION='~> 3.0'
 notifications:
   email: false

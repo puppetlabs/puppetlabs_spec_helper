@@ -3,7 +3,7 @@ module PuppetlabsSpec
   # FIXTURE_DIR represents the standard locations of all fixture data. Normally
   # this represents <project>/spec/fixtures. This will be used by the fixtures
   # library to find relative fixture data.
-  FIXTURE_DIR = File.join("spec", "fixtures") unless defined?(FIXTURE_DIR)
+  FIXTURE_DIR = File.join('spec', 'fixtures') unless defined?(FIXTURE_DIR)
 end
 
 # Require all necessary helper libraries so they can be used later

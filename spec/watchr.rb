@@ -6,12 +6,12 @@ system 'clear'
 
 def growl(message)
   growlnotify = `which growlnotify`.chomp
-  title = "Watchr Test Results"
+  title = 'Watchr Test Results'
   image = case message
-  when /(\d+)\s+?(failure|error)/i
-    ($1.to_i == 0) ? "~/.watchr_images/passed.png" : "~/.watchr_images/failed.png"
-  else
-    '~/.watchr_images/unknown.png'
+          when %r{(\d+)\s+?(failure|error)}i
+            (Regexp.last_match(1).to_i == 0) ? '~/.watchr_images/passed.png' : '~/.watchr_images/failed.png'
+          else
+            '~/.watchr_images/unknown.png'
   end
   options = "-w -n Watchr --image '#{File.expand_path(image)}' -m '#{message}' '#{title}'"
   system %(#{growlnotify} #{options} &)
@@ -33,14 +33,14 @@ def run_spec_test(file)
 end
 
 def filter_rspec(data)
-  data.split("\n").find_all do |l|
-    l =~ /^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending/
-  end.join("\n")
+  data.split("\n").find_all { |l|
+    l =~ %r{^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending}
+  }.join("\n")
 end
 
 def run_all_tests
   system('clear')
-  files = Dir.glob("spec/**/*_spec.rb").join(" ")
+  files = Dir.glob('spec/**/*_spec.rb').join(' ')
   result = run "rspec #{files}"
   growl_results = filter_rspec result
   growl growl_results
@@ -58,11 +58,11 @@ end
 
 # Ctrl-C
 Signal.trap 'INT' do
-  if @interrupted then
+  if @interrupted
     @wants_to_quit = true
     abort("\n")
   else
-    puts "Interrupt a second time to quit"
+    puts 'Interrupt a second time to quit'
     @interrupted = true
     Kernel.sleep 1.5
     # raise Interrupt, nil # let the run loop catch it
@@ -70,10 +70,10 @@ Signal.trap 'INT' do
   end
 end
 
-watch( 'spec/.*_spec\.rb' ) do |md|
+watch('spec/.*_spec\.rb') do |_md|
   run_all_tests
 end
 
-watch( 'lib/.*\.rb' ) do |md|
+watch('lib/.*\.rb') do |_md|
   run_all_tests
 end
