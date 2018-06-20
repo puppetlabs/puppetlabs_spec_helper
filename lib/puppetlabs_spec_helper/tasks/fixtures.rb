@@ -1,4 +1,5 @@
 require 'yaml'
+require 'open3'
 
 module PuppetlabsSpecHelper; end
 module PuppetlabsSpecHelper::Tasks; end
@@ -124,17 +125,23 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 
   def update_repo(scm, target)
-    args = case scm
-           when 'hg'
-             ['pull']
-           when 'git'
-             ['fetch']
-           else
-             raise "Unfortunately #{scm} is not supported yet"
-           end
     Dir.chdir(target) do
+      args = case scm
+             when 'hg'
+               ['pull']
+             when 'git'
+               ['fetch'].tap do |git_args|
+                 git_args << '--unshallow' if shallow_git_repo?
+               end
+             else
+               raise "Unfortunately #{scm} is not supported yet"
+             end
       system("#{scm} #{args.flatten.join(' ')}")
     end
+  end
+
+  def shallow_git_repo?
+    File.file?(File.join('.git', 'shallow'))
   end
 
   def revision(scm, target, ref)
@@ -148,6 +155,22 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
       raise "Unfortunately #{scm} is not supported yet"
     end
     system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+  end
+
+  def valid_repo?(scm, target, remote)
+    return false unless File.directory?(target)
+    return true if scm == 'hg'
+
+    return true if git_remote_url(target) == remote
+
+    warn "Git remote for #{target} has changed, recloning repository"
+    FileUtils.rm_rf(target)
+    false
+  end
+
+  def git_remote_url(target)
+    output, status = Open3.capture2e('git', '-C', target, 'remote', 'get-url', 'origin')
+    status.success? ? output.strip : nil
   end
 
   def remove_subdirectory(target, subdir)
@@ -259,7 +282,7 @@ task :spec_prep do
       logger.debug "New Thread started for #{remote}"
       # start up a new thread and store it in the opts hash
       opts[:thread] = Thread.new do
-        if File.directory?(target)
+        if valid_repo?(scm, target, remote)
           update_repo(scm, target)
         else
           clone_repo(scm, remote, target, subdir, ref, branch, flags)
