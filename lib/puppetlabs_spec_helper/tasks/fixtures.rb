@@ -1,4 +1,5 @@
 require 'yaml'
+require 'open3'
 
 module PuppetlabsSpecHelper; end
 module PuppetlabsSpecHelper::Tasks; end
@@ -156,6 +157,22 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     system("cd #{target} && #{scm} #{args.flatten.join ' '}")
   end
 
+  def valid_repo?(scm, target, remote)
+    return false unless File.directory?(target)
+    return true if scm == 'hg'
+
+    return true if git_remote_url(target) == remote
+
+    warn "Git remote for #{target} has changed, recloning repository"
+    FileUtils.rm_rf(target)
+    false
+  end
+
+  def git_remote_url(target)
+    output, status = Open3.capture2e('git', '-C', target, 'remote', 'get-url', 'origin')
+    status.success? ? output.strip : nil
+  end
+
   def remove_subdirectory(target, subdir)
     unless subdir.nil?
       Dir.mktmpdir do |tmpdir|
@@ -265,7 +282,7 @@ task :spec_prep do
       logger.debug "New Thread started for #{remote}"
       # start up a new thread and store it in the opts hash
       opts[:thread] = Thread.new do
-        if File.directory?(target)
+        if valid_repo?(scm, target, remote)
           update_repo(scm, target)
         else
           clone_repo(scm, remote, target, subdir, ref, branch, flags)
