@@ -3,6 +3,14 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.9.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.1) (2018-06-20)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.0...v2.9.1)
+
+**Fixed bugs:**
+
+- \(PDK-1031\) Remove thread-unsafe Dir.chdir usage [\#249](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/249) ([rodjek](https://github.com/rodjek))
+- \(PDK-1033\) Use `--unshallow` when fetching a ref [\#247](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/247) ([DavidS](https://github.com/DavidS))
+
 ## [v2.9.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.0) (2018-06-18)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.8.0...v2.9.0)
 
@@ -12,6 +20,7 @@ All significant changes to this repo will be summarized in this file.
 
 **Merged pull requests:**
 
+- Release prep 2.9.0 [\#248](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/248) ([DavidS](https://github.com/DavidS))
 - Stable development structure for this gem [\#246](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/246) ([cardil](https://github.com/cardil))
 
 # Previous Changes
