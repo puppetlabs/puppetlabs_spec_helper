@@ -125,19 +125,17 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 
   def update_repo(scm, target)
-    Dir.chdir(target) do
-      args = case scm
-             when 'hg'
-               ['pull']
-             when 'git'
-               ['fetch'].tap do |git_args|
-                 git_args << '--unshallow' if shallow_git_repo?
-               end
-             else
-               raise "Unfortunately #{scm} is not supported yet"
+    args = case scm
+           when 'hg'
+             ['pull']
+           when 'git'
+             ['fetch'].tap do |git_args|
+               git_args << '--unshallow' if shallow_git_repo?
              end
-      system("#{scm} #{args.flatten.join(' ')}")
-    end
+           else
+             raise "Unfortunately #{scm} is not supported yet"
+           end
+    system("#{scm} #{args.flatten.join(' ')}", chdir: target)
   end
 
   def shallow_git_repo?
@@ -154,7 +152,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     else
       raise "Unfortunately #{scm} is not supported yet"
     end
-    system("cd #{target} && #{scm} #{args.flatten.join ' '}")
+    system("#{scm} #{args.flatten.join ' '}", chdir: target)
   end
 
   def valid_repo?(scm, target, remote)
