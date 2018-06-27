@@ -346,8 +346,7 @@ remembering to duplicate any existing environment variables:
       - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=2
 
 #### Running tests tagged with test tiers
-To run tests tagged with risk levels set the ``TEST_TIERS`` environment variable to a comma-separated list of
-the appropriate tiers.
+To run tests tagged with risk levels set the ``TEST_TIERS`` environment variable to a comma-separated list of the appropriate tiers.  Supported tiers are high, medium and low.
 
 For example: to run tests marked ``tier_high => true`` and ``tier_medium => true`` in the same test run set the
 environment variable``TEST_TIERS=high,medium``
