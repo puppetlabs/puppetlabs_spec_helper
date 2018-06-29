@@ -25,5 +25,19 @@ describe SetupBeaker do
       allow(ENV).to receive(:[]).and_return('"high", "medium", "low"')
       expect { described_class.setup_beaker(task) }.to raise_error(RuntimeError, %r{not a valid test tier})
     end
+    it 'errors when tiers are not in the allowe list' do
+      allow(ENV).to receive(:[]).and_return('foobar')
+      expect { described_class.setup_beaker(task) }.to raise_error(RuntimeError, %r{not a valid test tier})
+    end
+    it 'Override TEST_TIERS_ALLOWED' do
+      allow(ENV).to receive(:fetch).with('TEST_TIERS_ALLOWED', 'low,medium,high').and_return('dev,rnd')
+      allow(ENV).to receive(:[]).with('TEST_TIERS').and_return('dev')
+      expect(described_class.setup_beaker(task).rspec_opts.to_s).to match(%r{--tag tier_dev})
+    end
+    it 'Override TEST_TIERS_ALLOWED and error if tier not avalible' do
+      allow(ENV).to receive(:fetch).with('TEST_TIERS_ALLOWED', 'low,medium,high').and_return('dev,rnd')
+      allow(ENV).to receive(:[]).with('TEST_TIERS').and_return('foobar')
+      expect { described_class.setup_beaker(task) }.to raise_error(RuntimeError, %r{not a valid test tier})
+    end
   end
 end

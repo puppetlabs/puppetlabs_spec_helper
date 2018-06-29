@@ -346,10 +346,15 @@ remembering to duplicate any existing environment variables:
       - FUTURE_PARSER=yes CI_NODE_TOTAL=2 CI_NODE_INDEX=2
 
 #### Running tests tagged with test tiers
-To run tests tagged with risk levels set the ``TEST_TIERS`` environment variable to a comma-separated list of the appropriate tiers.  Supported tiers are high, medium and low.
+To run tests tagged with risk levels set the ``TEST_TIERS`` environment variable to a comma-separated list of the appropriate tiers.
 
 For example: to run tests marked ``tier_high => true`` and ``tier_medium => true`` in the same test run set the
 environment variable``TEST_TIERS=high,medium``
+
+By default ``TEST_TIERS`` only accepts low, medium and high as valid tiers.  If you would like to use your own keywords to set the environment variable ``TEST_TIERS_ALLOWED``.
+
+For example: to use the keywords dev, rnd, staging and production you can set 
+``TEST_TIERS_ALLOWED=dev,rnd,staging,production``. Then you would be able to run tests marked ``tier_dev => true``, ``tier_production => true`` with ``TEST_TIERS=dev,production``
 
 Note, if the ``TEST_TIERS`` environment variable is set to empty string or nil, all tiers will be executed.
 
