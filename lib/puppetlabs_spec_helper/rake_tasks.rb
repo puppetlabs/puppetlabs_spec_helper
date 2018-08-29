@@ -131,10 +131,36 @@ PuppetLint::RakeTask.new(:lint) do |config|
     140chars
     class_inherits_from_params_class
     class_parameter_defaults
+    disable_autoloader_layout
     documentation
     single_quote_string_with_variables
   ]
   config.ignore_paths = [
+    '.vendor/**/*.pp',
+    'bundle/**/*.pp',
+    'pkg/**/*.pp',
+    'spec/**/*.pp',
+    'tests/**/*.pp',
+    'types/**/*.pp',
+    'vendor/**/*.pp',
+  ]
+end
+
+desc 'Run puppet-lint and fix issues automatically'
+PuppetLint::RakeTask.new(:lint_fix) do |config|
+  config.fail_on_warnings = true
+  config.fix = true
+  config.disable_checks = %w[
+    80chars
+    140chars
+    class_inherits_from_params_class
+    class_parameter_defaults
+    disable_autoloader_layout
+    documentation
+    single_quote_string_with_variables
+  ]
+  config.ignore_paths = [
+    '.vendor/**/*.pp',
     'bundle/**/*.pp',
     'pkg/**/*.pp',
     'spec/**/*.pp',
