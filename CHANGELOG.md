@@ -3,6 +3,19 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.10.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.10.0) (2018-08-30)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.1...v2.10.0)
+
+**Implemented enhancements:**
+
+- \(feat\) add puppet lint fix task [\#255](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/255) ([tphoney](https://github.com/tphoney))
+- add support to override the allowed test tiers [\#253](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/253) ([b4ldr](https://github.com/b4ldr))
+
+**Merged pull requests:**
+
+- Update documentation for older Puppet versions [\#254](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/254) ([op-ct](https://github.com/op-ct))
+- update README [\#252](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/252) ([b4ldr](https://github.com/b4ldr))
+
 ## [v2.9.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.1) (2018-06-20)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.0...v2.9.1)
 
@@ -10,6 +23,10 @@ All significant changes to this repo will be summarized in this file.
 
 - \(PDK-1031\) Remove thread-unsafe Dir.chdir usage [\#249](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/249) ([rodjek](https://github.com/rodjek))
 - \(PDK-1033\) Use `--unshallow` when fetching a ref [\#247](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/247) ([DavidS](https://github.com/DavidS))
+
+**Merged pull requests:**
+
+- \(maint\) - Release prep for 2.9.1 [\#251](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/251) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.9.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.0) (2018-06-18)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.8.0...v2.9.0)
