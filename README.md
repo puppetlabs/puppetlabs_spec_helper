@@ -461,7 +461,7 @@ context.stubs(:some_method).with(arguments).returns('value')
 ```
 to this:
 ```
-allow(context).to receive(:some_method).with(arguments).and_returns('value')
+allow(context).to receive(:some_method).with(arguments).and_return('value')
 ```
 
 Translate all expectations:
@@ -470,7 +470,7 @@ context.expects(:some_method).with(arguments).returns('value')
 ```
 to this:
 ```
-expect(context).to receive(:some_method).with(arguments).and_returns('value')
+expect(context).to receive(:some_method).with(arguments).and_return('value')
 ```
 
 Rationale
