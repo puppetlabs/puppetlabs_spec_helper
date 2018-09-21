@@ -191,7 +191,7 @@ file named `.fixtures.yml` in the root of the project. You can specify a alterna
 You can use the `MODULE_WORKING_DIR` environment variable to specify a diffent location when installing module fixtures via the forge. By default the
 working directory is `<module directory>/spec/fixtures/work-dir`.
 
-When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use.
+When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use, and optionally, the puppet versions where the fixture is needed.
 
  * repo - the url to the repo
  * scm - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
@@ -214,6 +214,11 @@ When specifying the repo source of the fixture you have a few options as to whic
 
    ```yaml
    flags: --verbose
+   ```
+ * puppet_version - versions of puppet for which the fixture should be installed. Ruby version constraints are supported. Only supported on puppet 4.0 and up.
+
+   ```yaml
+   puppet_version: '>= 6.0.0'
    ```
 
  **Note:** ref and branch can be used together to get a specific revision on a specific branch
@@ -261,6 +266,16 @@ fixtures:
     stdlib:
       repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
       ref: "2.6.0"
+```
+
+Only install the `yumrepo_core` module when testing against Puppet 6 or greater:
+
+```yaml
+fixtures:
+  repositories:
+    yumrepo_core:
+      repo: "git://github.com/puppetlabs/puppetlabs-yumrepo_core"
+      puppet_version: ">= 6.0.0"
 ```
 
 Move manifests and siblings to root directory when they are inside a `code` directory:
