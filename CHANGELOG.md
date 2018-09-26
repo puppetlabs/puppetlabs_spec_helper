@@ -3,6 +3,17 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.11.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.11.0) (2018-09-26)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.10.0...v2.11.0)
+
+**Implemented enhancements:**
+
+- \(MODULES-7856\) Allow optional repositories based on puppet version [\#258](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/258) ([joshcooper](https://github.com/joshcooper))
+
+**Fixed bugs:**
+
+- Fix example conversion from mocha to rspec mocks. [\#257](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/257) ([vStone](https://github.com/vStone))
+
 ## [v2.10.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.10.0) (2018-08-30)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.1...v2.10.0)
 
@@ -13,6 +24,7 @@ All significant changes to this repo will be summarized in this file.
 
 **Merged pull requests:**
 
+- \(maint\) - Release prep for 2.10.0 [\#256](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/256) ([tphoney](https://github.com/tphoney))
 - Update documentation for older Puppet versions [\#254](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/254) ([op-ct](https://github.com/op-ct))
 - update README [\#252](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/252) ([b4ldr](https://github.com/b4ldr))
 
