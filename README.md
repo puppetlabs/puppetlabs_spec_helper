@@ -215,7 +215,7 @@ When specifying the repo source of the fixture you have a few options as to whic
    ```yaml
    flags: --verbose
    ```
- * puppet_version - versions of puppet for which the fixture should be installed. Ruby version constraints are supported. Only supported on puppet 4.0 and up.
+ * puppet_version - versions of puppet for which the fixture should be installed. Ruby version constraints are supported. Only works when the `semantic_puppet` gem is available (shipped with puppet 4.0 and up, by default).
 
    ```yaml
    puppet_version: '>= 6.0.0'
