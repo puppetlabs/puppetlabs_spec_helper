@@ -72,5 +72,53 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
                                                         })
       end
     end
+    context 'when file specifies puppet version' do
+      def stub_fixtures(data)
+        allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
+        allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(data)
+      end
+
+      it 'includes the fixture if the puppet version matches', if: Gem::Version.new(Puppet::PUPPETVERSION) > Gem::Version.new('4') do
+        stub_fixtures(
+          'fixtures' => {
+            'forge_modules' => {
+              'stdlib' => {
+                'repo' => 'puppetlabs-stdlib',
+                'puppet_version' => Puppet::PUPPETVERSION,
+              },
+            },
+          },
+        )
+        expect(subject.fixtures('forge_modules')).to include('puppetlabs-stdlib')
+      end
+
+      it 'excludes the fixture if the puppet version does not match', if: Gem::Version.new(Puppet::PUPPETVERSION) > Gem::Version.new('4') do
+        stub_fixtures(
+          'fixtures' => {
+            'forge_modules' => {
+              'stdlib' => {
+                'repo' => 'puppetlabs-stdlib',
+                'puppet_version' => '>= 999.9.9',
+              },
+            },
+          },
+        )
+        expect(subject.fixtures('forge_modules')).to eq({})
+      end
+
+      it 'includes the fixture on obsolete puppet versions', if: Gem::Version.new(Puppet::PUPPETVERSION) <= Gem::Version.new('4') do
+        stub_fixtures(
+          'fixtures' => {
+            'forge_modules' => {
+              'stdlib' => {
+                'repo' => 'puppetlabs-stdlib',
+                'puppet_version' => Puppet::PUPPETVERSION,
+              },
+            },
+          },
+        )
+        expect(subject.fixtures('forge_modules')).to include('puppetlabs-stdlib')
+      end
+    end
   end
 end

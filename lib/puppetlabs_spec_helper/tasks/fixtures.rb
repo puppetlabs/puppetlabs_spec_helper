@@ -84,6 +84,8 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         # final option list
         opts = defaults.merge(opts)
 
+        next unless include_repo?(opts['puppet_version'])
+
         real_target = eval('"' + opts['target'] + '"')
         real_source = eval('"' + opts['repo'] + '"')
 
@@ -98,6 +100,18 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
       end
     end
     result
+  end
+
+  def include_repo?(version_range)
+    if version_range && defined?(SemanticPuppet)
+      puppet_spec = Gem::Specification.find_by_name('puppet')
+      puppet_version = SemanticPuppet::Version.parse(puppet_spec.version.to_s)
+
+      constraint = SemanticPuppet::VersionRange.parse(version_range)
+      constraint.include?(puppet_version)
+    else
+      true
+    end
   end
 
   def clone_repo(scm, remote, target, _subdir = nil, ref = nil, branch = nil, flags = nil)
