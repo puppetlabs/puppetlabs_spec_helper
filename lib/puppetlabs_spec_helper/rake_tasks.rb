@@ -103,13 +103,13 @@ end
 
 desc 'Build puppet module package'
 task :build do
-  # This will be deprecated once puppet-module is a face.
   begin
-    Gem::Specification.find_by_name('puppet-module')
-  rescue Gem::LoadError, NoMethodError
-    require 'puppet/face'
-    pmod = Puppet::Face['module', :current]
-    pmod.build('./')
+    require 'pdk/module/build'
+
+    path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
+    puts "Module built: #{path}"
+  rescue LoadError
+    system('pdk build --force')
   end
 end
 
