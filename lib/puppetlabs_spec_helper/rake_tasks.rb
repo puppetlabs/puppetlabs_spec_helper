@@ -24,7 +24,7 @@ end
 
 task default: [:help]
 
-pattern = 'spec/{aliases,classes,defines,unit,functions,hosts,integration,plans,type_aliases,types}/**/*_spec.rb'
+pattern = 'spec/{aliases,classes,defines,functions,hosts,integration,plans,tasks,type_aliases,types,unit}/**/*_spec.rb'
 
 RSpec::Core::RakeTask.new(:spec_standalone) do |t, args|
   t.rspec_opts = ['--color']
