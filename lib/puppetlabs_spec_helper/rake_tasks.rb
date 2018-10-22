@@ -103,14 +103,10 @@ end
 
 desc 'Build puppet module package'
 task :build do
-  begin
-    require 'pdk/module/build'
+  require 'pdk/module/build'
 
-    path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
-    puts "Module built: #{path}"
-  rescue LoadError
-    system('pdk build --force')
-  end
+  path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
+  puts "Module built: #{path}"
 end
 
 desc 'Clean a built module package'
