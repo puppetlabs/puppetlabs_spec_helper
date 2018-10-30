@@ -6,6 +6,7 @@ require 'pathname'
 require 'puppetlabs_spec_helper/version'
 require 'puppetlabs_spec_helper/tasks/beaker'
 require 'puppetlabs_spec_helper/tasks/fixtures'
+require 'English'
 
 # optional gems
 begin
@@ -103,10 +104,39 @@ end
 
 desc 'Build puppet module package'
 task :build do
-  require 'pdk/module/build'
+  if Gem::Specification.find_by_name('puppet').version < Gem::Version.new('6.0.0')
+    Rake::Task['build:pmt'].invoke
+  else
+    Rake::Task['build:pdk'].invoke
+  end
+end
 
-  path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
-  puts "Module built: #{path}"
+namespace :build do
+  desc 'Build Puppet module package with PMT (Puppet < 6.0.0 only)'
+  task :pmt do
+    require 'puppet/face'
+
+    pmod = Puppet::Face['module', :current]
+    pmod.build('./')
+  end
+
+  desc 'Build Puppet module with PDK'
+  task :pdk do
+    begin
+      require 'pdk/module/build'
+
+      path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
+      puts "Module built: #{path}"
+    rescue LoadError
+      _ = `pdk --version`
+      unless $CHILD_STATUS.success?
+        $stderr.puts 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
+        abort
+      end
+
+      system('pdk build --force')
+    end
+  end
 end
 
 desc 'Clean a built module package'
