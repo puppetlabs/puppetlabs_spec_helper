@@ -254,7 +254,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     dir.each_child(true) do |child|
       if child.symlink?
         results << child
-      elsif child.directory? && child.basename.to_s != '.git'
+      elsif child.directory? && child.basename.to_s !~ %r{(^\.git$|^\.?bundle$)}
         results.concat(check_directory_for_symlinks(child))
       end
     end
