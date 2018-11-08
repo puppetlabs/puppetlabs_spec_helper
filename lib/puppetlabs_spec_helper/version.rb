@@ -1,5 +1,5 @@
 module PuppetlabsSpecHelper
-  VERSION = '2.11.0'.freeze
+  VERSION = '2.12.0'.freeze
 
   # compat for pre-1.2.0 users; deprecated
   module Version
