@@ -166,7 +166,8 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     else
       raise "Unfortunately #{scm} is not supported yet"
     end
-    system("#{scm} #{args.flatten.join ' '}", chdir: target)
+    result = system("#{scm} #{args.flatten.join ' '}", chdir: target)
+    raise "Invalid ref #{ref} for #{target}" unless result
   end
 
   def valid_repo?(scm, target, remote)
