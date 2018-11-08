@@ -3,6 +3,19 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.12.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.12.0) (2018-11-08)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.11.0...v2.12.0)
+
+**Implemented enhancements:**
+
+- Added tasks to rspec pattern. [\#261](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/261) ([dylanratcliffe](https://github.com/dylanratcliffe))
+- \(PDK-1100\) Use PDK to build module packages [\#260](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/260) ([rodjek](https://github.com/rodjek))
+
+**Fixed bugs:**
+
+- \(bugfix\) ignore bundle directory, for symlinks [\#263](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/263) ([tphoney](https://github.com/tphoney))
+- \(MODULES-7273\) - Raise error when fixture ref invalid [\#262](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/262) ([eimlav](https://github.com/eimlav))
+
 ## [v2.11.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.11.0) (2018-09-26)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.10.0...v2.11.0)
 
@@ -13,6 +26,10 @@ All significant changes to this repo will be summarized in this file.
 **Fixed bugs:**
 
 - Fix example conversion from mocha to rspec mocks. [\#257](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/257) ([vStone](https://github.com/vStone))
+
+**Merged pull requests:**
+
+- \(MODULES-7858\) - 2.11.0 Release Prep [\#259](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/259) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.10.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.10.0) (2018-08-30)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.1...v2.10.0)
