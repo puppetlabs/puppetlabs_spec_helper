@@ -94,7 +94,7 @@ task :parallel_spec_standalone do |_t, args|
   else
     begin
       args = ['-t', 'rspec']
-      args += ENV['CI_SPEC_OPTIONS'].strip.split(' ') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?k
+      args += ENV['CI_SPEC_OPTIONS'].strip.split(' ') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
       args += Rake::FileList[pattern].to_a
 
       ParallelTests::CLI.new.run(args)
