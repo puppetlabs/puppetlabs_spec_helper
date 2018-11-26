@@ -2,6 +2,85 @@ require 'spec_helper'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 
 describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
+  describe '.module_name' do
+    subject(:module_name) { described_class.module_name }
+
+    before(:each) do
+      allow(Dir).to receive(:pwd).and_return(File.join('path', 'to', 'my-awsome-module_from_pwd'))
+    end
+
+    shared_examples 'module name from working directory' do
+      it 'determines the module name from the working directory name' do
+        expect(module_name).to eq('module_from_pwd')
+      end
+    end
+
+    shared_examples 'module name from metadata' do
+      it 'determines the module name from the module metadata' do
+        expect(module_name).to eq('module_from_metadata')
+      end
+    end
+
+    context 'when metadata.json does not exist' do
+      before(:each) do
+        allow(File).to receive(:file?).with('metadata.json').and_return(false)
+      end
+
+      it_behaves_like 'module name from working directory'
+    end
+
+    context 'when metadata.json does exist' do
+      before(:each) do
+        allow(File).to receive(:file?).with('metadata.json').and_return(true)
+      end
+
+      context 'but it is not readable' do
+        before(:each) do
+          allow(File).to receive(:readable?).with('metadata.json').and_return(false)
+        end
+
+        it_behaves_like 'module name from working directory'
+      end
+
+      context 'and it is readable' do
+        before(:each) do
+          allow(File).to receive(:readable?).with('metadata.json').and_return(true)
+          allow(File).to receive(:read).with('metadata.json').and_return(metadata_content)
+        end
+
+        context 'but it contains invalid JSON' do
+          let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata", }' }
+
+          it_behaves_like 'module name from working directory'
+        end
+
+        context 'and it contains a name value' do
+          let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata" }' }
+
+          it_behaves_like 'module name from metadata'
+        end
+
+        context 'but it does not contain a name value' do
+          let(:metadata_content) { '{}' }
+
+          it_behaves_like 'module name from working directory'
+        end
+
+        context 'but the name has a null value' do
+          let(:metadata_content) { '{ "name": null }' }
+
+          it_behaves_like 'module name from working directory'
+        end
+
+        context 'but the name is blank' do
+          let(:metadata_content) { '{ "name": "" }' }
+
+          it_behaves_like 'module name from working directory'
+        end
+      end
+    end
+  end
+
   describe '.fixtures' do
     before :each do
       # Unstub the fixtures "helpers"
