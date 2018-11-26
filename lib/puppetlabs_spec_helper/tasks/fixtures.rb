@@ -1,5 +1,6 @@
 require 'yaml'
 require 'open3'
+require 'json'
 
 module PuppetlabsSpecHelper; end
 module PuppetlabsSpecHelper::Tasks; end
@@ -7,6 +8,19 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # This is a helper for the self-symlink entry of fixtures.yml
   def source_dir
     Dir.pwd
+  end
+
+  def module_name
+    raise ArgumentError unless File.file?('metadata.json') && File.readable?('metadata.json')
+
+    metadata = JSON.parse(File.read('metadata.json'))
+    metadata_name = metadata.fetch('name', nil) || ''
+
+    raise ArgumentError if metadata_name.empty?
+
+    metadata_name.split('-').last
+  rescue JSON::ParserError, ArgumentError
+    File.basename(Dir.pwd).split('-').last
   end
 
   # cache the repositories and return a hash object
@@ -18,7 +32,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 
   def auto_symlink
-    { File.basename(Dir.pwd).split('-').last => '#{source_dir}' }
+    { module_name => '#{source_dir}' }
   end
 
   def fixtures(category)
