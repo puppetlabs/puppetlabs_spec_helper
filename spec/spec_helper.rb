@@ -21,9 +21,19 @@ if ENV['COVERAGE'] == 'yes'
   end
 end
 
+require 'fakefs/spec_helpers'
+
 require 'puppetlabs_spec_helper/puppet_spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 require 'puppetlabs_spec_helper/rake_tasks'
+
+RSpec.shared_context 'rake task', type: :task do
+  subject(:task) { Rake::Task[task_name] }
+
+  include FakeFS::SpecHelpers
+
+  let(:task_name) { self.class.top_level_description.sub(%r{\Arake }, '') }
+end
 
 # configure RSpec after including all the code
 RSpec.configure do |config|
@@ -31,4 +41,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
   config.mock_with :rspec
+
+  config.include_context 'rake task', type: :task
 end

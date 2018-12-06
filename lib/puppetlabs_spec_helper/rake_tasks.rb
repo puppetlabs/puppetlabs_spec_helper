@@ -293,13 +293,10 @@ namespace :check do
 
   desc 'Fails if .pp files present in tests folder'
   task :test_file do
-    if Dir.exist?('tests')
-      Dir.chdir('tests')
-      ppfiles = Dir['*.pp']
-      unless ppfiles.empty?
-        puts ppfiles
-        raise '.pp files present in tests folder; Move them to an examples folder following the new convention'
-      end
+    ppfiles = Dir[File.join('tests', '**', '*.pp')]
+    unless ppfiles.empty?
+      puts ppfiles
+      raise '.pp files present in tests folder; Move them to an examples folder following the new convention'
     end
   end
 
