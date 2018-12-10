@@ -89,6 +89,7 @@ Style/Documentation:
     - 'lib/puppetlabs_spec_helper/puppetlabs_spec/puppet_internals.rb'
     - 'lib/puppetlabs_spec_helper/tasks/beaker.rb'
     - 'lib/puppetlabs_spec_helper/tasks/fixtures.rb'
+    - 'lib/puppetlabs_spec_helper/tasks/check_symlinks.rb'
 
 # Offense count: 1
 Style/DoubleNegation:

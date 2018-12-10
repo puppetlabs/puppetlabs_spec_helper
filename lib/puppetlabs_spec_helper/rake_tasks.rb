@@ -6,6 +6,7 @@ require 'pathname'
 require 'puppetlabs_spec_helper/version'
 require 'puppetlabs_spec_helper/tasks/beaker'
 require 'puppetlabs_spec_helper/tasks/fixtures'
+require 'puppetlabs_spec_helper/tasks/check_symlinks'
 require 'English'
 
 # optional gems
@@ -284,7 +285,7 @@ end
 namespace :check do
   desc 'Fails if symlinks are present in directory'
   task :symlinks do
-    symlinks = check_directory_for_symlinks
+    symlinks = PuppetlabsSpecHelper::Tasks::CheckSymlinks.new.check
     unless symlinks.empty?
       symlinks.each { |r| puts "Symlink found: #{r} => #{r.readlink}" }
       raise 'Symlink(s) exist within this directory'

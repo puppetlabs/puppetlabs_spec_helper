@@ -261,21 +261,6 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     end
     @max_thread_limit
   end
-
-  def check_directory_for_symlinks(dir = '.')
-    dir = Pathname.new(dir) unless dir.is_a?(Pathname)
-    results = []
-
-    dir.each_child(true) do |child|
-      if child.symlink?
-        results << child
-      elsif child.directory? && child.basename.to_s !~ %r{(^\.git$|^\.?bundle$)}
-        results.concat(check_directory_for_symlinks(child))
-      end
-    end
-
-    results
-  end
 end
 include PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
