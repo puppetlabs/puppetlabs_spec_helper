@@ -25,6 +25,17 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     File.basename(Dir.pwd).split('-').last
   end
 
+  def module_version(path)
+    metadata_path = File.join(path, 'metadata.json')
+    raise ArgumentError unless File.file?(metadata_path) && File.readable?(metadata_path)
+
+    metadata = JSON.parse(File.read(metadata_path))
+    metadata.fetch('version', nil) || '0.0.1'
+  rescue JSON::ParserError, ArgumentError
+    logger.warn "Failed to find module version at path #{path}"
+    '0.0.1'
+  end
+
   # @return [Hash] - returns a hash of all the fixture repositories
   # @example
   # {"puppetlabs-stdlib"=>{"target"=>"https://gitlab.com/puppetlabs/puppet-stdlib.git",
@@ -228,7 +239,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 
   def git_remote_url(target)
-    output, status = Open3.capture2e('git', '-C', target, 'remote', 'get-url', 'origin')
+    output, status = Open3.capture2e('git', '--git-dir', File.join(target, '.git'), 'ls-remote', '--get-url', 'origin')
     status.success? ? output.strip : nil
   end
 
@@ -370,7 +381,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
       flags = " #{opts['flags']}" if opts['flags']
     end
 
-    return false if File.directory?(target)
+    return false if File.directory?(target) && (ref.empty? || opts['ref'] == module_version(target))
 
     # The PMT cannot handle multi threaded runs due to cache directory collisons
     # so we randomize the directory instead.
