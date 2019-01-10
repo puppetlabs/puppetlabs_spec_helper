@@ -1,10 +1,24 @@
-sudo: false
+---
+dist: trusty
 language: ruby
 cache: bundler
 before_install:
-  # https://github.com/bundler/bundler/issues/3558
-  gem update bundler
-script: env COVERAGE=yes bundle exec rake
+  - if [ $BUNDLER_VERSION ]; then
+      gem install -v $BUNDLER_VERSION bundler --no-rdoc --no-ri;
+    fi
+  - bundle -v
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
+  - gem --version
+  - bundle -v
+script:
+  - 'bundle exec rake $CHECK'
+bundler_args: --without system_tests
+rvm:
+  - 2.5.1
+env:
+  global:
+    - BEAKER_PUPPET_COLLECTION=puppet6 PUPPET_GEM_VERSION="~> 6.0"
 matrix:
   fast_finish: true
   include:
