@@ -3,6 +3,24 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.13.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.0) (2019-01-11)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.12.0...v2.13.0)
+
+**Implemented enhancements:**
+
+- \(PDK-1199\) Honour .{pdk,git}ignore in check:symlinks rake task [\#267](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/267) ([rodjek](https://github.com/rodjek))
+- \(PDK-1137\) Determine module name from metadata when possible [\#265](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/265) ([rodjek](https://github.com/rodjek))
+
+**Fixed bugs:**
+
+- \(MODULES-8242\) - Fix CI\_SPEC\_OPTIONS failing [\#268](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/268) ([stamm](https://github.com/stamm))
+- \(PDK-997\) Remove Dir.chdir call from check:test\_file task [\#266](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/266) ([rodjek](https://github.com/rodjek))
+
+**Merged pull requests:**
+
+- \(maint\) - Resolving bundler ruby version failure, updating tests to include puppet 6 [\#271](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/271) ([pmcmaw](https://github.com/pmcmaw))
+- \(MAINT\) Add Plans Path Exclusion [\#270](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/270) ([RandomNoun7](https://github.com/RandomNoun7))
+
 ## [v2.12.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.12.0) (2018-11-08)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.11.0...v2.12.0)
 
@@ -15,6 +33,10 @@ All significant changes to this repo will be summarized in this file.
 
 - \(bugfix\) ignore bundle directory, for symlinks [\#263](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/263) ([tphoney](https://github.com/tphoney))
 - \(MODULES-7273\) - Raise error when fixture ref invalid [\#262](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/262) ([eimlav](https://github.com/eimlav))
+
+**Merged pull requests:**
+
+- 2.12.0 Release Prep [\#264](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/264) ([tphoney](https://github.com/tphoney))
 
 ## [v2.11.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.11.0) (2018-09-26)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.10.0...v2.11.0)
