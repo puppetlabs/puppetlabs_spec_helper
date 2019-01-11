@@ -266,7 +266,7 @@ task :compute_dev_version do
                     '%s-%s%04d-%s' % [version, 'r', build, sha]
                   else
                     '%s-%04d-%s' % [version, build, sha]
-                                end
+                  end
                 else
                   "#{version}-#{sha}"
                 end
