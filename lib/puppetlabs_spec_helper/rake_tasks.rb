@@ -16,6 +16,12 @@ rescue LoadError
   # ignore
 end
 
+begin
+  require 'puppet-strings/tasks'
+rescue LoadError
+  # ignore
+end
+
 parallel_tests_loaded = false
 begin
   require 'parallel_tests'
