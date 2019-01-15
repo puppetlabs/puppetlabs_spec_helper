@@ -3,6 +3,13 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.13.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.1) (2019-01-15)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.0...v2.13.1)
+
+**Fixed bugs:**
+
+- Revert "\(MODULES-8242\) - Fix CI\_SPEC\_OPTIONS failing" [\#275](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/275) ([rodjek](https://github.com/rodjek))
+
 ## [v2.13.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.0) (2019-01-11)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.12.0...v2.13.0)
 
@@ -18,6 +25,7 @@ All significant changes to this repo will be summarized in this file.
 
 **Merged pull requests:**
 
+- \(MODULES-8448\) - Release Prep 2.13.0 [\#273](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/273) ([pmcmaw](https://github.com/pmcmaw))
 - \(maint\) - Resolving bundler ruby version failure, updating tests to include puppet 6 [\#271](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/271) ([pmcmaw](https://github.com/pmcmaw))
 - \(MAINT\) Add Plans Path Exclusion [\#270](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/270) ([RandomNoun7](https://github.com/RandomNoun7))
 
