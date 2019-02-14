@@ -361,3 +361,79 @@ if File.exist? locales_dir
     puts 'No gettext-setup gem found, skipping GettextSetup config initialization' if Rake.verbose == true
   end
 end
+
+def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_since_tag = nil, changelog_tag_pattern = 'v%s')
+  if Bundler.rubygems.find_name('github_changelog_generator').any?
+    # needed a place to hide these methods
+    # rubocop:disable Lint/NestedMethodDefinition
+    def changelog_user_from_metadata
+      result = JSON.parse(File.read('metadata.json'))['author']
+      raise 'unable to find the changelog_user in .sync.yml, or the author in metadata.json' if result.nil?
+      puts "GitHubChangelogGenerator user:#{result}"
+      result
+    end
+
+    def changelog_project_from_metadata
+      result = JSON.parse(File.read('metadata.json'))['name']
+      raise 'unable to find the changelog_project in .sync.yml or the name in metadata.json' if result.nil?
+      puts "GitHubChangelogGenerator project:#{result}"
+      result
+    end
+
+    def changelog_future_release
+      return unless Rake.application.top_level_tasks.include? 'changelog'
+      result = JSON.parse(File.read('metadata.json'))['version']
+      raise 'unable to find the future_release (version) in metadata.json' if result.nil?
+      puts "GitHubChangelogGenerator future_release:#{result}"
+      result
+    end
+    # rubocop:enable Lint/NestedMethodDefinition
+
+    GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+      if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
+        raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'"
+      end
+      config.user = changelog_user || changelog_user_from_metadata
+      config.project = changelog_project || changelog_project_from_metadata
+      config.since_tag = changelog_since_tag if changelog_since_tag
+      config.future_release = changelog_tag_pattern % changelog_future_release.to_s
+      config.exclude_labels = ['maintenance']
+      config.header = "# Change log\n\nAll notable changes to this project will be documented in this file. " \
+                      'The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres ' \
+                      'to [Semantic Versioning](https://semver.org).'
+      config.add_pr_wo_labels = true
+      config.issues = false
+      config.merge_prefix = '### UNCATEGORIZED PRS; GO LABEL THEM'
+      config.configure_sections = {
+        'Changed' => {
+          'prefix' => '### Changed',
+          'labels' => ['backwards-incompatible'],
+        },
+        'Added' => {
+          'prefix' => '### Added',
+          'labels' => %w[feature enhancement],
+        },
+        'Fixed' => {
+          'prefix' => '### Fixed',
+          'labels' => ['bugfix'],
+        },
+      }
+    end
+  else
+    desc 'Generate a Changelog from GitHub'
+    task :changelog do
+      raise <<EOM
+The changelog tasks depends on unreleased features of the github_changelog_generator gem.
+Please manually add it to your .sync.yml for now, and run `pdk update`:
+---
+Gemfile:
+  optional:
+    ':development':
+      - gem: 'github_changelog_generator'
+        git: 'https://github.com/skywinder/github-changelog-generator'
+        ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
+        condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
+EOM
+    end
+  end
+end
