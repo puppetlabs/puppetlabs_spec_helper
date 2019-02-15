@@ -59,7 +59,7 @@ end
 
 class SetupBeaker
   def self.setup_beaker(t)
-    t.rspec_opts = ['--color']
+    t.rspec_opts = []
     t.pattern = 'spec/acceptance'
     # TEST_TIERS env variable is a comma separated list of tiers to run. e.g. low, medium, high
     if ENV['TEST_TIERS']
