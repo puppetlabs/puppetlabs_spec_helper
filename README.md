@@ -193,35 +193,38 @@ working directory is `<module directory>/spec/fixtures/work-dir`.
 
 When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use, and optionally, the puppet versions where the fixture is needed.
 
- * repo - the url to the repo
- * scm - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
+ * `repo` - the url to the repo
+ * `scm` - options include git or hg. This is an optional step as the helper code will figure out which scm is used.
 
    ```yaml
    scm: git
    scm: hg
    ```
 
- * target - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
- * subdir - directory to be removed from the cloned repo. Its contents will be moved to the root directory (Optional)
- * ref - used to specify the tag name like version hash of commit (Optional)
+ * `target` - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
+ * `subdir` - directory to be removed from the cloned repo. Its contents will be moved to the root directory (Optional)
+ * `ref` - used to specify the tag name like version hash of commit (Optional)
 
    ```yaml
    ref: 1.0.0
    ref: 880fca52c
    ```
- * branch - used to specify the branch name you want to use ie. `branch: development`
- * flags - additional flags passed to the module installer (both puppet and scm)
+ * `branch` - used to specify the branch name you want to use ie. `branch: development`
+ * `flags` - additional flags passed to the module installer (both puppet and scm)
 
    ```yaml
    flags: --verbose
    ```
- * puppet_version - versions of puppet for which the fixture should be installed. Ruby version constraints are supported. Only works when the `semantic_puppet` gem is available (shipped with puppet 4.0 and up, by default).
+ * `puppet_version` - versions of puppet for which the fixture should be installed. Ruby version constraints are supported. Only works when the `semantic_puppet` gem is available (shipped with puppet 4.0 and up, by default).
 
    ```yaml
    puppet_version: '>= 6.0.0'
    ```
 
- **Note:** ref and branch can be used together to get a specific revision on a specific branch
+ **Notes:**
+
+ * `ref` and `branch` can be used together to get a specific revision on a specific branch
+ * Top level `defaults` option could be used to set global options
 
 Fixtures Examples
 -----------------
@@ -257,7 +260,7 @@ fixtures:
       target: "spec/fixtures/control_repos"
 ```
 
-Specify that the git tag `2.4.2` of `stdlib' should be checked out:
+Specify that the git tag `2.4.2` of `stdlib` should be checked out:
 
 ```yaml
 fixtures:
@@ -313,6 +316,23 @@ fixtures:
         repo: "git://github.com/puppetlabs/puppetlabs-firewall"
         ref: "2.6.0"
         flags: "--verbose"
+```
+
+Use `defaults` to define global parameters:
+
+```yaml
+defaults:
+  forge_modules:
+    flags: "--module_repository https://my_repo.com"
+fixtures:
+  forge_modules:
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "2.6.0"
+    repositories:
+      firewall:
+        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+        ref: "2.6.0"
 ```
 
 Testing Parser Functions
