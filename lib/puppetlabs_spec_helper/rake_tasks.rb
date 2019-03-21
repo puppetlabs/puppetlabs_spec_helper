@@ -4,10 +4,12 @@ require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'pathname'
 require 'puppetlabs_spec_helper/version'
-require 'puppetlabs_spec_helper/tasks/beaker'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 require 'puppetlabs_spec_helper/tasks/check_symlinks'
 require 'English'
+
+# dont load beaker if litmus is present
+require 'puppetlabs_spec_helper/tasks/beaker' unless Bundler.rubygems.find_name('puppet_litmus').any?
 
 # optional gems
 begin
