@@ -3,12 +3,29 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.14.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.0) (2019-03-22)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.1...v2.14.0)
+
+**Implemented enhancements:**
+
+- \(feat\) dont load the beaker if litmus is there [\#281](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/281) ([tphoney](https://github.com/tphoney))
+- \(maint\) load rake tasks from optional libraries [\#279](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/279) ([DavidS](https://github.com/DavidS))
+- Document how to set default values for fixture loading [\#277](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/277) ([Felixoid](https://github.com/Felixoid))
+
+**Merged pull requests:**
+
+- Remove `--color` from everywhere, use RSpec default detection instead [\#280](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/280) ([DavidS](https://github.com/DavidS))
+
 ## [v2.13.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.1) (2019-01-15)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.0...v2.13.1)
 
 **Fixed bugs:**
 
 - Revert "\(MODULES-8242\) - Fix CI\_SPEC\_OPTIONS failing" [\#275](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/275) ([rodjek](https://github.com/rodjek))
+
+**Merged pull requests:**
+
+- Release Prep 2.13.1 [\#276](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/276) ([bmjen](https://github.com/bmjen))
 
 ## [v2.13.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.0) (2019-01-11)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.12.0...v2.13.0)
