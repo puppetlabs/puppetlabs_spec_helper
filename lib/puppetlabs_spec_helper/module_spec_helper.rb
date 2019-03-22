@@ -22,12 +22,10 @@ if ENV['SIMPLECOV'] == 'yes'
   begin
     require 'simplecov'
     require 'simplecov-console'
-    require 'codecov'
 
     SimpleCov.formatters = [
       SimpleCov::Formatter::HTMLFormatter,
       SimpleCov::Formatter::Console,
-      SimpleCov::Formatter::Codecov,
     ]
     SimpleCov.start do
       track_files 'lib/**/*.rb'
@@ -46,7 +44,7 @@ if ENV['SIMPLECOV'] == 'yes'
       end
     end
   rescue LoadError
-    raise 'Add the simplecov, simplecov-console, codecov gems to Gemfile to enable this task'
+    raise 'Add the simplecov, simplecov-console gems to Gemfile to enable this task'
   end
 end
 
