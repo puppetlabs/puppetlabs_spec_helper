@@ -4,12 +4,14 @@ require 'json'
 
 module PuppetlabsSpecHelper; end
 module PuppetlabsSpecHelper::Tasks; end
+
 module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # This is a helper for the self-symlink entry of fixtures.yml
   def source_dir
     Dir.pwd
   end
 
+  # @return [String] - the name of current module
   def module_name
     raise ArgumentError unless File.file?('metadata.json') && File.readable?('metadata.json')
 
@@ -23,16 +25,37 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     File.basename(Dir.pwd).split('-').last
   end
 
-  # cache the repositories and return a hash object
+  # @return [Hash] - returns a hash of all the fixture repositories
+  # @example
+  # {"puppetlabs-stdlib"=>{"target"=>"https://gitlab.com/puppetlabs/puppet-stdlib.git",
+  # "ref"=>nil, "branch"=>"master", "scm"=>nil,
+  # }}
   def repositories
-    unless @repositories
-      @repositories = fixtures('repositories')
-    end
-    @repositories
+    @repositories ||= fixtures('repositories') || {}
   end
 
+  # @return [Hash] - returns a hash of all the fixture forge modules
+  # @example
+  # {"puppetlabs-stdlib"=>{"target"=>"spec/fixtures/modules/stdlib",
+  # "ref"=>nil, "branch"=>nil, "scm"=>nil,
+  # "flags"=>"--module_repository=https://myforge.example.com/", "subdir"=>nil}}
+  def forge_modules
+    @forge_modules ||= fixtures('forge_modules') || {}
+  end
+
+  # @return [Hash] - a hash of symlinks specified in the fixtures file
+  def symlinks
+    @symlinks ||= fixtures('symlinks') || {}
+  end
+
+  # @return [Hash] - returns a hash with the module name and the source directory
   def auto_symlink
     { module_name => '#{source_dir}' }
+  end
+
+  # @return [Boolean] - true if the os is a windows system
+  def windows?
+    !!File::ALT_SEPARATOR
   end
 
   def fixtures(category)
@@ -77,7 +100,6 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
     result = {}
     if fixtures.include?(category) && !fixtures[category].nil?
-
       defaults = { 'target' => 'spec/fixtures/modules' }
 
       # load defaults from the `.fixtures.yml` `defaults` section
@@ -235,6 +257,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # returns the current thread count that is currently active
   # a status of false or nil means the thread completed
   # so when anything else we count that as a active thread
+  # @return [Integer] - current thread count
   def current_thread_count(items)
     active_threads = items.find_all do |_item, opts|
       if opts[:thread]
@@ -247,79 +270,46 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     active_threads.count
   end
 
-  # returns the max_thread_count
-  # because we may want to limit ssh or https connections
+  # @summary Set a limit on the amount threads used, defaults to 10
+  #   MAX_FIXTURE_THREAD_COUNT can be used to set this limit
+  # @return [Integer] - returns the max_thread_count
   def max_thread_limit
-    unless @max_thread_limit
-      # the default thread count is 10 but can be
-      # raised by using environment variable MAX_FIXTURE_THREAD_COUNT
-      @max_thread_limit = if ENV['MAX_FIXTURE_THREAD_COUNT'].to_i > 0
-                            ENV['MAX_FIXTURE_THREAD_COUNT'].to_i
-                          else
-                            10 # the default
-                          end
-    end
-    @max_thread_limit
-  end
-end
-include PuppetlabsSpecHelper::Tasks::FixtureHelpers
-
-desc 'Create the fixtures directory'
-task :spec_prep do
-  # Ruby only sets File::ALT_SEPARATOR on Windows and Rubys standard library
-  # uses this to check for Windows
-  is_windows = !!File::ALT_SEPARATOR
-  if is_windows
-    begin
-      require 'win32/dir'
-    rescue LoadError
-      $stderr.puts 'win32-dir gem not installed, falling back to executing mklink directly'
-    end
+    @max_thread_limit ||= (ENV['MAX_FIXTURE_THREAD_COUNT'] || 10).to_i
   end
 
-  # git has a race condition creating that directory, that would lead to aborted clone operations
-  FileUtils.mkdir_p('spec/fixtures/modules')
-
-  repositories.each do |remote, opts|
-    scm = 'git'
-    target = opts['target']
-    subdir = opts['subdir']
-    ref = opts['ref']
-    scm = opts['scm'] if opts['scm']
-    branch = opts['branch'] if opts['branch']
-    flags = opts['flags']
-    # get the current active threads that are alive
-    count = current_thread_count(repositories)
-    if count < max_thread_limit
-      logger.debug "New Thread started for #{remote}"
-      # start up a new thread and store it in the opts hash
-      opts[:thread] = Thread.new do
-        if valid_repo?(scm, target, remote)
-          update_repo(scm, target)
-        else
-          clone_repo(scm, remote, target, subdir, ref, branch, flags)
+  # @param items [Hash] - a hash of either repositories or forge modules
+  # @param [Block] - the method you wish to use to download the item
+  def download_items(items)
+    items.each do |remote, opts|
+      # get the current active threads that are alive
+      count = current_thread_count(items)
+      if count < max_thread_limit
+        logger.debug "New Thread started for #{remote}"
+        # start up a new thread and store it in the opts hash
+        opts[:thread] = Thread.new do
+          yield(remote, opts)
         end
-        revision(scm, target, ref) if ref
-        remove_subdirectory(target, subdir) if subdir
+      else
+        # the last thread started should be the longest wait
+        item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last
+        logger.debug "Waiting on #{item}"
+        item_opts[:thread].join # wait for the thread to finish
+        # now that we waited lets try again
+        redo
       end
-    else
-      # the last thread started should be the longest wait
-      item, item_opts = repositories.find_all { |_i, o| o.key?(:thread) }.last
-      logger.debug "Waiting on #{item}"
-      item_opts[:thread].join # wait for the thread to finish
-      # now that we waited lets try again
-      redo
     end
+    # wait for all the threads to finish
+    items.each { |_remote, opts| opts[:thread].join }
   end
 
-  # wait for all the threads to finish
-  repositories.each { |_remote, opts| opts[:thread].join }
-
-  fixtures('symlinks').each do |target, link|
+  # @param target [String] - the target directory
+  # @param link [String] - the name of the link you wish to create
+  # works on windows and linux
+  def setup_symlink(target, link)
     link = link['target']
-    next if File.symlink?(link)
+    return if File.symlink?(link)
     logger.info("Creating symlink from #{link} to #{target}")
-    if is_windows
+    if windows?
       target = File.join(File.dirname(link), target) unless Pathname.new(target).absolute?
       if Dir.respond_to?(:create_junction)
         Dir.create_junction(link, target)
@@ -331,7 +321,35 @@ task :spec_prep do
     end
   end
 
-  fixtures('forge_modules').each do |remote, opts|
+  # @return [Boolean] - returns true if the module was downloaded successfully, false otherwise
+  # @param [String] - the remote url or namespace/name of the module to download
+  # @param [Hash] - list of options such as version, branch, ref
+  def download_repository(remote, opts)
+    scm = 'git'
+    target = opts['target']
+    subdir = opts['subdir']
+    ref = opts['ref']
+    scm = opts['scm'] if opts['scm']
+    branch = opts['branch'] if opts['branch']
+    flags = opts['flags']
+    if valid_repo?(scm, target, remote)
+      update_repo(scm, target)
+    else
+      clone_repo(scm, remote, target, subdir, ref, branch, flags)
+    end
+    revision(scm, target, ref) if ref
+    remove_subdirectory(target, subdir) if subdir
+  end
+
+  # @return [String] - the spec/fixtures/modules directory in the module root folder
+  def module_target_dir
+    @module_target_dir ||= File.expand_path('spec/fixtures/modules')
+  end
+
+  # @return [Boolean] - returns true if the module was downloaded successfully, false otherwise
+  # @param [String] - the remote url or namespace/name of the module to download
+  # @param [Hash] - list of options such as version
+  def download_module(remote, opts)
     ref = ''
     flags = ''
     if opts.instance_of?(String)
@@ -342,21 +360,47 @@ task :spec_prep do
       flags = " #{opts['flags']}" if opts['flags']
     end
 
-    next if File.directory?(target)
+    return false if File.directory?(target)
 
-    working_dir = module_working_directory
-    target_dir = File.expand_path('spec/fixtures/modules')
+    # The PMT cannot handle multi threaded runs due to cache directory collisons
+    # so we randomize the directory instead.
+    # Does working_dir even need to be passed?
+    Dir.mktmpdir do |working_dir|
+      command = 'puppet module install' + ref + flags + ' --ignore-dependencies' \
+      ' --force' \
+      " --module_working_dir \"#{working_dir}\"" \
+      " --target-dir \"#{module_target_dir}\" \"#{remote}\""
 
-    command = 'puppet module install' + ref + flags + \
-              ' --ignore-dependencies' \
-              ' --force' \
-              " --module_working_dir \"#{working_dir}\"" \
-              " --target-dir \"#{target_dir}\" \"#{remote}\""
+      unless system(command)
+        raise "Failed to install module #{remote} to #{module_target_dir}"
+      end
+    end
+    $CHILD_STATUS.success?
+  end
+end
 
-    unless system(command)
-      raise "Failed to install module #{remote} to #{target_dir}"
+include PuppetlabsSpecHelper::Tasks::FixtureHelpers
+
+desc 'Create the fixtures directory'
+task :spec_prep do
+  # Ruby only sets File::ALT_SEPARATOR on Windows and Rubys standard library
+  # uses this to check for Windows
+  if windows?
+    begin
+      require 'win32/dir'
+    rescue LoadError
+      $stderr.puts 'win32-dir gem not installed, falling back to executing mklink directly'
     end
   end
+
+  # git has a race condition creating that directory, that would lead to aborted clone operations
+  FileUtils.mkdir_p('spec/fixtures/modules')
+
+  symlinks.each { |target, link| setup_symlink(target, link) }
+
+  download_items(repositories) { |remote, opts| download_repository(remote, opts) }
+
+  download_items(forge_modules) { |remote, opts| download_module(remote, opts) }
 
   FileUtils.mkdir_p('spec/fixtures/manifests')
   FileUtils.touch('spec/fixtures/manifests/site.pp')
@@ -364,12 +408,12 @@ end
 
 desc 'Clean up the fixtures directory'
 task :spec_clean do
-  fixtures('repositories').each do |_remote, opts|
+  repositories.each do |_remote, opts|
     target = opts['target']
     FileUtils.rm_rf(target)
   end
 
-  fixtures('forge_modules').each do |_remote, opts|
+  forge_modules.each do |_remote, opts|
     target = opts['target']
     FileUtils.rm_rf(target)
   end
