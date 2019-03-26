@@ -9,7 +9,7 @@ require 'puppetlabs_spec_helper/tasks/check_symlinks'
 require 'English'
 
 # dont load beaker if litmus is present
-require 'puppetlabs_spec_helper/tasks/beaker' unless Bundler.rubygems.find_name('puppet_litmus').any?
+require 'puppetlabs_spec_helper/tasks/beaker' unless Object.const_defined?(:Bundler) && Bundler.rubygems.find_name('puppet_litmus').any?
 
 # optional gems
 begin
