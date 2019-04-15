@@ -7,7 +7,10 @@ require 'puppetlabs_spec_helper/version'
 require 'puppetlabs_spec_helper/tasks/beaker'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 require 'puppetlabs_spec_helper/tasks/check_symlinks'
+require 'puppetlabs_spec_helper/util'
 require 'English'
+
+extend PuppetlabsSpecHelper::Util
 
 # optional gems
 begin
@@ -377,5 +380,16 @@ if File.exist? locales_dir
     end
   rescue Gem::LoadError
     puts 'No gettext-setup gem found, skipping GettextSetup config initialization' if Rake.verbose == true
+  end
+end
+
+namespace :module do
+  desc 'Generate a JSON description of the module contents'
+  task :inspect do
+    raise 'This task does not work with Puppet <= 3' if puppet_3_or_older?
+
+    require 'puppetlabs_spec_helper/tasks/module_inspector'
+    data = PuppetlabsSpecHelper::Tasks::ModuleInspector.new.run
+    puts $stdout.isatty ? JSON.pretty_generate(data) : JSON.generate(data)
   end
 end
