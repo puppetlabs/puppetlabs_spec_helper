@@ -416,34 +416,7 @@ You can enable it, set the following environment variable:s
 
 ``SIMPLECOV=yes``
 
-Remember to add the simplecov-console and codecov gems to your `Gemfile`.
-
-Using Coveralls
----------------
-
-You can also use [Coveralls](https://coveralls.io/) together with SimpleCov:
-
-```Ruby
-# First line of spec/spec_helper.rb
-require 'simplecov'
-require 'coveralls'
-
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
-
-SimpleCov.start do
-  add_filter '/spec/'
-  # Exclude bundled Gems in `/.vendor/`
-  add_filter '/.vendor/'
-end
-
-require 'puppetlabs_spec_helper/module_spec_helper'
-# Further content
-```
-
-Remember to add `gem 'coveralls', require: false` to your `Gemfile`.
+Remember to add the simplecov-console and codecov gems to your `Gemfile`. If you run `spec:simplecov` on Travis-CI or any of the other supported CI services, reports gets automatically uploaded to https://codecov.io/ .
 
 Some Notes for Windows Users
 ============================
