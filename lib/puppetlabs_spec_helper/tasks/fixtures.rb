@@ -1,10 +1,13 @@
 require 'yaml'
 require 'open3'
 require 'json'
+require 'puppetlabs_spec_helper/puppetlabs_spec/metadata'
 
 module PuppetlabsSpecHelper; end
 module PuppetlabsSpecHelper::Tasks; end
 module PuppetlabsSpecHelper::Tasks::FixtureHelpers
+  PSUDO_MODULE_NAME = '>>-replace-me-<<'.freeze
+
   # This is a helper for the self-symlink entry of fixtures.yml
   def source_dir
     Dir.pwd
@@ -33,6 +36,18 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
   def auto_symlink
     { module_name => '#{source_dir}' }
+  end
+
+  def metadata_defaults
+    {
+      PSUDO_MODULE_NAME => {
+        # TODO: in 3.x autoinstall should be true by default
+        'autoinstall_dependencies' => false,
+        'repo'                     => 'module_repository',
+        'ignore_dependencies'      => false,
+        'force'                    => false,
+      },
+    }
   end
 
   def fixtures(category)
@@ -69,11 +84,19 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
                          {}
                        end
 
-    fixtures = fixtures['fixtures']
+    fixtures = fixtures['fixtures'] || {}
 
     if fixtures['symlinks'].nil?
       fixtures['symlinks'] = auto_symlink
     end
+
+    if fixtures['metadata'].nil?
+      fixtures['metadata'] = {}
+    end
+    fixtures['metadata'] = {
+      PSUDO_MODULE_NAME => metadata_defaults[PSUDO_MODULE_NAME]
+                           .merge(fixtures['metadata']),
+    }
 
     result = {}
     if fixtures.include?(category) && !fixtures[category].nil?
@@ -102,14 +125,20 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
         real_target = eval('"' + opts['target'] + '"')
         real_source = eval('"' + opts['repo'] + '"')
+        extraopts = opts.dup
+        %w[ref branch scm flags subdir
+           target repo puppet_version].each do |key|
+          extraopts.delete(key)
+        end
 
         result[real_source] = {
           'target' => File.join(real_target, fixture),
-          'ref' => opts['ref'],
+          'ref'    => opts['ref'],
           'branch' => opts['branch'],
-          'scm' => opts['scm'],
-          'flags' => opts['flags'],
+          'scm'    => opts['scm'],
+          'flags'  => opts['flags'],
           'subdir' => opts['subdir'],
+          'opts'   => extraopts,
         }
       end
     end
@@ -198,6 +227,45 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   def git_remote_url(target)
     output, status = Open3.capture2e('git', '-C', target, 'remote', 'get-url', 'origin')
     status.success? ? output.strip : nil
+  end
+
+  def install_module_from_forge(remote, opts)
+    ref = ''
+    flags = ''
+    extraopts = []
+    option = opts['opts']
+    force = option['force'].nil? ? true : option['force']
+    ignore_dependencies = if option['ignore_dependencies'].nil?
+                            false
+                          else
+                            option['ignore_dependencies']
+                          end
+
+    extraopts.push '--force' if force
+    extraopts.push '--ignore-dependencies' if ignore_dependencies
+    extraopts.push "--module_repository #{option['forge']}" unless option['forge'].nil?
+
+    if opts.instance_of?(String)
+      target = opts
+    elsif opts.instance_of?(Hash)
+      target = opts['target']
+      ref = " --version #{opts['ref']}" unless opts['ref'].nil?
+      flags = " #{opts['flags']}" if opts['flags']
+    end
+
+    return if File.directory?(target)
+
+    working_dir = module_working_directory
+    target_dir = File.expand_path('spec/fixtures/modules')
+
+    command = 'puppet module install' + ref + flags + \
+              " #{extraopts.join(' ')}" \
+              " --module_working_dir \"#{working_dir}\"" \
+              " --target-dir \"#{target_dir}\" \"#{remote}\""
+
+    unless system(command)
+      raise "Failed to install module #{remote} to #{target_dir}"
+    end
   end
 
   def remove_subdirectory(target, subdir)
@@ -331,49 +399,45 @@ task :spec_prep do
     end
   end
 
-  fixtures('forge_modules').each do |remote, opts|
-    ref = ''
-    flags = ''
-    if opts.instance_of?(String)
-      target = opts
-    elsif opts.instance_of?(Hash)
-      target = opts['target']
-      ref = " --version #{opts['ref']}" unless opts['ref'].nil?
-      flags = " #{opts['flags']}" if opts['flags']
+  fixtures('metadata').each do |_, metadata_opts|
+    next unless metadata_opts['opts']['autoinstall_dependencies']
+    metadata = Class.new.extend(PuppetlabsSpec::Metadata)
+    metadata.module_dependencies_from_metadata(metadata_opts).each do |opts|
+      opts = metadata_opts.merge(opts)
+      module_name = opts['remote']
+      opts['target'] = opts['target'].gsub(PSUDO_MODULE_NAME, module_name.split('-')[-1])
+      install_module_from_forge(module_name, opts)
     end
+  end
 
-    next if File.directory?(target)
-
-    working_dir = module_working_directory
-    target_dir = File.expand_path('spec/fixtures/modules')
-
-    command = 'puppet module install' + ref + flags + \
-              ' --ignore-dependencies' \
-              ' --force' \
-              " --module_working_dir \"#{working_dir}\"" \
-              " --target-dir \"#{target_dir}\" \"#{remote}\""
-
-    unless system(command)
-      raise "Failed to install module #{remote} to #{target_dir}"
-    end
+  fixtures('forge_modules').each do |module_name, opts|
+    activeopts = opts.dup
+    activeopts['opts']['ignore_dependencies'] = true if opts['opts']['ignore_dependencies'].nil?
+    install_module_from_forge(module_name, activeopts)
   end
 
   FileUtils.mkdir_p('spec/fixtures/manifests')
   FileUtils.touch('spec/fixtures/manifests/site.pp')
+
+  line = '-' * 30
+  logger.info "\n\nListing installed dependencies:\n#{line}\n"
+  system('puppet module list --modulepath spec/fixtures/modules --tree')
+  puts ''
 end
 
 desc 'Clean up the fixtures directory'
 task :spec_clean do
-  fixtures('repositories').each do |_remote, opts|
-    target = opts['target']
-    FileUtils.rm_rf(target)
+  modules_dir = Pathname.new('spec/fixtures/modules')
+  if modules_dir.directory?
+    installed = modules_dir.children
+    symlinks = fixtures('symlinks')
+               .map { |_, opts| opts['target'] }
+               .map { |sym| Pathname.new(sym) }
+    non_symlinks = installed - symlinks
+    non_symlinks.each do |target|
+      FileUtils.rm_rf(target)
+    end
   end
-
-  fixtures('forge_modules').each do |_remote, opts|
-    target = opts['target']
-    FileUtils.rm_rf(target)
-  end
-
   FileUtils.rm_rf(module_working_directory)
 
   Rake::Task[:spec_clean_symlinks].invoke

@@ -191,6 +191,14 @@ file named `.fixtures.yml` in the root of the project. You can specify a alterna
 You can use the `MODULE_WORKING_DIR` environment variable to specify a diffent location when installing module fixtures via the forge. By default the
 working directory is `<module directory>/spec/fixtures/work-dir`.
 
+*Puppet Labs Spec Helper* supports installting modules from:
+
+ * SCM repositories via `repositories` key,
+ * Forge repositories via `forge_modules` key,
+ * Forge repositories from dependencies defined in `metadata.json` via `metadata` key.
+
+For more details on how to use those setting see [examples](#fixtures-examples).
+
 When specifying the repo source of the fixture you have a few options as to which revision of the codebase you wish to use, and optionally, the puppet versions where the fixture is needed.
 
  * `repo` - the url to the repo
@@ -302,6 +310,15 @@ fixtures:
       ref: "2.6.0"
 ```
 
+Install modules based on dependencies from `metadata.json`:
+
+```yaml
+fixtures:
+  metadata:
+    autoinstall_dependencies: true
+    forge: https://puppetforge.acmecorp.lan # optional
+```
+
 Pass additional flags to module installation:
 
 ```yaml
@@ -310,12 +327,12 @@ fixtures:
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: "2.6.0"
-      flags: "--module_repository https://my_repo.com"
-    repositories:
-      firewall:
-        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
-        ref: "2.6.0"
-        flags: "--verbose"
+      flags: "--module_repository https://puppetforge.acmecorp.lan"
+  repositories:
+    firewall:
+      repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+      ref: "2.6.0"
+      flags: "--verbose"
 ```
 
 Use `defaults` to define global parameters:
@@ -323,16 +340,16 @@ Use `defaults` to define global parameters:
 ```yaml
 defaults:
   forge_modules:
-    flags: "--module_repository https://my_repo.com"
+    flags: "--module_repository https://puppetforge.acmecorp.lan"
 fixtures:
   forge_modules:
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: "2.6.0"
-    repositories:
-      firewall:
-        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
-        ref: "2.6.0"
+  repositories:
+    firewall:
+      repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+      ref: "2.6.0"
 ```
 
 Testing Parser Functions
@@ -389,7 +406,7 @@ environment variable``TEST_TIERS=high,medium``
 
 By default ``TEST_TIERS`` only accepts low, medium and high as valid tiers.  If you would like to use your own keywords to set the environment variable ``TEST_TIERS_ALLOWED``.
 
-For example: to use the keywords dev, rnd, staging and production you can set 
+For example: to use the keywords dev, rnd, staging and production you can set
 ``TEST_TIERS_ALLOWED=dev,rnd,staging,production``. Then you would be able to run tests marked ``tier_dev => true``, ``tier_production => true`` with ``TEST_TIERS=dev,production``
 
 Note, if the ``TEST_TIERS`` environment variable is set to empty string or nil, all tiers will be executed.

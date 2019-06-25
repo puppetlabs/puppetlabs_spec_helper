@@ -1,0 +1,10 @@
+---
+fixtures:
+  metadata:
+    autoinstall_dependencies: true
+    forge: https://forgeapi.puppet.com/
+  forge_modules:
+    apache: 'puppetlabs/apache'
+  repositories:
+    mysql:
+      repo: 'https://github.com/puppetlabs/puppetlabs-mysql.git'

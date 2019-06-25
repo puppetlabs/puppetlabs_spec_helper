@@ -1,0 +1,10 @@
+{
+  "name": "puppetlabs-example",
+  "version": "0.1.0",
+  "author": "puppetlabs",
+  "license": "Apache-2.0",
+  "source": "",
+  "dependencies": [
+    { "name": "inkblot/bind", "version_requirement": ">= 7.0.0 < 8.0.0"}
+  ]
+}

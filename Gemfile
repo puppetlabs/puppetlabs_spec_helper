@@ -14,6 +14,9 @@ group :development do
     gem 'rubocop', '< 0.50'
     gem 'rubocop-rspec', '~> 1'
   end
+  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.3.0')
+    gem 'pry-byebug'
+  end
 end
 
 # json_pure 2.0.2 added a requirement on ruby >= 2. We pin to json_pure 2.0.1

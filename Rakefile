@@ -7,9 +7,24 @@ def gem_present(name)
   !Bundler.rubygems.find_name(name).empty?
 end
 
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb'].exclude('spec/fixtures/**/*_spec.rb')
+desc 'Runs unit tests'
+RSpec::Core::RakeTask.new(:'spec:unit') do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb']
+                 .exclude('spec/fixtures/**/*_spec.rb')
+                 .exclude('spec/acceptance/**/*_spec.rb')
 end
+
+desc 'Runs acceptance tests'
+RSpec::Core::RakeTask.new(:'spec:acceptance') do |spec|
+  spec.pattern = FileList['spec/acceptance/**/*_spec.rb']
+end
+
+Rake::Task[:spec].clear
+desc 'Runs all tests'
+task spec: [
+  :'spec:unit',
+  :'spec:acceptance',
+]
 
 require 'yard'
 YARD::Rake::YardocTask.new
