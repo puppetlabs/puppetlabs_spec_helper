@@ -367,7 +367,7 @@ if File.exist? locales_dir
     spec = Gem::Specification.find_by_name 'gettext-setup'
     load "#{spec.gem_dir}/lib/tasks/gettext.rake"
     # Initialization requires a valid locales directory
-    GettextSetup.initialize_config(locales_dir)
+    GettextSetup.initialize(locales_dir)
     namespace :module do
       desc 'Runs all tasks to build a modules POT file for internationalization'
       task :pot_gen do
