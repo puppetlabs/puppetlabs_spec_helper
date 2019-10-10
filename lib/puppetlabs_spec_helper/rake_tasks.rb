@@ -142,6 +142,7 @@ namespace :build do
   desc 'Build Puppet module with PDK'
   task :pdk do
     begin
+      require 'pdk/util'
       require 'pdk/module/build'
 
       path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
