@@ -59,7 +59,7 @@ Host github.com
 
 ```
 
-Note: parallel downloads is only available for repositories and not forge modules.
+Note: parallel downloads are available for repositories and forge modules.
 
 ### Parallel tests
 It is also possible to use the `parallel_tests` Gem via the `:parallel_spec` Rake task to run rspec commands in parallel on groups of spec files.

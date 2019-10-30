@@ -128,10 +128,10 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('fixtures' => { 'forge_modules' => { 'stdlib' => 'puppetlabs-stdlib' } })
         expect(subject.fixtures('forge_modules')).to eq('puppetlabs-stdlib' => {
                                                           'target' => 'spec/fixtures/modules/stdlib',
-                                                          'ref'    => nil,
+                                                          'ref' => nil,
                                                           'branch' => nil,
-                                                          'scm'    => nil,
-                                                          'flags'  => nil,
+                                                          'scm' => nil,
+                                                          'flags' => nil,
                                                           'subdir' => nil,
                                                         })
       end
@@ -143,14 +143,37 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
                                                                             'fixtures' => { 'forge_modules' => { 'stdlib' => 'puppetlabs-stdlib' } })
         expect(subject.fixtures('forge_modules')).to eq('puppetlabs-stdlib' => {
                                                           'target' => 'spec/fixtures/modules/stdlib',
-                                                          'ref'    => nil,
+                                                          'ref' => nil,
                                                           'branch' => nil,
-                                                          'scm'    => nil,
-                                                          'flags'  => '--module_repository=https://myforge.example.com/',
+                                                          'scm' => nil,
+                                                          'flags' => '--module_repository=https://myforge.example.com/',
                                                           'subdir' => nil,
                                                         })
       end
     end
+
+    context 'when file specifies repository fixtures' do
+      before(:each) do
+        allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
+        allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(
+          'fixtures' => {
+            'repositories' => { 'stdlib' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git' },
+          },
+        )
+      end
+
+      it 'returns the hash' do
+        expect(subject.repositories).to eq('https://github.com/puppetlabs/puppetlabs-stdlib.git' => {
+                                             'target' => 'spec/fixtures/modules/stdlib',
+                                             'ref' => nil,
+                                             'branch' => nil,
+                                             'scm' => nil,
+                                             'flags' => nil,
+                                             'subdir' => nil,
+                                           })
+      end
+    end
+
     context 'when file specifies puppet version' do
       def stub_fixtures(data)
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
