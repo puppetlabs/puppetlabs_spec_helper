@@ -198,7 +198,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     when 'hg'
       args.push('update', '--clean', '-r', ref)
     when 'git'
-      args.push('reset', '--hard', ref)
+      args.push('reset', '--hard', "origin/#{ref}")
     else
       raise "Unfortunately #{scm} is not supported yet"
     end
