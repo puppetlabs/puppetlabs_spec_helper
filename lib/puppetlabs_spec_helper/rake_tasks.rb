@@ -220,6 +220,7 @@ PuppetSyntax.exclude_paths ||= []
 PuppetSyntax.exclude_paths << 'spec/fixtures/**/*'
 PuppetSyntax.exclude_paths << 'pkg/**/*'
 PuppetSyntax.exclude_paths << 'vendor/**/*'
+PuppetSyntax.exclude_paths << '.vendor/**/*'
 PuppetSyntax.exclude_paths << 'plans/**/*'
 if Puppet.version.to_f < 4.0
   PuppetSyntax.exclude_paths << 'types/**/*'
