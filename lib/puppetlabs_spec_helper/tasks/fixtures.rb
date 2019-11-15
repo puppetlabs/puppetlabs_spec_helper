@@ -127,7 +127,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
         result[real_source] = {
           'target' => File.join(real_target, fixture),
-          'ref' => opts['ref'],
+          'ref' => opts['ref'] || opts['tag'],
           'branch' => opts['branch'],
           'scm' => opts['scm'],
           'flags' => opts['flags'],
