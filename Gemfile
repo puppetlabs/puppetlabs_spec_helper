@@ -7,6 +7,7 @@ gemspec
 group :development do
   gem 'codecov'
   gem 'github_changelog_generator' if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.0')
+  gem 'pry'
   gem 'puppet', ENV['PUPPET_GEM_VERSION'] || ENV['PUPPET_VERSION'] || '~> 4.0'
   gem 'simplecov', '~> 0'
   gem 'simplecov-console'
