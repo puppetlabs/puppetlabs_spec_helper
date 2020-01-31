@@ -174,6 +174,27 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
     end
 
+    context 'when file specifies repository fixtures with an invalid git ref' do
+      before(:each) do
+        allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
+        allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(
+          'fixtures' => {
+            'repositories' => {
+              'stdlib' => {
+                'scm'  => 'git',
+                'repo' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git',
+                'ref'  => 'this/is/a/branch',
+              },
+            },
+          },
+        )
+      end
+
+      it 'raises an ArgumentError' do
+        expect { subject.fixtures('repositories') }.to raise_error(ArgumentError)
+      end
+    end
+
     context 'when file specifies puppet version' do
       def stub_fixtures(data)
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
