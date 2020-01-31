@@ -156,7 +156,7 @@ variables for the spec run. These are:
   * ``TRUSTED_NODE_DATA``  _(Puppet 3.x, starting with 3.4)_ - set to "yes" to enable [the $facts hash and trusted node data](https://puppet.com/docs/puppet/3.8/lang_facts_and_builtin_vars.html#trusted-facts),
     which enabled ``$facts`` and ``$trusted`` hashes. This is equivalent to setting
     [trusted_node_data=true](https://puppet.com/docs/puppet/3.8/configuration.html#trustednodedata)
-    in puppet.conf.    
+    in puppet.conf.
   * ``STRINGIFY_FACTS``  _(Puppet 3.x, starting with 3.5)_  - set to "no" to enable [structured facts](http://docs.puppetlabs.com/facter/2.0/fact_overview.html#writing-structured-facts),
     otherwise leave unset to retain the current default behavior. This is equivalent to setting
     [stringify_facts=false](https://puppet.com/docs/puppet/3.8/configuration.html#stringifyfacts)
@@ -203,7 +203,7 @@ When specifying the repo source of the fixture you have a few options as to whic
 
  * `target` - the directory name to clone the repo into ie. `target: mymodule`  defaults to the repo name  (Optional)
  * `subdir` - directory to be removed from the cloned repo. Its contents will be moved to the root directory (Optional)
- * `ref` - used to specify the tag name like version hash of commit (Optional)
+ * `ref` - used to specify the tag name (like version) or commit hash to be checked out (Optional). Branch names should use the `branch` option instead.
 
    ```yaml
    ref: 1.0.0
@@ -389,7 +389,7 @@ environment variable``TEST_TIERS=high,medium``
 
 By default ``TEST_TIERS`` only accepts low, medium and high as valid tiers.  If you would like to use your own keywords to set the environment variable ``TEST_TIERS_ALLOWED``.
 
-For example: to use the keywords dev, rnd, staging and production you can set 
+For example: to use the keywords dev, rnd, staging and production you can set
 ``TEST_TIERS_ALLOWED=dev,rnd,staging,production``. Then you would be able to run tests marked ``tier_dev => true``, ``tier_production => true`` with ``TEST_TIERS=dev,production``
 
 Note, if the ``TEST_TIERS`` environment variable is set to empty string or nil, all tiers will be executed.
