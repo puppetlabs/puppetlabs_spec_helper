@@ -125,17 +125,27 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         real_target = eval('"' + opts['target'] + '"')
         real_source = eval('"' + opts['repo'] + '"')
 
-        result[real_source] = {
+        result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),
-          'ref' => opts['ref'] || opts['tag'],
+          'ref'    => opts['ref'] || opts['tag'],
           'branch' => opts['branch'],
-          'scm' => opts['scm'],
-          'flags' => opts['flags'],
+          'scm'    => opts['scm'],
+          'flags'  => opts['flags'],
           'subdir' => opts['subdir'],
-        }
+        )
       end
     end
     result
+  end
+
+  def validate_fixture_hash!(hash)
+    # Can only validate git based scm
+    return hash unless hash['scm'] == 'git'
+
+    # Forward slashes in the ref aren't allowed. And is probably a branch name.
+    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{\/}
+
+    hash
   end
 
   def include_repo?(version_range)
@@ -198,7 +208,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     when 'hg'
       args.push('update', '--clean', '-r', ref)
     when 'git'
-      args.push('reset', '--hard', "origin/#{ref}")
+      args.push('reset', '--hard', ref)
     else
       raise "Unfortunately #{scm} is not supported yet"
     end
