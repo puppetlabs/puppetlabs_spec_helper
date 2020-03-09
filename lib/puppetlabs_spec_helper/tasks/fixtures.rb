@@ -236,7 +236,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     unless subdir.nil?
       Dir.mktmpdir do |tmpdir|
         FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
-        FileUtils.rm_rf("#{target}/#{subdir}")
+        FileUtils.rm_rf(Dir.glob("#{target}/{.[^\.]*,*}"))
         FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), target.to_s)
       end
     end
