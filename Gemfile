@@ -27,6 +27,6 @@ end
 # json_pure 2.0.2 added a requirement on ruby >= 2. We pin to json_pure 2.0.1
 # if using ruby 1.x
 gem 'json_pure', '<=2.0.1' if RUBY_VERSION =~ %r{^1\.}
-gem 'rack', '~> 1'
+gem 'rack', '~> 2'
 
 # vim:filetype=ruby
