@@ -33,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'yard'
   spec.add_development_dependency 'gettext-setup', '~> 0.29'
-  spec.add_development_dependency 'fakefs', '~> 0.13.3'
+  spec.add_development_dependency 'fakefs', '~> 1.0.0'
 end
