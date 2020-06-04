@@ -1,10 +1,11 @@
-sudo: false
+os: linux
+dist: xenial
 language: ruby
 cache: bundler
 before_install:
    bundle -v
 script: env COVERAGE=yes bundle exec rake
-matrix:
+jobs:
   fast_finish: true
   include:
   - rvm: '2.7'
