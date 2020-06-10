@@ -1,12 +1,15 @@
-sudo: false
+os: linux
+dist: xenial
 language: ruby
 cache: bundler
 before_install:
    bundle -v
 script: env COVERAGE=yes bundle exec rake
-matrix:
+jobs:
   fast_finish: true
   include:
+  - rvm: '2.7'
+    env: PUPPET_GEM_VERSION='https://github.com/puppetlabs/puppet.git#master' # TODO: change to 7 once it becomes available
   - rvm: '2.6'
     env: PUPPET_GEM_VERSION='~> 6.0'
   - rvm: '2.5'
