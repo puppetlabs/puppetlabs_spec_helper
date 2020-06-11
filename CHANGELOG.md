@@ -3,12 +3,41 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v2.15.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.15.0) (2020-06-11)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.14.1...v2.15.0)
+
+**Implemented enhancements:**
+
+- Add Ruby 2.6/Puppet6 to CI matrix [\#311](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/311) ([bastelfreak](https://github.com/bastelfreak))
+- \(GH-297\) Don't allow git refs with forward slashes [\#299](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/299) ([glennsarti](https://github.com/glennsarti))
+- Accept `:tag` for consistency with r10k [\#296](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/296) ([binford2k](https://github.com/binford2k))
+- \(maint\) migrate the changelog task from pdk-templates [\#278](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/278) ([DavidS](https://github.com/DavidS))
+
+**Fixed bugs:**
+
+- \(MAINT\) Fix initialize of Gettext call [\#292](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/292) ([ThoughtCrhyme](https://github.com/ThoughtCrhyme))
+
+**Merged pull requests:**
+
+- \(IAC-859\) Update all the gems and ruby to 2.7 [\#316](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/316) ([DavidS](https://github.com/DavidS))
+- Support git fixture branches containing slashes [\#297](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/297) ([trevor-vaughan](https://github.com/trevor-vaughan))
+- \(maint\) Require pdk/util in build:pdk rake task [\#295](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/295) ([rodjek](https://github.com/rodjek))
+- Ignore plans folder and any subfolder [\#294](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/294) ([cyberious](https://github.com/cyberious))
+- \(maint\) add codeowners file [\#293](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/293) ([tphoney](https://github.com/tphoney))
+- \(MAINT\) Removes old rubies and puppet versions [\#290](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/290) ([logicminds](https://github.com/logicminds))
+- Remove coveralls docs [\#289](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/289) ([DavidS](https://github.com/DavidS))
+- Download forge modules in parallel [\#284](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/284) ([logicminds](https://github.com/logicminds))
+
 ## [v2.14.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.1) (2019-03-26)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.14.0...v2.14.1)
 
 **Fixed bugs:**
 
 - Revert "\(feat\) dont load the beaker if litmus is there" [\#286](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/286) ([pmcmaw](https://github.com/pmcmaw))
+
+**Merged pull requests:**
+
+- \(MODULES-8778\) - Release Prep 2.14.1 [\#287](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/287) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.14.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.0) (2019-03-25)
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.1...v2.14.0)
