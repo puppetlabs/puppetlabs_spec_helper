@@ -2,7 +2,7 @@ require: rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.1
   # let dependabot find the rough spots for us
   NewCops: enable
   Exclude:

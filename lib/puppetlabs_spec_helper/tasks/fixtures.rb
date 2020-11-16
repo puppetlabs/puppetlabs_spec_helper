@@ -276,7 +276,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
     # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
     # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
-    File.expand_path((ENV['MODULE_WORKING_DIR']) ? ENV['MODULE_WORKING_DIR'] : 'spec/fixtures/work-dir')
+    File.expand_path(ENV['MODULE_WORKING_DIR'] || 'spec/fixtures/work-dir')
   end
 
   # returns the current thread count that is currently active
@@ -324,7 +324,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
       end
     end
     # wait for all the threads to finish
-    items.each { |_remote, opts| opts[:thread].join } # waiting on Threads after the first loop is finished # rubocop:disable Style/CombinableLoops
+    items.each { |_remote, opts| opts[:thread].join }
   end
 
   # @param target [String] - the target directory

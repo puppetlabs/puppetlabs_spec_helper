@@ -149,7 +149,7 @@ namespace :build do
       require 'pdk/util'
       require 'pdk/module/build'
 
-      path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
+      path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
       puts "Module built: #{path}"
     rescue LoadError
       _ = `pdk --version`
