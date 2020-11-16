@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rake'
 require 'rspec/core/rake_task'
@@ -53,6 +55,7 @@ RSpec::Core::RakeTask.new(:spec_standalone) do |t, args|
     ci_total = ENV['CI_NODE_TOTAL'].to_i
     ci_index = ENV['CI_NODE_INDEX'].to_i
     raise "CI_NODE_INDEX must be between 1-#{ci_total}" unless ci_index >= 1 && ci_index <= ci_total
+
     files = Rake::FileList[pattern].to_a
     per_node = (files.size / ci_total.to_f).ceil
     t.pattern = if args.extras.nil? || args.extras.empty?
@@ -108,16 +111,17 @@ end
 desc 'Parallel spec tests'
 task :parallel_spec_standalone do |_t, args|
   raise 'Add the parallel_tests gem to Gemfile to enable this task' unless parallel_tests_loaded
+
   if Rake::FileList[pattern].to_a.empty?
     warn 'No files for parallel_spec to run against'
   else
-    begin
-      args = ['-t', 'rspec']
-      args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
-      args.concat(Rake::FileList[pattern].to_a)
 
-      ParallelTests::CLI.new.run(args)
-    end
+    args = ['-t', 'rspec']
+    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
+    args.concat(Rake::FileList[pattern].to_a)
+
+    ParallelTests::CLI.new.run(args)
+
   end
 end
 
@@ -145,12 +149,12 @@ namespace :build do
       require 'pdk/util'
       require 'pdk/module/build'
 
-      path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
+      path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
       puts "Module built: #{path}"
     rescue LoadError
       _ = `pdk --version`
       unless $CHILD_STATUS.success?
-        $stderr.puts 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
+        warn 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
         abort
       end
 
@@ -263,7 +267,7 @@ task :compute_dev_version do
     version = modinfo['version']
   elsif File.exist?('Modulefile')
     modfile = File.read('Modulefile')
-    version = modfile.match(%r{\nversion[ ]+['"](.*)['"]})[1]
+    version = modfile.match(%r{\nversion +['"](.*)['"]})[1]
   else
     raise 'Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!'
   end
@@ -389,6 +393,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
     def changelog_user_from_metadata
       result = JSON.parse(File.read('metadata.json'))['author']
       raise 'unable to find the changelog_user in .sync.yml, or the author in metadata.json' if result.nil?
+
       puts "GitHubChangelogGenerator user:#{result}"
       result
     end
@@ -396,14 +401,17 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
     def changelog_project_from_metadata
       result = JSON.parse(File.read('metadata.json'))['name']
       raise 'unable to find the changelog_project in .sync.yml or the name in metadata.json' if result.nil?
+
       puts "GitHubChangelogGenerator project:#{result}"
       result
     end
 
     def changelog_future_release
       return unless Rake.application.top_level_tasks.include? 'changelog'
+
       result = JSON.parse(File.read('metadata.json'))['version']
       raise 'unable to find the future_release (version) in metadata.json' if result.nil?
+
       puts "GitHubChangelogGenerator future_release:#{result}"
       result
     end
@@ -413,6 +421,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
       if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
         raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'"
       end
+
       config.user = changelog_user || changelog_user_from_metadata
       config.project = changelog_project || changelog_project_from_metadata
       config.since_tag = changelog_since_tag if changelog_since_tag

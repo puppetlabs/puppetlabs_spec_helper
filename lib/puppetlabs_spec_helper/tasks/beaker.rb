@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec/core/rake_task'
 
 module PuppetlabsSpecHelper; end
@@ -10,9 +12,7 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
 
   # cache the repositories and return a hash object
   def repositories
-    unless @repositories
-      @repositories = fixtures('repositories')
-    end
+    @repositories ||= fixtures('repositories')
     @repositories
   end
 
@@ -20,6 +20,7 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
   # @return [Array<String>]
   def beaker_node_sets
     return @beaker_nodes if @beaker_nodes
+
     @beaker_nodes = Dir['spec/acceptance/nodesets/*.yml'].sort.map do |node_set|
       node_set.slice!('.yml')
       File.basename(node_set)
@@ -66,9 +67,11 @@ class SetupBeaker
       test_tiers = ENV['TEST_TIERS'].split(',')
       test_tiers_allowed = ENV.fetch('TEST_TIERS_ALLOWED', 'low,medium,high').split(',')
       raise 'TEST_TIERS env variable must have at least 1 tier specified. Either low, medium or high or one of the tiers listed in TEST_TIERS_ALLOWED (comma separated).' if test_tiers.count == 0
+
       test_tiers.each do |tier|
         tier_to_add = tier.strip.downcase
         raise "#{tier_to_add} not a valid test tier." unless test_tiers_allowed.include?(tier_to_add)
+
         tiers = "--tag tier_#{tier_to_add}"
         t.rspec_opts.push(tiers)
       end

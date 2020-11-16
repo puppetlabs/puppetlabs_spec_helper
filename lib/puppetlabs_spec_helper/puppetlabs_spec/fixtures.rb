@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This module provides some helper methods to assist with fixtures. It's
 # methods are designed to help when you have a conforming fixture layout so we
 # get project consistency.
@@ -14,6 +16,7 @@ module PuppetlabsSpec::Fixtures
     callers = caller
     while line = callers.shift
       next unless found = line.match(%r{/spec/(.*)_spec\.rb:})
+
       return fixtures(found[1])
     end
     raise "sorry, I couldn't work out your path from the caller stack!"
@@ -26,6 +29,7 @@ module PuppetlabsSpec::Fixtures
     unless File.readable? file
       raise "fixture '#{name}' for #{my_fixture_dir} is not readable"
     end
+
     file
   end
 
@@ -37,12 +41,13 @@ module PuppetlabsSpec::Fixtures
 
   # Provides a block mechanism for iterating across the files in your fixture
   # area.
-  def my_fixtures(glob = '*', flags = 0)
+  def my_fixtures(glob = '*', flags = 0, &block)
     files = Dir.glob(File.join(my_fixture_dir, glob), flags)
     if files.empty?
       raise "fixture '#{glob}' for #{my_fixture_dir} had no files!"
     end
-    block_given? && files.each { |file| yield file }
+
+    block_given? && files.each(&block)
     files
   end
 end

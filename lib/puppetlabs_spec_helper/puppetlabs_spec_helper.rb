@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Define the main module namespace for use by the helper modules
 module PuppetlabsSpec
   # FIXTURE_DIR represents the standard locations of all fixture data. Normally

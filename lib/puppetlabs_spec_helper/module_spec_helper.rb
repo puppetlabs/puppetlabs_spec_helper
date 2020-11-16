@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/puppet_spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'

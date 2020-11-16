@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'yaml'
 require 'open3'
 require 'json'
@@ -127,6 +128,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         end
         # there should be a warning or something if it's not a hash...
         next unless opts.instance_of?(Hash)
+
         # merge our options into the defaults to get the
         # final option list
         opts = defaults.merge(opts)
@@ -138,10 +140,10 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
         result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),
-          'ref'    => opts['ref'] || opts['tag'],
+          'ref' => opts['ref'] || opts['tag'],
           'branch' => opts['branch'],
-          'scm'    => opts['scm'],
-          'flags'  => opts['flags'],
+          'scm' => opts['scm'],
+          'flags' => opts['flags'],
           'subdir' => opts['subdir'],
         )
       end
@@ -154,7 +156,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     return hash unless hash['scm'] == 'git'
 
     # Forward slashes in the ref aren't allowed. And is probably a branch name.
-    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{\/}
+    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{/}
 
     hash
   end
@@ -192,6 +194,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     unless File.exist?(target)
       raise "Failed to clone #{scm} repository #{remote} into #{target}"
     end
+
     result
   end
 
@@ -262,7 +265,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
               else
                 Logger::INFO
               end
-      @logger = Logger.new(STDERR)
+      @logger = Logger.new($stderr)
       @logger.level = level
     end
     @logger
@@ -329,6 +332,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   def setup_symlink(target, link)
     link = link['target']
     return if File.symlink?(link)
+
     logger.info("Creating symlink from #{link} to #{target}")
     if windows?
       target = File.join(File.dirname(link), target) unless Pathname.new(target).absolute?
@@ -410,7 +414,7 @@ task :spec_prep do
     begin
       require 'win32/dir'
     rescue LoadError
-      $stderr.puts 'win32-dir gem not installed, falling back to executing mklink directly'
+      warn 'win32-dir gem not installed, falling back to executing mklink directly'
     end
   end
 
