@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathspec'
 
 module PuppetlabsSpecHelper; end
@@ -33,7 +35,7 @@ class PuppetlabsSpecHelper::Tasks::CheckSymlinks
   end
 
   def ignored?(path)
-    path = path.to_s + '/' if File.directory?(path)
+    path = "#{path}/" if File.directory?(path)
 
     !ignore_pathspec.match_paths([path], Dir.pwd).empty?
   end
@@ -42,6 +44,7 @@ class PuppetlabsSpecHelper::Tasks::CheckSymlinks
     @ignore_pathspec ||= PathSpec.new(DEFAULT_IGNORED).tap do |pathspec|
       IGNORE_LIST_FILES.each do |f|
         next unless File.file?(f) && File.readable?(f)
+
         File.open(f, 'r') { |fd| pathspec.add(fd) }
       end
     end

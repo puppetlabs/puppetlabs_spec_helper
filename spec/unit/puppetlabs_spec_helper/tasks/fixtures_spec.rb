@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 
@@ -91,7 +93,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       allow(File).to receive(:exist?).with('.fixtures.yaml').and_return false
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('FIXTURES_YML').and_return(nil)
-      allow(described_class).to receive(:auto_symlink).and_return('project' => '#{source_dir}')
+      allow(described_class).to receive(:auto_symlink).and_return('project' => source_dir.to_s)
     end
 
     context 'when file is missing' do
@@ -100,6 +102,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         expect(subject.fixtures('repositories')).to eq({})
       end
     end
+
     context 'when file is empty' do
       it 'returns basic directories per category' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
@@ -108,6 +111,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         expect(subject.fixtures('repositories')).to eq({})
       end
     end
+
     context 'when file is malformed' do
       it 'raises an error' do
         expect(File).to receive(:exist?).with('.fixtures.yml').and_return true
@@ -115,6 +119,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         expect { subject.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{malformed YAML})
       end
     end
+
     context 'when file contains no fixtures' do
       it 'raises an error' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
@@ -122,6 +127,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         expect { subject.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{No 'fixtures'})
       end
     end
+
     context 'when file specifies fixtures' do
       it 'returns the hash' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
@@ -136,6 +142,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
                                                         })
       end
     end
+
     context 'when file specifies defaults' do
       it 'returns the hash' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
@@ -181,9 +188,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
           'fixtures' => {
             'repositories' => {
               'stdlib' => {
-                'scm'  => 'git',
+                'scm' => 'git',
                 'repo' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git',
-                'ref'  => 'this/is/a/branch',
+                'ref' => 'this/is/a/branch',
               },
             },
           },

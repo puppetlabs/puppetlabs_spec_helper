@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 def location_for(place_or_version, fake_version = nil)
-  git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
-  file_url_regex = %r{\Afile:\/\/(?<path>.*)}
+  git_url_regex = %r{\A(?<url>(?:https?|git)[:@][^#]*)(?:#(?<branch>.*))?}
+  file_url_regex = %r{\Afile://(?<path>.*)}
 
   if place_or_version && (git_url = place_or_version.match(git_url_regex))
     [fake_version, { git: git_url[:url], branch: git_url[:branch], require: false }].compact
@@ -22,6 +24,7 @@ def infer_puppet_version
   ruby_ver = Gem::Version.new(RUBY_VERSION.dup)
   return '~> 6.0' if ruby_ver >= Gem::Version.new('2.5.0')
   return '~> 5.0' if ruby_ver >= Gem::Version.new('2.4.0')
+
   '~> 4.0'
 end
 
@@ -31,9 +34,9 @@ group :development do
   gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'] || ENV['PUPPET_VERSION'] || infer_puppet_version)
   gem 'simplecov', '~> 0'
   gem 'simplecov-console'
-  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
-    gem 'rubocop', '= 0.49'
-    gem 'rubocop-rspec', '~> 1'
+  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.4')
+    gem 'rubocop', '0.57.2'
+    gem 'rubocop-rspec'
   end
 end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PuppetlabsSpecHelper
   VERSION = '2.15.0'.freeze
 

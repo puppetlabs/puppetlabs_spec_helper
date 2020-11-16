@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['FOG_MOCK'] ||= 'true'
 ENV['AUTOTEST'] = 'true'
 ENV['WATCHR']   = '1'

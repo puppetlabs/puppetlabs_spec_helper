@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Initialize puppet for testing by loading the
 # 'puppetlabs_spec_helper/puppet_spec_helper' library
 require 'puppetlabs_spec_helper/puppet_spec_helper'
@@ -67,6 +69,7 @@ module PuppetlabsSpec
       # exists.  This is a hack, but at least it's a hidden hack and not an
       # exposed hack.
       return nil unless Puppet::Parser::Functions.function(name)
+
       scope.method("function_#{name}".intern)
     end
     module_function :function_method

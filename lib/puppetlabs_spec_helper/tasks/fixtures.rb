@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'open3'
 require 'json'
@@ -61,7 +63,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
   # @return [Hash] - returns a hash with the module name and the source directory
   def auto_symlink
-    { module_name => '#{source_dir}' }
+    { module_name => "\#{source_dir}" }
   end
 
   # @return [Boolean] - true if the os is a windows system
@@ -127,21 +129,22 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         end
         # there should be a warning or something if it's not a hash...
         next unless opts.instance_of?(Hash)
+
         # merge our options into the defaults to get the
         # final option list
         opts = defaults.merge(opts)
 
         next unless include_repo?(opts['puppet_version'])
 
-        real_target = eval('"' + opts['target'] + '"')
-        real_source = eval('"' + opts['repo'] + '"')
+        real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
+        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
 
         result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),
-          'ref'    => opts['ref'] || opts['tag'],
+          'ref' => opts['ref'] || opts['tag'],
           'branch' => opts['branch'],
-          'scm'    => opts['scm'],
-          'flags'  => opts['flags'],
+          'scm' => opts['scm'],
+          'flags' => opts['flags'],
           'subdir' => opts['subdir'],
         )
       end
@@ -154,7 +157,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     return hash unless hash['scm'] == 'git'
 
     # Forward slashes in the ref aren't allowed. And is probably a branch name.
-    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{\/}
+    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{/}
 
     hash
   end
@@ -192,6 +195,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     unless File.exist?(target)
       raise "Failed to clone #{scm} repository #{remote} into #{target}"
     end
+
     result
   end
 
@@ -262,7 +266,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
               else
                 Logger::INFO
               end
-      @logger = Logger.new(STDERR)
+      @logger = Logger.new($stderr)
       @logger.level = level
     end
     @logger
@@ -272,7 +276,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     # The problem with the relative path is that PMT doesn't expand the path properly and so passing in a relative path here
     # becomes something like C:\somewhere\backslashes/spec/fixtures/work-dir on Windows, and then PMT barfs itself.
     # This has been reported as https://tickets.puppetlabs.com/browse/PUP-4884
-    File.expand_path((ENV['MODULE_WORKING_DIR']) ? ENV['MODULE_WORKING_DIR'] : 'spec/fixtures/work-dir')
+    File.expand_path(ENV['MODULE_WORKING_DIR'] || 'spec/fixtures/work-dir')
   end
 
   # returns the current thread count that is currently active
@@ -329,6 +333,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   def setup_symlink(target, link)
     link = link['target']
     return if File.symlink?(link)
+
     logger.info("Creating symlink from #{link} to #{target}")
     if windows?
       target = File.join(File.dirname(link), target) unless Pathname.new(target).absolute?
@@ -387,7 +392,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     # so we randomize the directory instead.
     # Does working_dir even need to be passed?
     Dir.mktmpdir do |working_dir|
-      command = 'puppet module install' + ref + flags + ' --ignore-dependencies' \
+      command = "puppet module install#{ref}#{flags} --ignore-dependencies" \
       ' --force' \
       " --module_working_dir \"#{working_dir}\"" \
       " --target-dir \"#{module_target_dir}\" \"#{remote}\""
@@ -400,7 +405,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 end
 
-include PuppetlabsSpecHelper::Tasks::FixtureHelpers
+include PuppetlabsSpecHelper::Tasks::FixtureHelpers # DSL include # rubocop:disable Style/MixinUsage
 
 desc 'Create the fixtures directory'
 task :spec_prep do
@@ -410,7 +415,7 @@ task :spec_prep do
     begin
       require 'win32/dir'
     rescue LoadError
-      $stderr.puts 'win32-dir gem not installed, falling back to executing mklink directly'
+      warn 'win32-dir gem not installed, falling back to executing mklink directly'
     end
   end
 

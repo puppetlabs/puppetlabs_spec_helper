@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
 # Don't want puppet getting the command line arguments for rake or autotest
@@ -45,7 +47,7 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 # to compatibility mode for older versions of puppet.
 begin
   require 'puppet/test/test_helper'
-rescue LoadError => err
+rescue LoadError => e
 end
 
 # This is just a utility class to allow us to isolate the various version-specific
@@ -58,7 +60,7 @@ module Puppet
     # Puppet's Settings singleton object, and other fun implementation details
     # that code external to puppet should really never know about.
     def self.initialize_via_fallback_compatibility(config)
-      $stderr.puts('Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.')
+      warn('Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.')
       config.before :all do
         # nothing to do for now
       end
