@@ -50,6 +50,14 @@ if ENV['SIMPLECOV'] == 'yes'
   end
 end
 
+# Add all spec lib dirs to LOAD_PATH
+components = module_path.split(File::PATH_SEPARATOR).collect do |dir|
+  Dir.entries(dir).reject { |f| f =~ %r{^\.} }.collect { |f| File.join(dir, f, 'spec', 'lib') }
+end
+components.flatten.each do |d|
+  $LOAD_PATH << d if FileTest.directory?(d) && !$LOAD_PATH.include?(d)
+end
+
 RSpec.configure do |c|
   c.environmentpath = spec_path if Puppet.version.to_f >= 4.0
   c.module_path = module_path
