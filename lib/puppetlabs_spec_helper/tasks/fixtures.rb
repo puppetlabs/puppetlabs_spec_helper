@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'yaml'
 require 'open3'
 require 'json'
@@ -62,7 +63,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
   # @return [Hash] - returns a hash with the module name and the source directory
   def auto_symlink
-    { module_name => '#{source_dir}' }
+    { module_name => "\#{source_dir}" }
   end
 
   # @return [Boolean] - true if the os is a windows system
@@ -135,8 +136,8 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
         next unless include_repo?(opts['puppet_version'])
 
-        real_target = eval('"' + opts['target'] + '"')
-        real_source = eval('"' + opts['repo'] + '"')
+        real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
+        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
 
         result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),
@@ -323,7 +324,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
       end
     end
     # wait for all the threads to finish
-    items.each { |_remote, opts| opts[:thread].join }
+    items.each { |_remote, opts| opts[:thread].join } # waiting on Threads after the first loop is finished # rubocop:disable Style/CombinableLoops
   end
 
   # @param target [String] - the target directory
@@ -391,7 +392,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     # so we randomize the directory instead.
     # Does working_dir even need to be passed?
     Dir.mktmpdir do |working_dir|
-      command = 'puppet module install' + ref + flags + ' --ignore-dependencies' \
+      command = "puppet module install#{ref}#{flags} --ignore-dependencies" \
       ' --force' \
       " --module_working_dir \"#{working_dir}\"" \
       " --target-dir \"#{module_target_dir}\" \"#{remote}\""
@@ -404,7 +405,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 end
 
-include PuppetlabsSpecHelper::Tasks::FixtureHelpers
+include PuppetlabsSpecHelper::Tasks::FixtureHelpers # DSL include # rubocop:disable Style/MixinUsage
 
 desc 'Create the fixtures directory'
 task :spec_prep do

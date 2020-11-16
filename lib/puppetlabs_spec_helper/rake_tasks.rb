@@ -281,9 +281,9 @@ task :compute_dev_version do
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
   new_version = if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
                   if branch.eql? 'release'
-                    '%s-%s%04d-%s' % [version, 'r', build, sha]
+                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                   else
-                    '%s-%04d-%s' % [version, build, sha]
+                    '%s-%04d-%s' % [version, build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                                 end
                 else
                   "#{version}-#{sha}"
@@ -451,7 +451,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
   else
     desc 'Generate a Changelog from GitHub'
     task :changelog do
-      raise <<EOM
+      raise <<MESSAGE
 The changelog tasks depends on unreleased features of the github_changelog_generator gem.
 Please manually add it to your .sync.yml for now, and run `pdk update`:
 ---
@@ -462,7 +462,7 @@ Gemfile:
         git: 'https://github.com/skywinder/github-changelog-generator'
         ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
-EOM
+MESSAGE
     end
   end
 end

@@ -150,3 +150,14 @@ Layout/EndOfLine:
 RSpec/FactoryBot/CreateList:
   Description: produces lots of errors (not violations) with out code
   Enabled: false
+
+Style/AccessModifierDeclarations:
+  EnforcedStyle: inline
+
+RSpec/ContextWording:
+  Prefixes:
+  - and
+  - but
+  - when
+  - with
+  - without

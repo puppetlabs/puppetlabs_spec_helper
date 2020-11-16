@@ -8,8 +8,8 @@ require 'rspec/expectations'
 module RSpec
   module Matchers
     module BlockAliases
-      if method_defined? :should
-        alias to should unless method_defined? :to
+      if method_defined?(:should) && !method_defined?(:to)
+        alias to should
       end
       if method_defined? :should_not
         alias to_not should_not unless method_defined? :to_not

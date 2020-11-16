@@ -51,7 +51,7 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
     end
   end
 end
-include PuppetlabsSpecHelper::Tasks::BeakerHelpers
+include PuppetlabsSpecHelper::Tasks::BeakerHelpers # legacy support code # rubocop:disable Style/MixinUsage
 
 desc 'Run beaker acceptance tests'
 RSpec::Core::RakeTask.new(:beaker) do |t|
@@ -59,9 +59,9 @@ RSpec::Core::RakeTask.new(:beaker) do |t|
 end
 
 class SetupBeaker
-  def self.setup_beaker(t)
-    t.rspec_opts = []
-    t.pattern = 'spec/acceptance'
+  def self.setup_beaker(task)
+    task.rspec_opts = []
+    task.pattern = 'spec/acceptance'
     # TEST_TIERS env variable is a comma separated list of tiers to run. e.g. low, medium, high
     if ENV['TEST_TIERS']
       test_tiers = ENV['TEST_TIERS'].split(',')
@@ -73,12 +73,12 @@ class SetupBeaker
         raise "#{tier_to_add} not a valid test tier." unless test_tiers_allowed.include?(tier_to_add)
 
         tiers = "--tag tier_#{tier_to_add}"
-        t.rspec_opts.push(tiers)
+        task.rspec_opts.push(tiers)
       end
     else
       puts 'TEST_TIERS env variable not defined. Defaulting to run all tests.'
     end
-    t
+    task
   end
 end
 

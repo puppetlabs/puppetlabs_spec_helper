@@ -35,7 +35,7 @@ require 'puppetlabs_spec_helper/puppet_spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec/puppet_internals'
 require 'puppetlabs_spec_helper/rake_tasks'
 
-RSpec.shared_context 'rake task', type: :task do
+RSpec.shared_context 'with a rake task', type: :task do
   subject(:task) { Rake::Task[task_name] }
 
   include FakeFS::SpecHelpers
@@ -50,5 +50,5 @@ RSpec.configure do |config|
   end
   config.mock_with :rspec
 
-  config.include_context 'rake task', type: :task
+  config.include_context 'with a rake task', type: :task
 end
