@@ -18,13 +18,13 @@ Lint/AssignmentInCondition:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleAlignWith, SupportedStylesAlignWith, AutoCorrect.
 # SupportedStylesAlignWith: keyword, variable, start_of_line
-Lint/EndAlignment:
+Layout/EndAlignment:
   Exclude:
     - 'lib/puppetlabs_spec_helper/rake_tasks.rb'
     - 'spec/watchr.rb'
 
 # Offense count: 4
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - 'lib/puppetlabs_spec_helper/puppet_spec_helper.rb'
     - 'lib/puppetlabs_spec_helper/puppetlabs_spec/files.rb'

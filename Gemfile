@@ -31,9 +31,9 @@ group :development do
   gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'] || ENV['PUPPET_VERSION'] || infer_puppet_version)
   gem 'simplecov', '~> 0'
   gem 'simplecov-console'
-  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.1.0')
-    gem 'rubocop', '1.3.1'
-    gem 'rubocop-rspec', '~> 1'
+  if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.4')
+    gem 'rubocop', '~> 1.3'
+    gem 'rubocop-rspec', '~> 2'
   end
 end
 
