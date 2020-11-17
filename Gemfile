@@ -35,7 +35,7 @@ group :development do
   gem 'simplecov', '~> 0'
   gem 'simplecov-console'
   if Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.4')
-    gem 'rubocop', '0.57.2'
+    gem 'rubocop', '1.3.1'
     gem 'rubocop-rspec'
   end
 end
