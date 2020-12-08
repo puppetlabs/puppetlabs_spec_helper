@@ -284,7 +284,7 @@ task :compute_dev_version do
                     '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                   else
                     '%s-%04d-%s' % [version, build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
-                                end
+                  end
                 else
                   "#{version}-#{sha}"
                 end
