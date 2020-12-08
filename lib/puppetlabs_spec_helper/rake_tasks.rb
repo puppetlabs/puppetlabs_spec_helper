@@ -301,10 +301,7 @@ task :release_checks do
   else
     Rake::Task[:spec].invoke
   end
-  Rake::Task['check:symlinks'].invoke
-  Rake::Task['check:test_file'].invoke
-  Rake::Task['check:dot_underscore'].invoke
-  Rake::Task['check:git_ignore'].invoke
+  Rake::Task[:check].invoke
 end
 
 namespace :check do
@@ -344,6 +341,9 @@ namespace :check do
     end
   end
 end
+
+desc 'Run static pre release checks'
+task check: ['check:symlinks', 'check:test_file', 'check:dot_underscore', 'check:git_ignore']
 
 desc 'Display the list of available rake tasks'
 task :help do
