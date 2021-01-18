@@ -3,7 +3,23 @@
 All significant changes to this repo will be summarized in this file.
 
 
-## [v2.15.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.15.0) (2020-06-11)
+## [v2.16.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.16.0) (2021-01-18)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.15.0...v2.16.0)
+
+**Implemented enhancements:**
+
+- Add a check task [\#327](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/327) ([ekohl](https://github.com/ekohl))
+- Update fixtures from forge when the module version doesn't match; fix git \< 2.7 compatibility [\#269](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/269) ([nabertrand](https://github.com/nabertrand))
+- Add all spec/lib directories from fixtures to LOAD\_PATH [\#233](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/233) ([nabertrand](https://github.com/nabertrand))
+
+**Merged pull requests:**
+
+- Update pathspec requirement from ~\> 0.2.1 to \>= 0.2.1, \< 1.1.0 [\#328](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/328) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Update rubocop requirement from = 0.49 to 0.57.2; prepare for future move to 1.3.1 [\#322](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/322) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v2.15.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.15.0) (2020-06-12)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.14.1...v2.15.0)
 
 **Implemented enhancements:**
@@ -19,6 +35,7 @@ All significant changes to this repo will be summarized in this file.
 
 **Merged pull requests:**
 
+- \(IAC-885\) - Release Prep 2.15.0 [\#318](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/318) ([pmcmaw](https://github.com/pmcmaw))
 - \(IAC-859\) Update all the gems and ruby to 2.7 [\#316](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/316) ([DavidS](https://github.com/DavidS))
 - Support git fixture branches containing slashes [\#297](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/297) ([trevor-vaughan](https://github.com/trevor-vaughan))
 - \(maint\) Require pdk/util in build:pdk rake task [\#295](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/295) ([rodjek](https://github.com/rodjek))
@@ -29,6 +46,7 @@ All significant changes to this repo will be summarized in this file.
 - Download forge modules in parallel [\#284](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/284) ([logicminds](https://github.com/logicminds))
 
 ## [v2.14.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.1) (2019-03-26)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.14.0...v2.14.1)
 
 **Fixed bugs:**
@@ -40,6 +58,7 @@ All significant changes to this repo will be summarized in this file.
 - \(MODULES-8778\) - Release Prep 2.14.1 [\#287](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/287) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.14.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.0) (2019-03-25)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.1...v2.14.0)
 
 **Implemented enhancements:**
@@ -57,6 +76,7 @@ All significant changes to this repo will be summarized in this file.
 - \(MODULES-8771\) - Release Prep 2.14.0 [\#282](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/282) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.13.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.1) (2019-01-15)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.0...v2.13.1)
 
 **Fixed bugs:**
@@ -68,6 +88,7 @@ All significant changes to this repo will be summarized in this file.
 - Release Prep 2.13.1 [\#276](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/276) ([bmjen](https://github.com/bmjen))
 
 ## [v2.13.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.0) (2019-01-11)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.12.0...v2.13.0)
 
 **Implemented enhancements:**
@@ -87,6 +108,7 @@ All significant changes to this repo will be summarized in this file.
 - \(MAINT\) Add Plans Path Exclusion [\#270](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/270) ([RandomNoun7](https://github.com/RandomNoun7))
 
 ## [v2.12.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.12.0) (2018-11-08)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.11.0...v2.12.0)
 
 **Implemented enhancements:**
@@ -104,6 +126,7 @@ All significant changes to this repo will be summarized in this file.
 - 2.12.0 Release Prep [\#264](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/264) ([tphoney](https://github.com/tphoney))
 
 ## [v2.11.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.11.0) (2018-09-26)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.10.0...v2.11.0)
 
 **Implemented enhancements:**
@@ -119,6 +142,7 @@ All significant changes to this repo will be summarized in this file.
 - \(MODULES-7858\) - 2.11.0 Release Prep [\#259](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/259) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.10.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.10.0) (2018-08-30)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.1...v2.10.0)
 
 **Implemented enhancements:**
@@ -133,6 +157,7 @@ All significant changes to this repo will be summarized in this file.
 - update README [\#252](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/252) ([b4ldr](https://github.com/b4ldr))
 
 ## [v2.9.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.1) (2018-06-20)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.0...v2.9.1)
 
 **Fixed bugs:**
@@ -145,6 +170,7 @@ All significant changes to this repo will be summarized in this file.
 - \(maint\) - Release prep for 2.9.1 [\#251](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/251) ([pmcmaw](https://github.com/pmcmaw))
 
 ## [v2.9.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.9.0) (2018-06-18)
+
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.8.0...v2.9.0)
 
 **Implemented enhancements:**
@@ -656,4 +682,4 @@ compatible yet.
 [0.1.0]: https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.0.0...0.1.0
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
