@@ -172,52 +172,34 @@ require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for
 # the PuppetLint::RakeTask
 Rake::Task[:lint].clear
-# Relative is not able to be set within the context of PuppetLint::RakeTask
+# Utilize PuppetLint global configuration so that these settings can be tweaked by
+# spec_helper.rb in an individual module
 PuppetLint.configuration.relative = true
-PuppetLint::RakeTask.new(:lint) do |config|
-  config.fail_on_warnings = true
-  config.disable_checks = %w[
-    80chars
-    140chars
-    class_inherits_from_params_class
-    class_parameter_defaults
-    disable_autoloader_layout
-    documentation
-    single_quote_string_with_variables
-  ]
-  config.ignore_paths = [
-    '.vendor/**/*.pp',
-    'bundle/**/*.pp',
-    'pkg/**/*.pp',
-    'spec/**/*.pp',
-    'tests/**/*.pp',
-    'types/**/*.pp',
-    'vendor/**/*.pp',
-  ]
+PuppetLint.configuration.ignore_paths ||= []
+PuppetLint.configuration.ignore_paths << '.vendor/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'bundle/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'pkg/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'spec/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'tests/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'types/**/*.pp'
+PuppetLint.configuration.ignore_paths << 'vendor/**/*.pp'
+puppet_lint_disable_checks = %w[
+  80chars
+  140chars
+  class_inherits_from_params_class
+  class_parameter_defaults
+  disable_autoloader_layout
+  documentation
+  single_quote_string_with_variables
+]
+puppet_lint_disable_checks.each do |check|
+  PuppetLint.configuration.send("disable_#{check}")
 end
+PuppetLint::RakeTask.new(:lint)
 
 desc 'Run puppet-lint and fix issues automatically'
 PuppetLint::RakeTask.new(:lint_fix) do |config|
-  config.fail_on_warnings = true
   config.fix = true
-  config.disable_checks = %w[
-    80chars
-    140chars
-    class_inherits_from_params_class
-    class_parameter_defaults
-    disable_autoloader_layout
-    documentation
-    single_quote_string_with_variables
-  ]
-  config.ignore_paths = [
-    '.vendor/**/*.pp',
-    'bundle/**/*.pp',
-    'pkg/**/*.pp',
-    'spec/**/*.pp',
-    'tests/**/*.pp',
-    'types/**/*.pp',
-    'vendor/**/*.pp',
-  ]
 end
 
 require 'puppet-syntax/tasks/puppet-syntax'
