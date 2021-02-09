@@ -22,10 +22,9 @@ gemspec
 def infer_puppet_version
   # Infer the Puppet Gem version based on the Ruby Version
   ruby_ver = Gem::Version.new(RUBY_VERSION.dup)
+  return '~> 7.0' if ruby_ver >= Gem::Version.new('2.7.0')
   return '~> 6.0' if ruby_ver >= Gem::Version.new('2.5.0')
-  return '~> 5.0' if ruby_ver >= Gem::Version.new('2.4.0')
-
-  '~> 4.0'
+  '~> 5.0'
 end
 
 group :development do
@@ -39,11 +38,5 @@ group :development do
     gem 'rubocop-rspec'
   end
 end
-
-# pin some gems for older ruby versions
-gem 'fakefs', '<= 0.13.3' if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.4.0')
-gem 'json_pure', '<=2.0.1' if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.0.0')
-gem 'puppet-syntax', '<= 3' if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.4.0')
-gem 'rack', '~> 1' if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.2.0')
 
 # vim:filetype=ruby
