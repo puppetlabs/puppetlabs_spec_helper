@@ -345,29 +345,6 @@ rescue LoadError
   end
 end
 
-module_dir = Dir.pwd
-locales_dir = File.absolute_path('locales', module_dir)
-# if the task is allowed to run when the module does not have a locales directory,
-# the task is run in the puppet gem instead and creates a POT there.
-puts 'gettext-setup tasks will only be loaded if the locales/ directory is present' if Rake.verbose == true
-if File.exist? locales_dir
-  begin
-    spec = Gem::Specification.find_by_name 'gettext-setup'
-    load "#{spec.gem_dir}/lib/tasks/gettext.rake"
-    # Initialization requires a valid locales directory
-    GettextSetup.initialize(locales_dir)
-    namespace :module do
-      desc 'Runs all tasks to build a modules POT file for internationalization'
-      task :pot_gen do
-        Rake::Task['gettext:pot'].invoke
-        Rake::Task['gettext:metadata_pot'].invoke("#{module_dir}/metadata.json")
-      end
-    end
-  rescue Gem::LoadError
-    puts 'No gettext-setup gem found, skipping GettextSetup config initialization' if Rake.verbose == true
-  end
-end
-
 def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_since_tag = nil, changelog_tag_pattern = 'v%s')
   if Bundler.rubygems.find_name('github_changelog_generator').any?
     # needed a place to hide these methods
