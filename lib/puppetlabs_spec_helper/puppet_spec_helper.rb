@@ -47,7 +47,7 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 # to compatibility mode for older versions of puppet.
 begin
   require 'puppet/test/test_helper'
-rescue LoadError => e
+rescue LoadError
 end
 
 # This is just a utility class to allow us to isolate the various version-specific

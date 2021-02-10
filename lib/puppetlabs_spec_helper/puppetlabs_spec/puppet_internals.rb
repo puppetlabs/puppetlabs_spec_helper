@@ -12,7 +12,7 @@ module PuppetlabsSpec
     def scope(parts = {})
       RSpec.deprecate('scope', replacement: 'rspec-puppet 2.2.0 provides a scope property')
 
-      if Puppet.version =~ %r{^2\.[67]}
+      if %r{^2\.[67]}.match?(Puppet.version)
         # loadall should only be necessary prior to 3.x
         # Please note, loadall needs to happen first when creating a scope, otherwise
         # you might receive undefined method `function_*' errors
@@ -23,7 +23,7 @@ module PuppetlabsSpec
       scope_parent = parts[:parent] || scope_compiler.topscope
       scope_resource = parts[:resource] || resource(type: :node, title: scope_compiler.node.name)
 
-      scope = if Puppet.version =~ %r{^2\.[67]}
+      scope = if %r{^2\.[67]}.match?(Puppet.version)
                 Puppet::Parser::Scope.new(compiler: scope_compiler)
               else
                 Puppet::Parser::Scope.new(scope_compiler)

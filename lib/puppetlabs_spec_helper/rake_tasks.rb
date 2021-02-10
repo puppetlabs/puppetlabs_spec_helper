@@ -149,7 +149,7 @@ namespace :build do
       require 'pdk/util'
       require 'pdk/module/build'
 
-      path = PDK::Module::Build.invoke(:force => true, :'target-dir' => File.join(Dir.pwd, 'pkg'))
+      path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
       puts "Module built: #{path}"
     rescue LoadError
       _ = `pdk --version`
@@ -261,7 +261,7 @@ task :compute_dev_version do
   # If the branch is a release branch we append an 'r' into the new_version,
   # this is due to the release branch buildID conflicting with master branch when trying to push to the staging forge.
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
-  new_version = if build = ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']
+  new_version = if build = (ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER'])
                   if branch.eql? 'release'
                     '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                   else
@@ -410,18 +410,18 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
   else
     desc 'Generate a Changelog from GitHub'
     task :changelog do
-      raise <<MESSAGE
-The changelog tasks depends on unreleased features of the github_changelog_generator gem.
-Please manually add it to your .sync.yml for now, and run `pdk update`:
----
-Gemfile:
-  optional:
-    ':development':
-      - gem: 'github_changelog_generator'
-        git: 'https://github.com/skywinder/github-changelog-generator'
-        ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
-        condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
-MESSAGE
+      raise <<~MESSAGE
+        The changelog tasks depends on unreleased features of the github_changelog_generator gem.
+        Please manually add it to your .sync.yml for now, and run `pdk update`:
+        ---
+        Gemfile:
+          optional:
+            ':development':
+              - gem: 'github_changelog_generator'
+                git: 'https://github.com/skywinder/github-changelog-generator'
+                ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
+                condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
+      MESSAGE
     end
   end
 end

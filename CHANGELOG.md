@@ -3,6 +3,15 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v3.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v3.0.0) (2021-02-09)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.16.0...v3.0.0)
+
+**Implemented enhancements:**
+
+- Remove i18n/gettext task [\#331](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/331) ([DavidS](https://github.com/DavidS))
+- Restructure PuppetLint rake tasks so they can be configurable [\#330](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/330) ([nmaludy](https://github.com/nmaludy))
+
 ## [v2.16.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.16.0) (2021-01-18)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.15.0...v2.16.0)
@@ -15,6 +24,7 @@ All significant changes to this repo will be summarized in this file.
 
 **Merged pull requests:**
 
+- Release prep for v2.16.0 [\#329](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/329) ([DavidS](https://github.com/DavidS))
 - Update pathspec requirement from ~\> 0.2.1 to \>= 0.2.1, \< 1.1.0 [\#328](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/328) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Update rubocop requirement from = 0.49 to 0.57.2; prepare for future move to 1.3.1 [\#322](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/322) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
