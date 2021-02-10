@@ -3,12 +3,13 @@
 All significant changes to this repo will be summarized in this file.
 
 
-## [v3.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v3.0.0) (2021-02-09)
+## [v3.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v3.0.0) (2021-02-10)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.16.0...v3.0.0)
 
 **Implemented enhancements:**
 
+- dropping rubies before 2.4 [\#332](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/332) ([DavidS](https://github.com/DavidS))
 - Remove i18n/gettext task [\#331](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/331) ([DavidS](https://github.com/DavidS))
 - Restructure PuppetLint rake tasks so they can be configurable [\#330](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/330) ([nmaludy](https://github.com/nmaludy))
 
