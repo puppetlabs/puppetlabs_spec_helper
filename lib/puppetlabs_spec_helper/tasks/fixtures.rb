@@ -41,7 +41,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # @return [Hash] - returns a hash of all the fixture repositories
   # @example
   # {"puppetlabs-stdlib"=>{"target"=>"https://gitlab.com/puppetlabs/puppet-stdlib.git",
-  # "ref"=>nil, "branch"=>"master", "scm"=>nil,
+  # "ref"=>nil, "branch"=>"main", "scm"=>nil,
   # }}
   def repositories
     @repositories ||= fixtures('repositories') || {}
