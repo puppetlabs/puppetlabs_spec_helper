@@ -102,10 +102,10 @@ This project is intended to serve two purposes:
 To Use this Project
 ===================
 
-The most common usage scenario is that you will check out the 'master'
+The most common usage scenario is that you will check out the 'main'
 branch of this project from github, and install it as a rubygem.
 There should be few or no cases where you would want to have any other
-branch of this project besides master/HEAD.
+branch of this project besides main/HEAD.
 
 Running on non-current ruby versions
 ------------------------------------
