@@ -113,7 +113,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
     result = {}
     if fixtures.include?(category) && !fixtures[category].nil?
-      defaults = { 'target' => 'spec/fixtures/modules' }
+      defaults = { 'target' => module_target_dir }
 
       # load defaults from the `.fixtures.yml` `defaults` section
       # for the requested category and merge them into my defaults
@@ -420,7 +420,7 @@ task :spec_prep do
   end
 
   # git has a race condition creating that directory, that would lead to aborted clone operations
-  FileUtils.mkdir_p('spec/fixtures/modules')
+  FileUtils.mkdir_p(module_target_dir)
 
   symlinks.each { |target, link| setup_symlink(target, link) }
 
