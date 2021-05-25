@@ -53,6 +53,8 @@ module PuppetlabsSpecHelper::Tasks::BeakerHelpers
 end
 include PuppetlabsSpecHelper::Tasks::BeakerHelpers # legacy support code # rubocop:disable Style/MixinUsage
 
+Rake::Task[:beaker]&.clear
+
 desc 'Run beaker acceptance tests'
 RSpec::Core::RakeTask.new(:beaker) do |t|
   SetupBeaker.setup_beaker(t)

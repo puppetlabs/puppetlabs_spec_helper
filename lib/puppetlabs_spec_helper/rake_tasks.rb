@@ -6,7 +6,6 @@ require 'rspec/core/rake_task'
 require 'tmpdir'
 require 'pathname'
 require 'puppetlabs_spec_helper/version'
-require 'puppetlabs_spec_helper/tasks/beaker'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 require 'puppetlabs_spec_helper/tasks/check_symlinks'
 require 'English'
@@ -34,6 +33,14 @@ begin
   require 'puppet-strings/tasks'
 rescue LoadError
   # ignore
+end
+
+begin
+  require 'beaker-rspec/rake_task'
+rescue LoadError
+  # No beaker, no beaker rake tasks
+else
+  require 'puppetlabs_spec_helper/tasks/beaker'
 end
 
 parallel_tests_loaded = false
