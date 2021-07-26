@@ -3,6 +3,21 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v4.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v4.0.0) (2021-07-26)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v3.0.0...v4.0.0)
+
+**Implemented enhancements:**
+
+- Use Rubocop's Github Actions formatter if possible [\#340](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/340) ([ekohl](https://github.com/ekohl))
+- Remove beaker integration [\#338](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/338) ([ekohl](https://github.com/ekohl))
+
+**Merged pull requests:**
+
+- Upgrade to GitHub-native Dependabot [\#336](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/336) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- \(IAC-1452\) - removal of Inappropriate Terminology [\#335](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/335) ([david22swan](https://github.com/david22swan))
+- Add gemspec required\_ruby\_version [\#334](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/334) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [v3.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v3.0.0) (2021-02-10)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.16.0...v3.0.0)
@@ -12,6 +27,10 @@ All significant changes to this repo will be summarized in this file.
 - dropping rubies before 2.4 [\#332](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/332) ([DavidS](https://github.com/DavidS))
 - Remove i18n/gettext task [\#331](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/331) ([DavidS](https://github.com/DavidS))
 - Restructure PuppetLint rake tasks so they can be configurable [\#330](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/330) ([nmaludy](https://github.com/nmaludy))
+
+**Merged pull requests:**
+
+- Release prep for v3.0.0 [\#333](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/333) ([DavidS](https://github.com/DavidS))
 
 ## [v2.16.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.16.0) (2021-01-18)
 
