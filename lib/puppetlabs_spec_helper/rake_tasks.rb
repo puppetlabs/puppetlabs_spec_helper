@@ -336,6 +336,14 @@ begin
   RuboCop::RakeTask.new(:rubocop) do |task|
     # These make the rubocop experience maybe slightly less terrible
     task.options = ['-D', '-S', '-E']
+
+    # Use Rubocop's Github Actions formatter if possible
+    if ENV['GITHUB_ACTIONS'] == 'true'
+      rubocop_spec = Gem::Specification.find_by_name('rubocop')
+      if Gem::Version.new(rubocop_spec.version) >= Gem::Version.new('1.2')
+        task.formatters << 'github'
+      end
+    end
   end
 rescue LoadError
   desc 'rubocop is not available in this installation'
