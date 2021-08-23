@@ -3,6 +3,18 @@
 All significant changes to this repo will be summarized in this file.
 
 
+## [v4.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v4.0.1) (2021-08-23)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v4.0.0...v4.0.1)
+
+**Fixed bugs:**
+
+- \(PDK-1717\) Add guard clause to module path dir enum loop [\#342](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/342) ([sanfrancrisko](https://github.com/sanfrancrisko))
+
+**Merged pull requests:**
+
+- Release prep for v4.0.0 [\#341](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/341) ([da-ar](https://github.com/da-ar))
+
 ## [v4.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v4.0.0) (2021-07-26)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v3.0.0...v4.0.0)
