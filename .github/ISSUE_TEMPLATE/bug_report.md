@@ -17,6 +17,7 @@ Steps to reproduce the behaviour:
 A clear and concise description of what you expected to happen.
 
 **Environmental context**
+**Version:**
 **Puppet Version:**
 **Ruby Version:**
 **Module (+ Version):**
