@@ -171,6 +171,7 @@ require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for
 # the PuppetLint::RakeTask
 Rake::Task[:lint].clear
+PuppetLint.configuration.fail_on_warnings = true
 # Utilize PuppetLint global configuration so that these settings can be tweaked by
 # spec_helper.rb in an individual module
 PuppetLint.configuration.relative = true
