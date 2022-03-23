@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = Gem::Requirement.new('>= 2.4')
 
   spec.add_runtime_dependency 'mocha', '~> 1.0'
-  spec.add_runtime_dependency 'pathspec', '>= 0.2.1', '< 1.1.0'
+  spec.add_runtime_dependency 'pathspec', '>= 0.2.1', '< 1.2.0'
   spec.add_runtime_dependency 'puppet-lint', '~> 2.0'
   spec.add_runtime_dependency 'puppet-syntax', ['>= 2.0', '< 4']
   spec.add_runtime_dependency 'rspec-puppet', '~> 2.0'
