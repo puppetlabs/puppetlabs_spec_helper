@@ -228,6 +228,14 @@ task :validate do
       warn 'Skipping metadata validation; the metadata-json-lint gem was not found'
     end
   end
+
+  if File.exist?('REFERENCE.md')
+    if Rake::Task.task_defined?('strings:validate:reference')
+      Rake::Task['strings:validate:reference'].invoke
+    else
+      warn 'Skipping reference documentation validation; the puppet-strings gem was not found'
+    end
+  end
 end
 
 task :metadata do
