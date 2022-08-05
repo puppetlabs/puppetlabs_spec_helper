@@ -62,6 +62,10 @@ components.flatten.each do |d|
 end
 
 RSpec.configure do |c|
+  if ENV['GITHUB_ACTIONS'] == 'true'
+    c.formatter = 'RSpec::Github::Formatter'
+  end
+
   c.environmentpath = spec_path if Puppet.version.to_f >= 4.0
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
