@@ -66,7 +66,7 @@ RSpec.configure do |c|
     c.formatter = 'RSpec::Github::Formatter'
   end
 
-  c.environmentpath = spec_path if Puppet.version.to_f >= 4.0
+  c.environmentpath = spec_path
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
   c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
@@ -78,12 +78,7 @@ RSpec.configure do |c|
       Puppet.features.stubs(:root?).returns(true)
     end
 
-    # stringify_facts and trusted_node_data were removed in puppet4
-    if Puppet.version.to_f < 4.0
-      Puppet.settings[:stringify_facts] = false if ENV['STRINGIFY_FACTS'] == 'no'
-      Puppet.settings[:trusted_node_data] = true if ENV['TRUSTED_NODE_DATA'] == 'yes'
-    end
-    Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes' || (Puppet.version.to_f >= 4.0 && ENV['STRICT_VARIABLES'] != 'no')
+    Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes' || ENV['STRICT_VARIABLES'] != 'no'
     Puppet.settings[:ordering] = ENV['ORDERING'] if ENV['ORDERING']
   end
 end

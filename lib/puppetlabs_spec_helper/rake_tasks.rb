@@ -122,22 +122,10 @@ end
 
 desc 'Build puppet module package'
 task :build do
-  if Gem::Specification.find_by_name('puppet').version < Gem::Version.new('6.0.0')
-    Rake::Task['build:pmt'].invoke
-  else
-    Rake::Task['build:pdk'].invoke
-  end
+  Rake::Task['build:pdk'].invoke
 end
 
 namespace :build do
-  desc 'Build Puppet module package with PMT (Puppet < 6.0.0 only)'
-  task :pmt do
-    require 'puppet/face'
-
-    pmod = Puppet::Face['module', :current]
-    pmod.build('./')
-  end
-
   desc 'Build Puppet module with PDK'
   task :pdk do
     require 'pdk/util'
@@ -204,9 +192,6 @@ PuppetSyntax.exclude_paths << 'pkg/**/*'
 PuppetSyntax.exclude_paths << 'vendor/**/*'
 PuppetSyntax.exclude_paths << '.vendor/**/*'
 PuppetSyntax.exclude_paths << 'plans/**/*'
-if Puppet.version.to_f < 4.0
-  PuppetSyntax.exclude_paths << 'types/**/*'
-end
 
 desc 'Check syntax of Ruby files and call :syntax and :metadata_lint'
 task :validate do
@@ -254,7 +239,7 @@ task :compute_dev_version do
   # If the branch is a release branch we append an 'r' into the new_version,
   # this is due to the release branch buildID conflicting with main branch when trying to push to the staging forge.
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
-  new_version = if (build = (ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']))
+  new_version = if (build = ENV['BUILD_NUMBER'])
                   if branch.eql? 'release'
                     '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                   else
