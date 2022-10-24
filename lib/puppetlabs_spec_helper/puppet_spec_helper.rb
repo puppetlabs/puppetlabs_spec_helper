@@ -135,15 +135,7 @@ RSpec.configure do |config|
   # `mock_framework`'s autoloading to distinguish between the default, and
   # the module's choice.
   if config.instance_variable_get(:@mock_framework).nil?
-    RSpec.warn_deprecation('puppetlabs_spec_helper: defaults `mock_with` to `:mocha`. See https://github.com/puppetlabs/puppetlabs_spec_helper#mock_with to choose a sensible value for you')
-    config.mock_with :mocha
-  end
-
-  # determine whether we can use the new API or not, and call the appropriate initializer method.
-  if defined?(Puppet::Test::TestHelper)
-    # This case is handled by rspec-puppet since v1.0.0 (via 41257b33cb1f9ade4426b044f70be511b0c89112)
-  else
-    Puppet::PuppetSpecInitializer.initialize_via_fallback_compatibility(config)
+    config.mock_with :rspec
   end
 
   # Here we do some general setup that is relevant to all initialization modes, regardless
