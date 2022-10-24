@@ -323,7 +323,9 @@ namespace :check do
 
   desc 'Fails if directories contain the files specified in .gitignore'
   task :git_ignore do
-    matched = `git ls-files --ignored --exclude-standard`
+    matched = `git ls-files --ignored --exclude-standard --cached`
+    raise 'git ls-files failed' unless $CHILD_STATUS.success?
+
     unless matched == ''
       puts matched
       raise 'File specified in .gitignore has been committed'
