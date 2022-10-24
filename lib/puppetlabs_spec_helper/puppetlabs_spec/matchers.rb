@@ -3,18 +3,6 @@
 require 'stringio'
 require 'rspec/expectations'
 
-########################################################################
-# Backward compatibility for Jenkins outdated environment.
-module RSpec::Matchers::BlockAliases
-  if method_defined?(:should) && !method_defined?(:to)
-    alias to should
-  end
-  if method_defined? :should_not
-    alias to_not should_not unless method_defined? :to_not
-    alias not_to should_not unless method_defined? :not_to
-  end
-end
-########################################################################
 # Custom matchers...
 RSpec::Matchers.define :have_matching_element do |expected|
   match do |actual|
