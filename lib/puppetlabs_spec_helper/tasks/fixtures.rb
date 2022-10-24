@@ -4,9 +4,10 @@ require 'yaml'
 require 'open3'
 require 'json'
 
-module PuppetlabsSpecHelper; end
-module PuppetlabsSpecHelper::Tasks; end
+# Top level namespace for spec helper tasks.
+module PuppetlabsSpecHelper::Tasks end
 
+# Helpers for workfing with fixtures.
 module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # This is a helper for the self-symlink entry of fixtures.yml
   def source_dir
@@ -136,8 +137,10 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
 
         next unless include_repo?(opts['puppet_version'])
 
+        # rubocop:disable Security/Eval
+        # TODO: Remove eval
         real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
-        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
+        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)t
 
         result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),
@@ -157,7 +160,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
     return hash unless hash['scm'] == 'git'
 
     # Forward slashes in the ref aren't allowed. And is probably a branch name.
-    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'] =~ %r{/}
+    raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'].include?('/')
 
     hash
   end
@@ -248,12 +251,11 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 
   def remove_subdirectory(target, subdir)
-    unless subdir.nil?
-      Dir.mktmpdir do |tmpdir|
-        FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
-        FileUtils.rm_rf("#{target}/#{subdir}")
-        FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), target.to_s)
-      end
+    return if subdir.nil?
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+      FileUtils.rm_rf("#{target}/#{subdir}")
+      FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), target.to_s)
     end
   end
 
@@ -284,7 +286,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   # so when anything else we count that as a active thread
   # @return [Integer] - current thread count
   def current_thread_count(items)
-    active_threads = items.find_all do |_item, opts|
+    active_threads = items.select do |_item, opts|
       if opts[:thread]
         opts[:thread].status
       else
@@ -316,7 +318,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         end
       else
         # the last thread started should be the longest wait
-        item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last
+        item, item_opts = items.reverse.find { |_i, o| o.key?(:thread) }
         logger.debug "Waiting on #{item}"
         item_opts[:thread].join # wait for the thread to finish
         # now that we waited lets try again
@@ -405,7 +407,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
   end
 end
 
-include PuppetlabsSpecHelper::Tasks::FixtureHelpers # DSL include # rubocop:disable Style/MixinUsage
+include PuppetlabsSpecHelper::Tasks::FixtureHelpers # DSL include
 
 desc 'Create the fixtures directory'
 task :spec_prep do

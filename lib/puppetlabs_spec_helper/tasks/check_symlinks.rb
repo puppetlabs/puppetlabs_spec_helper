@@ -2,9 +2,7 @@
 
 require 'pathspec'
 
-module PuppetlabsSpecHelper; end
-module PuppetlabsSpecHelper::Tasks; end
-
+# Helpers for validating symlinks.
 class PuppetlabsSpecHelper::Tasks::CheckSymlinks
   DEFAULT_IGNORED = [
     '/.git/',
