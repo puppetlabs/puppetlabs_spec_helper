@@ -7,34 +7,6 @@ require 'puppetlabs_spec_helper/puppet_spec_helper'
 # PuppetInternals provides a set of methods that interface
 # with internal puppet implementations.
 module PuppetlabsSpec::PuppetInternals
-  # parser_scope is intended to return a Puppet::Parser::Scope
-  # instance suitable for placing in a test harness with the intent of
-  # testing parser functions from modules.
-  def scope(parts = {})
-    RSpec.deprecate('scope', replacement: 'rspec-puppet 2.2.0 provides a scope property')
-
-    if %r{^2\.[67]}.match?(Puppet.version)
-      # loadall should only be necessary prior to 3.x
-      # Please note, loadall needs to happen first when creating a scope, otherwise
-      # you might receive undefined method `function_*' errors
-      Puppet::Parser::Functions.autoloader.loadall
-    end
-
-    scope_compiler = parts[:compiler] || compiler
-    scope_parent = parts[:parent] || scope_compiler.topscope
-
-    scope = if %r{^2\.[67]}.match?(Puppet.version)
-              Puppet::Parser::Scope.new(compiler: scope_compiler)
-            else
-              Puppet::Parser::Scope.new(scope_compiler)
-            end
-
-    scope.source = Puppet::Resource::Type.new(:node, 'foo')
-    scope.parent = scope_parent
-    scope
-  end
-  module_function :scope
-
   def resource(parts = {})
     resource_type = parts[:type] || :hostclass
     resource_name = parts[:name] || 'testing'
@@ -51,11 +23,7 @@ module PuppetlabsSpec::PuppetInternals
   def node(parts = {})
     node_name = parts[:name] || 'testinghost'
     options = parts[:options] || {}
-    node_environment = if Puppet.version.to_f >= 4.0
-                         Puppet::Node::Environment.create(parts[:environment] || 'test', [])
-                       else
-                         Puppet::Node::Environment.new(parts[:environment] || 'test')
-                       end
+    node_environment = Puppet::Node::Environment.create(parts[:environment] || 'test', [])
     options[:environment] = node_environment
     Puppet::Node.new(node_name, options)
   end
