@@ -140,7 +140,7 @@ module PuppetlabsSpecHelper::Tasks::FixtureHelpers
         # rubocop:disable Security/Eval
         # TODO: Remove eval
         real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
-        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)t
+        real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
 
         result[real_source] = validate_fixture_hash!(
           'target' => File.join(real_target, fixture),

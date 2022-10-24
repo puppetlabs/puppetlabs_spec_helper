@@ -5,10 +5,10 @@ require 'open3'
 
 # some smoke tests to verify overall sanity
 RSpec.describe 'rake' do
-  before(:all) do
-    @output, @status = Open3.capture2e('rake', '--rakefile', 'spec/acceptance/fixtures/Rakefile', '-T')
+  let(:output) do
+    Open3.capture2e('rake', '--rakefile', 'spec/acceptance/fixtures/Rakefile', '-T')
   end
 
-  it { expect(@output).to match %r{spec_prep} }
-  it { expect(@status).to be_success }
+  it { expect(output[0]).to match %r{spec_prep} }
+  it { expect(output[1]).to be_success }
 end
