@@ -48,55 +48,54 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/files'
 begin
   require 'puppet/test/test_helper'
 rescue LoadError
+  # Continue gracefully
 end
 
 # This is just a utility class to allow us to isolate the various version-specific
 # branches of initialization logic into methods without polluting the global namespace.#
-module Puppet
-  class PuppetSpecInitializer
-    # This method is for initializing puppet state for testing for older versions
-    # of puppet that do not support the new TestHelper API.  As you can see,
-    # this involves explicitly modifying global variables, directly manipulating
-    # Puppet's Settings singleton object, and other fun implementation details
-    # that code external to puppet should really never know about.
-    def self.initialize_via_fallback_compatibility(config)
-      warn('Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.')
-      config.before :all do
-        # nothing to do for now
-      end
+class Puppet::PuppetSpecInitializer
+  # This method is for initializing puppet state for testing for older versions
+  # of puppet that do not support the new TestHelper API.  As you can see,
+  # this involves explicitly modifying global variables, directly manipulating
+  # Puppet's Settings singleton object, and other fun implementation details
+  # that code external to puppet should really never know about.
+  def self.initialize_via_fallback_compatibility(config)
+    warn('Warning: you appear to be using an older version of puppet; spec_helper will use fallback compatibility mode.')
+    config.before :all do
+      # nothing to do for now
+    end
 
-      config.after :all do
-        # nothing to do for now
-      end
+    config.after :all do
+      # nothing to do for now
+    end
 
-      config.before :each do
-        # these globals are set by Application
-        $puppet_application_mode = nil
-        $puppet_application_name = nil
+    config.before :each do
+      # these globals are set by Application
+      $puppet_application_mode = nil # rubocop:disable Style/GlobalVars
+      $puppet_application_name = nil # rubocop:disable Style/GlobalVars
 
-        # REVISIT: I think this conceals other bad tests, but I don't have time to
-        # fully diagnose those right now.  When you read this, please come tell me
-        # I suck for letting this float. --daniel 2011-04-21
-        Signal.stubs(:trap)
+      # REVISIT: I think this conceals other bad tests, but I don't have time to
+      # fully diagnose those right now.  When you read this, please come tell me
+      # I suck for letting this float. --daniel 2011-04-21
+      Signal.stubs(:trap)
 
-        # Set the confdir and vardir to gibberish so that tests
-        # have to be correctly mocked.
-        Puppet[:confdir] = '/dev/null'
-        Puppet[:vardir] = '/dev/null'
+      # Set the confdir and vardir to gibberish so that tests
+      # have to be correctly mocked.
+      Puppet[:confdir] = '/dev/null'
+      Puppet[:vardir] = '/dev/null'
 
-        # Avoid opening ports to the outside world
-        Puppet.settings[:bindaddress] = '127.0.0.1'
-      end
+      # Avoid opening ports to the outside world
+      Puppet.settings[:bindaddress] = '127.0.0.1'
+    end
 
-      config.after :each do
-        Puppet.settings.clear
+    config.after :each do
+      Puppet.settings.clear
 
-        Puppet::Node::Environment.clear
-        Puppet::Util::Storage.clear
-        Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? 'ExecutionStub'
+      Puppet::Node::Environment.clear
+      Puppet::Util::Storage.clear
+      Puppet::Util::ExecutionStub.reset if Puppet::Util.constants.include? 'ExecutionStub'
 
-        PuppetlabsSpec::Files.cleanup
-      end
+      PuppetlabsSpec::Files.cleanup
     end
   end
 end
@@ -104,6 +103,8 @@ end
 # JJM Hack to make the stdlib tests run in Puppet 2.6 (See puppet commit cf183534)
 unless Puppet.constants.include? 'Test'
   module Puppet::Test
+    # This is a stub class to allow the stdlib tests to run in Puppet 2.6
+    # This class will be removed in another commit.
     class LogCollector
       def initialize(logs)
         @logs = logs
