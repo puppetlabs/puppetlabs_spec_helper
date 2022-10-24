@@ -14,8 +14,8 @@ module PuppetlabsSpec::Fixtures
   # <project>/spec/fixture/unit/facter/foo
   def my_fixture_dir
     callers = caller
-    while line = callers.shift
-      next unless found = line.match(%r{/spec/(.*)_spec\.rb:})
+    while (line = callers.shift)
+      next unless (found = line.match(%r{/spec/(.*)_spec\.rb:}))
 
       return fixtures(found[1])
     end
@@ -47,7 +47,7 @@ module PuppetlabsSpec::Fixtures
       raise "fixture '#{glob}' for #{my_fixture_dir} had no files!"
     end
 
-    block_given? && files.each(&block)
+    block && files.each(&block)
     files
   end
 end

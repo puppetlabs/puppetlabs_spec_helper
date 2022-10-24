@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/GlobalVars # TODO: investigate the use of instance variables
+
 require 'fileutils'
 require 'tempfile'
 require 'pathname'
@@ -20,7 +22,7 @@ module PuppetlabsSpec::Files
 
   def self.cleanup
     $global_tempfiles ||= []
-    while path = $global_tempfiles.pop
+    while (path = $global_tempfiles.pop)
       raise "Not deleting tmpfile #{path} outside regular tmpdir" unless in_tmp(path)
 
       begin
