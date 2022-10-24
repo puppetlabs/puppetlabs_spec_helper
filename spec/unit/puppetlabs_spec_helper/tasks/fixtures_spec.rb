@@ -84,6 +84,8 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
   end
 
   describe '.fixtures' do
+    subject(:helper) { described_class }
+
     before :each do
       # Unstub the fixtures "helpers"
       PuppetlabsSpec::Fixtures.instance_methods.each do |m|
@@ -98,8 +100,8 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
 
     context 'when file is missing' do
       it 'returns basic directories per category' do
-        expect(subject.fixtures('forge_modules')).to eq({})
-        expect(subject.fixtures('repositories')).to eq({})
+        expect(helper.fixtures('forge_modules')).to eq({})
+        expect(helper.fixtures('repositories')).to eq({})
       end
     end
 
@@ -107,8 +109,8 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'returns basic directories per category' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return false
-        expect(subject.fixtures('forge_modules')).to eq({})
-        expect(subject.fixtures('repositories')).to eq({})
+        expect(helper.fixtures('forge_modules')).to eq({})
+        expect(helper.fixtures('repositories')).to eq({})
       end
     end
 
@@ -116,7 +118,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         expect(File).to receive(:exist?).with('.fixtures.yml').and_return true
         expect(YAML).to receive(:load_file).with('.fixtures.yml').and_raise(Psych::SyntaxError.new('/file', '123', '0', '0', 'spec message', 'spec context'))
-        expect { subject.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{malformed YAML})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{malformed YAML})
       end
     end
 
@@ -124,7 +126,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('some' => 'key')
-        expect { subject.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{No 'fixtures'})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{No 'fixtures'})
       end
     end
 
@@ -132,14 +134,16 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'returns the hash' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('fixtures' => { 'forge_modules' => { 'stdlib' => 'puppetlabs-stdlib' } })
-        expect(subject.fixtures('forge_modules')).to eq('puppetlabs-stdlib' => {
-                                                          'target' => 'spec/fixtures/modules/stdlib',
-                                                          'ref' => nil,
-                                                          'branch' => nil,
-                                                          'scm' => nil,
-                                                          'flags' => nil,
-                                                          'subdir' => nil,
-                                                        })
+        expect(helper.fixtures('forge_modules')).to eq(
+          'puppetlabs-stdlib' => {
+            'target' => 'spec/fixtures/modules/stdlib',
+            'ref' => nil,
+            'branch' => nil,
+            'scm' => nil,
+            'flags' => nil,
+            'subdir' => nil,
+          },
+        )
       end
     end
 
@@ -148,14 +152,16 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('defaults' => { 'forge_modules' => { 'flags' => '--module_repository=https://myforge.example.com/' } },
                                                                             'fixtures' => { 'forge_modules' => { 'stdlib' => 'puppetlabs-stdlib' } })
-        expect(subject.fixtures('forge_modules')).to eq('puppetlabs-stdlib' => {
-                                                          'target' => 'spec/fixtures/modules/stdlib',
-                                                          'ref' => nil,
-                                                          'branch' => nil,
-                                                          'scm' => nil,
-                                                          'flags' => '--module_repository=https://myforge.example.com/',
-                                                          'subdir' => nil,
-                                                        })
+        expect(helper.fixtures('forge_modules')).to eq(
+          'puppetlabs-stdlib' => {
+            'target' => 'spec/fixtures/modules/stdlib',
+            'ref' => nil,
+            'branch' => nil,
+            'scm' => nil,
+            'flags' => '--module_repository=https://myforge.example.com/',
+            'subdir' => nil,
+          },
+        )
       end
     end
 
@@ -170,14 +176,16 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
 
       it 'returns the hash' do
-        expect(subject.repositories).to eq('https://github.com/puppetlabs/puppetlabs-stdlib.git' => {
-                                             'target' => 'spec/fixtures/modules/stdlib',
-                                             'ref' => nil,
-                                             'branch' => nil,
-                                             'scm' => nil,
-                                             'flags' => nil,
-                                             'subdir' => nil,
-                                           })
+        expect(helper.repositories).to eq(
+          'https://github.com/puppetlabs/puppetlabs-stdlib.git' => {
+            'target' => 'spec/fixtures/modules/stdlib',
+            'ref' => nil,
+            'branch' => nil,
+            'scm' => nil,
+            'flags' => nil,
+            'subdir' => nil,
+          },
+        )
       end
     end
 
@@ -198,7 +206,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
 
       it 'raises an ArgumentError' do
-        expect { subject.fixtures('repositories') }.to raise_error(ArgumentError)
+        expect { helper.fixtures('repositories') }.to raise_error(ArgumentError)
       end
     end
 
@@ -219,7 +227,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             },
           },
         )
-        expect(subject.fixtures('forge_modules')).to include('puppetlabs-stdlib')
+        expect(helper.fixtures('forge_modules')).to include('puppetlabs-stdlib')
       end
 
       it 'excludes the fixture if the puppet version does not match', if: Gem::Version.new(Puppet::PUPPETVERSION) > Gem::Version.new('4') do
@@ -233,7 +241,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             },
           },
         )
-        expect(subject.fixtures('forge_modules')).to eq({})
+        expect(helper.fixtures('forge_modules')).to eq({})
       end
 
       it 'includes the fixture on obsolete puppet versions', if: Gem::Version.new(Puppet::PUPPETVERSION) <= Gem::Version.new('4') do
@@ -247,7 +255,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             },
           },
         )
-        expect(subject.fixtures('forge_modules')).to include('puppetlabs-stdlib')
+        expect(helper.fixtures('forge_modules')).to include('puppetlabs-stdlib')
       end
     end
   end

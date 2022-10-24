@@ -14,7 +14,7 @@ def growl(message)
             (Regexp.last_match(1).to_i == 0) ? '~/.watchr_images/passed.png' : '~/.watchr_images/failed.png'
           else
             '~/.watchr_images/unknown.png'
-  end
+          end
   options = "-w -n Watchr --image '#{File.expand_path(image)}' -m '#{message}' '#{title}'"
   system %(#{growlnotify} #{options} &)
 end
@@ -35,7 +35,7 @@ def run_spec_test(file)
 end
 
 def filter_rspec(data)
-  data.split("\n").find_all { |l|
+  data.split("\n").select { |l|
     l =~ %r{^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending}
   }.join("\n")
 end

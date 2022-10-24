@@ -8,14 +8,14 @@ describe PuppetlabsSpec::PuppetInternals do
   end
 
   describe '.scope' do
-    let(:subject) { described_class.scope }
+    subject(:scope) { described_class.scope }
 
     it 'returns a Puppet::Parser::Scope instance' do
-      expect(subject).to be_a_kind_of Puppet::Parser::Scope
+      expect(scope).to be_a_kind_of Puppet::Parser::Scope
     end
 
     it 'is suitable for function testing' do
-      expect(subject.function_inline_template(['foo'])).to eq('foo')
+      expect(scope.function_inline_template(['foo'])).to eq('foo')
     end
 
     it 'accepts a compiler' do
@@ -25,21 +25,20 @@ describe PuppetlabsSpec::PuppetInternals do
     end
 
     it 'has a source set' do
-      scope = subject
       expect(scope.source).not_to be_nil
       expect(scope.source.name).to eq('foo')
     end
   end
 
   describe '.resource' do
-    let(:subject) { described_class.resource }
+    subject(:resource) { described_class.resource }
 
     it 'can have a defined type' do
       expect(described_class.resource(type: :node).type).to eq(:node)
     end
 
     it 'defaults to a type of hostclass' do
-      expect(subject.type).to eq(:hostclass)
+      expect(resource.type).to eq(:hostclass)
     end
 
     it 'can have a defined name' do
@@ -47,7 +46,7 @@ describe PuppetlabsSpec::PuppetInternals do
     end
 
     it 'defaults to a name of testing' do
-      expect(subject.name).to eq('testing')
+      expect(resource.name).to eq('testing')
     end
   end
 
@@ -82,14 +81,14 @@ describe PuppetlabsSpec::PuppetInternals do
   describe '.function_method' do
     it 'accepts an injected scope' do
       expect(Puppet::Parser::Functions).to receive(:function).with('my_func').and_return(true)
-      scope = double(described_class.scope)
+      scope = instance_double(described_class.scope.to_s)
       expect(scope).to receive(:method).with(:function_my_func).and_return(:fake_method)
       expect(described_class.function_method('my_func', scope: scope)).to eq(:fake_method)
     end
 
     it "returns nil if the function doesn't exist" do
       expect(Puppet::Parser::Functions).to receive(:function).with('my_func').and_return(false)
-      scope = double(described_class.scope)
+      scope = instance_double(described_class.scope.to_s)
       expect(described_class.function_method('my_func', scope: scope)).to be_nil
     end
   end

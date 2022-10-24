@@ -79,13 +79,11 @@ end
 
 desc 'Run spec tests and clean the fixtures directory if successful'
 task :spec do |_t, args|
-  begin
-    Rake::Task[:spec_prep].invoke
-    Rake::Task[:spec_standalone].invoke(*args.extras)
-    Rake::Task[:spec_clean].invoke
-  ensure
-    Rake::Task[:spec_clean_symlinks].invoke
-  end
+  Rake::Task[:spec_prep].invoke
+  Rake::Task[:spec_standalone].invoke(*args.extras)
+  Rake::Task[:spec_clean].invoke
+ensure
+  Rake::Task[:spec_clean_symlinks].invoke
 end
 
 desc 'Run spec tests with ruby simplecov code coverage'
@@ -98,13 +96,11 @@ end
 
 desc 'Run spec tests in parallel and clean the fixtures directory if successful'
 task :parallel_spec do |_t, args|
-  begin
-    Rake::Task[:spec_prep].invoke
-    Rake::Task[:parallel_spec_standalone].invoke(*args.extras)
-    Rake::Task[:spec_clean].invoke
-  ensure
-    Rake::Task[:spec_clean_symlinks].invoke
-  end
+  Rake::Task[:spec_prep].invoke
+  Rake::Task[:parallel_spec_standalone].invoke(*args.extras)
+  Rake::Task[:spec_clean].invoke
+ensure
+  Rake::Task[:spec_clean_symlinks].invoke
 end
 
 desc 'Parallel spec tests'
@@ -144,21 +140,19 @@ namespace :build do
 
   desc 'Build Puppet module with PDK'
   task :pdk do
-    begin
-      require 'pdk/util'
-      require 'pdk/module/build'
+    require 'pdk/util'
+    require 'pdk/module/build'
 
-      path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
-      puts "Module built: #{path}"
-    rescue LoadError
-      _ = `pdk --version`
-      unless $CHILD_STATUS.success?
-        warn 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
-        abort
-      end
-
-      system('pdk build --force')
+    path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
+    puts "Module built: #{path}"
+  rescue LoadError
+    _ = `pdk --version`
+    unless $CHILD_STATUS.success?
+      warn 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
+      abort
     end
+
+    system('pdk build --force')
   end
 end
 
@@ -183,15 +177,16 @@ PuppetLint.configuration.ignore_paths << 'spec/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'tests/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'types/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'vendor/**/*.pp'
-puppet_lint_disable_checks = %w[
-  80chars
-  140chars
-  class_inherits_from_params_class
-  class_parameter_defaults
-  disable_autoloader_layout
-  documentation
-  single_quote_string_with_variables
+puppet_lint_disable_checks = [
+  '80chars',
+  '140chars',
+  'class_inherits_from_params_class',
+  'class_parameter_defaults',
+  'disable_autoloader_layout',
+  'documentation',
+  'single_quote_string_with_variables',
 ]
+
 puppet_lint_disable_checks.each do |check|
   PuppetLint.configuration.send("disable_#{check}")
 end
@@ -268,7 +263,7 @@ task :compute_dev_version do
   # If the branch is a release branch we append an 'r' into the new_version,
   # this is due to the release branch buildID conflicting with main branch when trying to push to the staging forge.
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
-  new_version = if build = (ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER'])
+  new_version = if (build = (ENV['BUILD_NUMBER'] || ENV['TRAVIS_BUILD_NUMBER']))
                   if branch.eql? 'release'
                     '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
                   else
@@ -416,7 +411,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
         },
         'Added' => {
           'prefix' => '### Added',
-          'labels' => %w[feature enhancement],
+          'labels' => ['feature', 'enhancement'],
         },
         'Fixed' => {
           'prefix' => '### Fixed',
