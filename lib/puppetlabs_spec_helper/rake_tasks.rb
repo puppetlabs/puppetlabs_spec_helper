@@ -232,15 +232,6 @@ task :validate do
   end
 end
 
-task :metadata do
-  warn "The 'metadata' task is deprecated. Please use 'metadata_lint' instead."
-  if Rake::Task.task_defined?(:metadata_lint)
-    Rake::Task[:metadata_lint].invoke
-  else
-    warn 'Skipping metadata validation; the metadata-json-lint gem was not found'
-  end
-end
-
 desc 'Print development version of module'
 task :compute_dev_version do
   version = ''
