@@ -141,31 +141,17 @@ A number of the Puppet parser features, controlled via configuration during a
 normal puppet run, can be controlled by exporting specific environment
 variables for the spec run. These are:
 
-* ``STRICT_VARIABLES`` - set to "yes" to enable set to strict variable checking when using Puppet versions between 3.5 and 4.0;
-  set to "no" to disable strict variable checking on Puppet versions 4.0, and later.
-  See [strict_variables](http://docs.puppetlabs.com/references/latest/configuration.html#strictvariables)
-  in puppet.conf for details.
+* ``STRICT_VARIABLES`` - Set to "no" to disable strict variable checking.
+  See [strict_variables](http://docs.puppetlabs.com/references/latest/configuration.html#strictvariables) in puppet.conf for details.
 * ``ORDERING`` - set to the desired ordering method ("title-hash", "manifest", or "random")
   to set the order of unrelated resources when applying a catalog. Leave unset for the default
   behavior, currently "random". This is equivalent to setting [ordering](http://docs.puppetlabs.com/references/latest/configuration.html#ordering)
   in puppet.conf.
-* The following options only affect Puppet 3.x:
-  * ``FUTURE_PARSER`` _(Puppet 3.x, starting with 3.2)_ - set to "yes" to enable the [future parser](https://docs.puppet.com/puppet/3/experiments_future.html),
-    the equivalent of setting [parser=future](https://puppet.com/docs/puppet/3.8/configuration.html#parser)
-    in puppet.conf.
-  * ``TRUSTED_NODE_DATA``  _(Puppet 3.x, starting with 3.4)_ - set to "yes" to enable [the $facts hash and trusted node data](https://puppet.com/docs/puppet/3.8/lang_facts_and_builtin_vars.html#trusted-facts),
-    which enabled ``$facts`` and ``$trusted`` hashes. This is equivalent to setting
-    [trusted_node_data=true](https://puppet.com/docs/puppet/3.8/configuration.html#trustednodedata)
-    in puppet.conf.
-  * ``STRINGIFY_FACTS``  _(Puppet 3.x, starting with 3.5)_  - set to "no" to enable [structured facts](http://docs.puppetlabs.com/facter/2.0/fact_overview.html#writing-structured-facts),
-    otherwise leave unset to retain the current default behavior. This is equivalent to setting
-    [stringify_facts=false](https://puppet.com/docs/puppet/3.8/configuration.html#stringifyfacts)
-    in puppet.conf.
 
-As an example, to run spec tests with the future parser, strict variable checking,
+  As an example, to run spec tests with the future parser, strict variable checking,
 and manifest ordering, you would:
 
-    FUTURE_PARSER=yes STRICT_VARIABLES=yes ORDERING=manifest rake spec
+    ORDERING=manifest rake spec
 
 
 Using Utility Classes
