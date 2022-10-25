@@ -69,7 +69,6 @@ RSpec.configure do |c|
   c.environmentpath = spec_path
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
-  c.parser = 'future' if ENV['FUTURE_PARSER'] == 'yes'
 
   c.before :each do
     if c.mock_framework.framework_name == :rspec
