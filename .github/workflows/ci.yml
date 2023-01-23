@@ -14,10 +14,42 @@ on:
 jobs:
 
   spec:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version:
+          - '2.5'
+          - '2.7'
+          - '3.0'
+          - '3.1'
+        include:
+          - ruby_version: '2.5'
+            puppet_gem_version: '~> 6.0'
+          - ruby_version: '2.7'
+            puppet_gem_version: '~> 7.0'
+          - ruby_version: '3.0'
+            puppet_gem_version: '~> 7.0'
+          - ruby_version: '3.1'
+            puppet_gem_version: '~> 7.0'
+    name: "spec (ruby ${{ matrix.ruby_version }} | puppet ${{ matrix.puppet_gem_version }})"
     uses: "puppetlabs/cat-github-actions/.github/workflows/gem_ci.yml@main"
     secrets: "inherit"
+    with:
+      ruby_version: ${{ matrix.ruby_version }}
+      puppet_gem_version: ${{ matrix.puppet_gem_version }}
 
   acceptance:
     needs: "spec"
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version:
+          - "2.5"
+          - "2.7"
+          - '3.0'
+          - '3.1'
+    name: "acceptance (ruby ${{ matrix.ruby_version }})"
     uses: "puppetlabs/cat-github-actions/.github/workflows/gem_acceptance.yml@main"
     secrets: "inherit"
+    with:
+      ruby_version: ${{ matrix.ruby_version }}
