@@ -1,0 +1,15 @@
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+/opt/hostedtoolcache/Ruby/2.7.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/2.7.7/x64/lib/ruby/2.7.0 -r ./siteconf20230123-1747-fw8eow.rb extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make "DESTDIR=" clean
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.so
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/debug_inspector-1.1.0/ext/debug_inspector
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 debug_inspector.so ./.gem.20230123-1747-hgktc

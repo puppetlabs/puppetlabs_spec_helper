@@ -1,0 +1,13 @@
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/json-2.6.3/ext/json
+/opt/hostedtoolcache/Ruby/2.7.7/x64/bin/ruby -I /opt/hostedtoolcache/Ruby/2.7.7/x64/lib/ruby/2.7.0 -r ./siteconf20230123-1747-kzehsw.rb extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/json-2.6.3/ext/json
+make "DESTDIR=" clean
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/json-2.6.3/ext/json
+make "DESTDIR="
+make: Nothing to be done for 'all'.
+
+current directory: /home/runner/work/puppetlabs_spec_helper/puppetlabs_spec_helper/vendor/bundle/ruby/2.7.0/gems/json-2.6.3/ext/json
+make "DESTDIR=" install

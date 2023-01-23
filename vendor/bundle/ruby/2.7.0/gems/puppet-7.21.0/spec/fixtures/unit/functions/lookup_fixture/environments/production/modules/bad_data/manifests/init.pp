@@ -1,0 +1,2 @@
+class bad_data {
+}

@@ -1,0 +1,19 @@
+localmirror-appstream
+Name         Stream       Profiles                                  Summary                                                            
+389-ds       1.4 [e]                                                389 Directory Server (base)                                           
+gimp         2.8 [d][e]   common [d], devel [i]                     gimp module                                                        
+mariadb      10.3 [d][e]  client [i], server [d], galera            MariaDB Module                                                     
+nodejs       10 [d][e]    common [d], development, minimal [i], s2i Javascript runtime                                                 
+perl         5.26 [d][e]  common [d], minimal [i]                   Practical Extraction and Report Language                           
+postgresql   10 [d][e]    client, server [d] [i]                    PostgreSQL server and client module                                
+ruby         2.5 [d][e]   common [d]                                An interpreter of object-oriented scripting language                  
+rust-toolset rhel8 [d][e] common [d] [i]                            Rust                                                               
+subversion   1.10 [d][e]  common [d], server [i]                    Apache Subversion                                                  
+scala        2.10 [d]     common [d]                                A hybrid functional/object-oriented language for the JVM
+squid        4 [d]        common [d]                                Squid - Optimising Web Delivery
+subversion   1.10 [d]     common [d], server                        Apache Subversion
+swig         3.0 [d][x]   common [d], complete                      Connects C/C++/Objective C to some high-level programming languages
+varnish      6 [d]        common [d]                                Varnish HTTP cache
+virt         rhel [d][x]  common [d]                                Virtualization module
+
+Hint: [d]efault, [e]nabled, [x]disabled, [i]nstalled

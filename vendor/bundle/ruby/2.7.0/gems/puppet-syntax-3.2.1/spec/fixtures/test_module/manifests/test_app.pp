@@ -1,0 +1,3 @@
+application test_app {
+
+}

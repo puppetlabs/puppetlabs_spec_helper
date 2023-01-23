@@ -1,0 +1,41 @@
+# version: 1.0.{build}-{branch}
+
+branches:
+  except:
+  - release-prep
+
+environment:
+  matrix:
+    - RUBY_VERSION: 25-x64
+    - PUPPET_GEM_VERSION: '~> 5.0'
+      RUBY_VERSION: 24-x64
+
+install:
+  - set PATH=C:\Ruby%RUBY_VERSION%\bin;C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin;%PATH%
+  - SET LOG_SPEC_ORDER=true
+  - SET COVERAGE=yes
+  - bundle install --jobs 4 --retry 2 --without development
+
+build: off
+
+before_test:
+  - ruby -v
+  - gem -v
+  - bundle -v
+  - type Gemfile.lock
+
+test_script:
+  - bundle exec rake
+
+notifications:
+  - provider: HipChat
+    auth_token:
+      secure: sJA0tOet7sv/H00xX5nc9+8bW/un1XR/vAiXyJNRl2OI2SopR7b436J42PPYHrE0
+    room: 4283623
+    template: >
+      {{repositoryName}}#{{buildNumber}} ({{#isPullRequest}}PR {{pullRequestId}}{{/isPullRequest}}{{^isPullRequest}}{{branch}}{{/isPullRequest}} - {{commitId}} : {{commitAuthor}}): {{status}} (<a href="{{buildUrl}}">Details</a>{{#isPullRequest}} | <a href="https://github.com/{{repositoryName}}/pull/{{pullRequestId}}">PR</a>{{/isPullRequest}})
+
+# Uncomment this block to enable RDP access to the AppVeyor test instance for
+# debugging purposes.
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

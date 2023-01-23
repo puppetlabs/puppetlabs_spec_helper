@@ -1,0 +1,98 @@
+---
+- - :permit
+  - MIT
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:11:09.971500380 Z
+- - :permit
+  - Apache 2.0
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:12:21.086779416 Z
+- - :permit
+  - ruby
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:12:28.578927478 Z
+- - :permit
+  - Simplified BSD
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:12:36.924605442 Z
+- - :permit
+  - New BSD
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:14:00.252514982 Z
+- - :permit
+  - Apache License, v2
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:14:07.999759997 Z
+- - :permit
+  - Ruby or LGPLv3+
+  - :who: DavidS
+    :why: standard license
+    :versions: []
+    :when: 2017-07-28 11:18:47.915684798 Z
+- - :license
+  - bundler
+  - MIT
+  - :who: DavidS
+    :why: See https://rubygems.org/gems/bundler
+    :versions: []
+    :when: 2017-07-28 11:22:12.975947786 Z
+- - :license
+  - minitar
+  - ruby
+  - :who: DavidS
+    :why: https://rubygems.org/gems/minitar
+    :versions: []
+    :when: 2017-07-28 11:22:50.609762862 Z
+- - :license
+  - colored
+  - MIT
+  - :who: DavidS
+    :why: https://github.com/defunkt/colored/blob/829bde0f8832406be1cacc5c99c49d976e05ccfc/LICENSE
+    :versions: []
+    :when: 2017-07-28 11:23:25.554994001 Z
+- - :permit
+  - ISC
+  - :who: scotje
+    :why: MIT equivalent
+    :versions: []
+    :when: 2017-08-11 01:30:32.594531000 Z
+- - :license
+  - facter
+  - Apache 2.0
+  - :who: DavidS
+    :why: https://github.com/puppetlabs/facter/blob/d6e1d4bcb087683239ff5ee6bd72978d262b9c39/LICENSE
+    :versions: []
+    :when: 2017-08-31 13:26:57.197893553 Z
+- - :license
+  - codecov
+  - MIT
+  - :who: DavidS
+    :why: https://github.com/codecov/codecov-ruby/blob/d5f85a0ece83845a577e26f8ce735ae10de767c0/LICENSE.txt
+    :versions: []
+    :when: 2017-10-11 12:15:00.000000000 Z
+- - :license
+  - blankslate
+  - MIT
+  - :who: DavidS
+    :why: https://github.com/masover/blankslate/blob/f0a73b80c34bc3ad94dc3195d12a227a8fe30019/MIT-LICENSE
+    :versions: []
+    :when: 2017-11-17 14:05:09.534340925 Z
+- - :license
+  - puppetlabs_spec_helper
+  - Apache 2.0
+  - :who: DavidS
+    :why:
+    :versions: []
+    :when: 2018-03-09 18:04:29.175843919 Z

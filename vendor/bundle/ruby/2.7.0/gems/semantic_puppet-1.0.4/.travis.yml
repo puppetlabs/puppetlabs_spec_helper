@@ -1,0 +1,29 @@
+---
+language: ruby
+
+cache: bundler
+
+before_install:
+  - bundle -v
+  - rm Gemfile.lock || true
+  - gem update --system
+  - gem update bundler
+  - gem --version
+  - bundle -v
+
+script: "bundle exec rspec --color --format documentation spec/unit"
+
+notifications:
+  email: false
+
+sudo: false
+
+rvm:
+  - "2.5.8"
+  - "2.6.6"
+  - "2.7.2"
+  - "3.0.0"
+  - "jruby-19mode"
+
+jdk:
+  - openjdk8

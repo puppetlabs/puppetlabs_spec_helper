@@ -1,0 +1,43 @@
+os: linux
+language: ruby
+bundler_args: "--without development"
+script:
+  - echo travis_fold:start:DEBUG
+  - cat Gemfile.lock
+  - bundle list
+  - echo travis_fold:end:DEBUG
+  - bundle exec rake $CHECK
+cache: bundler
+branches:
+  except:
+    - release-prep
+jobs:
+  include:
+    - rvm: 2.4.3
+      env: PUPPET_GEM_VERSION='~> 5' SIMPLECOV=yes # 5.5
+    # disable coverage on jruby9k as this confuses codecov
+    - env: RVM="jruby-9.1.9.0" PUPPET_GEM_VERSION='~> 5' JRUBY_OPTS="--debug"
+      dist: trusty
+      before_cache: pushd ~/.rvm && rm -rf archives rubies/ruby-2.2.7 rubies/ruby-2.3.4 && popd
+      cache:
+        bundler: false
+        directories: [~/.rvm]
+      before_install: rvm use jruby-9.1.9.0 --install --binary --fuzzy
+    - rvm: 2.5.1
+      env: CHECK=rubocop
+    - rvm: 2.5.1
+      env: CHECK=license_finder
+      bundler_args: ""
+    - rvm: 2.5.7
+      env: PUPPET_GEM_VERSION='~> 6' SIMPLECOV=yes # latest 6 release
+    - rvm: 2.5.7
+      env: PUPPET_GEM_VERSION='~> 6.14.0'
+    - rvm: 2.5.7
+      env: PUPPET_GEM_VERSION='https://github.com/puppetlabs/puppet.git#main'
+    - rvm: 2.7
+      env: PUPPET_GEM_VERSION='https://github.com/puppetlabs/puppet.git#main'
+    - rvm: 2.4.3
+      env: PUPPET_GEM_VERSION='https://github.com/puppetlabs/puppet.git#5.5.x'
+notifications:
+  slack:
+    secure: aPXZYNow8LsmmlS8PQU3FjL0bc7FqUUA95d++wZfIu7YAjGboIUiekxYouQ0XnY+Aig8InvbTOIgBHgGNheyr/YFbFS90/jtulbF8oW7BitW+imgjeAHDCwlQZTCc4FFYde/2pI7QTT8H5NpLR9mKxlTU77Sqr8gFAIybuPdHcKMYQZdEZS07ma2pUp7+GyKS6PDQpzW2+mDCz/wfi3/JdsUvc0mclCZ8vxySc66j5P1E6nFDMzuakBOjwJHpgeDpreapbmSUQLAX0a3ZsFP+N+SNduLotlV2BWnJK2gcO6rGFP4Fz1D0bGXuBnYYdIiB+9OgI3wtXg9y1SifNHUG3IrOBAA8CGNyrebTGKtH0TS2O+HZLbaNX2g6udD5e3156vys9wScmJuQ/rSkVtQfXf1qUm5eijvlXI+DIbssbZHqm6QQGyM4p3NoULmNmF1C85bQoZ4GF7b1P/8mstsVE/HUfnzRPNbwD0r6j1aE/ck3PKMi7ZAhIi0Ja9RnAgP3wi0t62uERYcJGGYEycWohMWnrf2w6GFwGeuoiwAkASdHOLX0/AOMPc4mBOjlc621o8uYMrrZqfF5CrOAvJ151USSsWn2AhXaibIvnHo6X91paNvvNpU/GYu3CUAl6q8OhYovvjtRVPVnhs2DrpgoRB+6NWHnzjRG/wr6Z9U+vA=

@@ -1,0 +1,2 @@
+# Set the networking team as the main owners of the module
+*       @puppetlabs/networking

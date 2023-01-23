@@ -1,0 +1,11 @@
+---
+this_is_ok: 0
+this_is_ok::too: 0
+th1s_is_ok::two3: 0
+:eventhis: 0
+
+typical:typo::warning1:   true
+::notsotypical::warning2: true
+noCamelCase::warning3:    true
+no-hyphens::warning4:     true
+:picky::warning5:         true

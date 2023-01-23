@@ -1,0 +1,24 @@
+---
+acme::warning1: ENC[unknown-method,aGVsbG8sIHdvcmxk]
+acme::warning2: ENC[PKCS7,aGVsbG8sIHdvcmxk
+acme::warning3: ENC[PKCS7,aGVsbG8sIHdvcmxk==]
+acme::warning4: ENC[PKCS7,aGVs!!!!bG8sIHdvcmxk]
+acme::warning5:
+  key1: foo
+  key2: ENC[PKCS7,aGVs!!!!bG8sIHdvcmxk]
+acme::warning6:
+  hash_key:
+    - element1
+    - >
+      ENC[PKCS7,
+          aGVsbG8sIHdvcmxk
+      ]
+    - >
+      ENC[PKCS7,
+          aGVs!!!!bG8sIHdvcmxk
+      ]
+acme::good1: >
+   ENC[PKCS7,
+     aGVsbG8sIHdvcmxk]
+acme::good2: ENC[GPG,aGVsbG8sIHdvcmxkIQ==]
+acme::good3: ENC[GPG,aGVsbG8sIHdvcmxkISE=]

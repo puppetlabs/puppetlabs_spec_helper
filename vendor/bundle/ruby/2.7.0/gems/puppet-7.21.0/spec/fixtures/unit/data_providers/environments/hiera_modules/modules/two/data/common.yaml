@@ -1,0 +1,4 @@
+---
+lookup_options:
+  two::arg:
+    merge: unique

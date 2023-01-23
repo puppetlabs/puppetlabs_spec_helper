@@ -1,0 +1,4 @@
+legacy_run    lrc:/etc/rcS_d/S50sk98sol
+online        svc:/system/svc/restarter:default
+maintenance   svc:/network/cswrsyncd:default
+degraded      svc:/network/dns/client:default

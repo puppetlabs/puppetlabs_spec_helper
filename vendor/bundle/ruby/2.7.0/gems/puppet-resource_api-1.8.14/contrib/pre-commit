@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Code modified from: https://gist.github.com/hanloong/9849098
+require 'English'
+
+changed_files = `git diff --name-only --cached --diff-filter=ACM`.split(%r{\n})
+changed_files = changed_files.select { |file_name|
+  File.extname(file_name) == '.rb'
+}.join(' ')
+
+system("bundle exec rubocop -a #{changed_files}") unless changed_files.empty?
+
+if $CHILD_STATUS.to_s[-1].to_i.zero? && !changed_files.empty?
+  system("git add #{changed_files}")
+end
+
+exit $CHILD_STATUS.to_s[-1].to_i

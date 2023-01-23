@@ -1,0 +1,230 @@
+#!/usr/bin/env ruby
+
+# CLI client for Hiera.
+#
+# To lookup the 'release' key for a node given Puppet YAML facts:
+#
+# $ hiera release 'rel/%{location}' --yaml some.node.yaml
+#
+# If the node yaml had a location fact the default would match that
+# else you can supply scope values on the command line
+#
+# $ hiera release 'rel/%{location}' location=dc2 --yaml some.node.yaml
+
+# Bundler and rubygems maintain a set of directories from which to
+# load gems. If Bundler is loaded, let it determine what can be
+# loaded. If it's not loaded, then use rubygems. But do this before
+# loading any hiera code, so that our gem loading system is sane.
+if not defined? ::Bundler
+  begin
+    require 'rubygems'
+  rescue LoadError
+  end
+end
+require 'hiera'
+require 'hiera/util'
+require 'optparse'
+require 'pp'
+
+options = {
+  :default => nil,
+  :config  => nil,
+  :scope   => {},
+  :key     => nil,
+  :verbose => false,
+  :resolution_type => :priority,
+  :format => :ruby
+}
+
+initial_scopes = Array.new
+
+# Loads the scope from YAML or JSON files
+def load_scope(source, type=:yaml)
+  case type
+  when :yaml
+    raise "Cannot find scope #{type} file #{source}" unless File.exist?(source)
+
+    require 'yaml'
+
+    # Attempt to load puppet in case we're going to be fed
+    # Puppet yaml files
+    begin
+        require 'puppet'
+    rescue
+    end
+
+    scope = YAML.load_file(source)
+
+    # Puppet makes dumb yaml files that do not promote data reuse.
+    scope = scope.values if scope.is_a?(Puppet::Node::Facts)
+
+  when :json
+    raise "Cannot find scope #{type} file #{source}" unless File.exist?(source)
+
+    require 'json'
+
+    scope = JSON.load(File.read(source))
+
+  when :inventory_service
+    # For this to work the machine running the hiera command needs access to
+    # /facts REST endpoint on your inventory server.  This access is
+    # controlled in auth.conf and identification is by the certname of the
+    # machine running hiera commands.
+    #
+    # Another caveat is that if your inventory server isn't at the short dns
+    # name of 'puppet' you will need to set the inventory_sever option in
+    # your puppet.conf.  Set it in either the master or main sections.  It
+    # is fine to have the inventory_server option set even if the config
+    # doesn't have the fact_terminus set to rest.
+    begin
+      require 'puppet/util/run_mode'
+      $puppet_application_mode = Puppet::Util::RunMode[:master]
+      require 'puppet'
+      Puppet.settings.parse
+      Puppet::Node::Facts.indirection.terminus_class = :rest
+      scope = YAML.load(Puppet::Node::Facts.indirection.find(source).to_yaml)
+      # Puppet makes dumb yaml files that do not promote data reuse.
+      scope = scope.values if scope.is_a?(Puppet::Node::Facts)
+    rescue Exception => e
+        STDERR.puts "Puppet inventory service lookup failed: #{e.class}: #{e}"
+        exit 1
+    end
+  else
+    raise "Don't know how to load data type #{type}"
+  end
+
+  raise "Scope from #{type} file #{source} should be a Hash" unless scope.is_a?(Hash)
+
+  scope
+end
+
+def output_answer(ans, format)
+  case format
+  when :json
+    require 'json'
+    puts JSON.dump(ans)
+  when :ruby
+    if ans.is_a?(String)
+      puts ans
+    else
+      pp ans
+    end
+  when :yaml
+    require 'yaml'
+    puts ans.to_yaml
+  else
+    STDERR.puts "Unknown output format: #{v}"
+    exit 1
+  end
+end
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: hiera [options] key [default value] [variable='text'...]\n\nThe default value will be used if no value is found for the key. Scope variables\nwill be interpolated into %{variable} placeholders in the hierarchy and in\nreturned values.\n\n"
+
+  opts.on("--version", "-V", "Version information") do
+    puts Hiera.version
+    exit
+  end
+
+  opts.on("--debug", "-d", "Show debugging information") do
+    options[:verbose] = true
+  end
+
+  opts.on("--array", "-a", "Return all values as an array") do
+    options[:resolution_type] = :array
+  end
+
+  opts.on("--hash", "-h", "Return all values as a hash") do
+    options[:resolution_type] = :hash
+  end
+
+  opts.on("--config CONFIG", "-c", "Configuration file") do |v|
+    if File.exist?(v)
+      options[:config] = v
+    else
+      STDERR.puts "Cannot find config file: #{v}"
+      exit 1
+    end
+  end
+
+  opts.on("--json SCOPE", "-j", "JSON format file to load scope from") do |v|
+    initial_scopes << { :type => :json, :value => v, :name => "JSON" }
+  end
+
+  opts.on("--yaml SCOPE", "-y", "YAML format file to load scope from") do |v|
+    initial_scopes << { :type => :yaml, :value => v, :name => "YAML" }
+  end
+
+  opts.on("--mcollective IDENTITY", "-m", "Use facts from a node (via mcollective) as scope") do |v|
+    initial_scopes << { :type => :mcollective, :value => v, :name => "Mcollective" }
+  end
+
+  opts.on("--inventory_service IDENTITY", "-i", "Use facts from a node (via Puppet's inventory service) as scope") do |v|
+    initial_scopes << { :type => :inventory_service, :value => v, :name => "Puppet inventory service" }
+  end
+
+  opts.on("--format TYPE", "-f", "Output the result in a specific format (ruby, yaml or json); default is 'ruby'") do |v|
+    options[:format] = case v
+    when 'json', 'ruby', 'yaml'
+      v.to_sym
+    else
+      STDERR.puts "Unknown output format: #{v}"
+      exit 1
+    end
+  end
+end.parse!
+
+unless initial_scopes.empty?
+  initial_scopes.each { |this_scope|
+    # Load initial scope
+    begin
+      options[:scope] = load_scope(this_scope[:value], this_scope[:type])
+    rescue Exception => e
+      STDERR.puts "Could not load #{this_scope[:name]} scope: #{e.class}: #{e}"
+      exit 1
+    end
+  }
+end
+
+# arguments can be:
+#
+# key default var=val another=val
+#
+# The var=val's assign scope
+unless ARGV.empty?
+  options[:key] = ARGV.delete_at(0)
+
+  ARGV.each do |arg|
+    if arg =~ /^(.+?)=(.+?)$/
+      options[:scope][$1] = $2
+    else
+      unless options[:default]
+        options[:default] = arg.dup
+      else
+        STDERR.puts "Don't know how to parse scope argument: #{arg}"
+      end
+    end
+  end
+else
+  STDERR.puts "Please supply a data item to look up"
+  exit 1
+end
+
+begin
+  hiera = Hiera.new(:config => options[:config])
+rescue Exception => e
+  if options[:verbose]
+    raise
+  else
+    STDERR.puts "Failed to start Hiera: #{e.class}: #{e}"
+    exit 1
+  end
+end
+
+unless options[:verbose]
+  Hiera.logger = "noop"
+end
+
+ans = hiera.lookup(options[:key], options[:default], options[:scope], nil, options[:resolution_type])
+
+output_answer(ans, options[:format])

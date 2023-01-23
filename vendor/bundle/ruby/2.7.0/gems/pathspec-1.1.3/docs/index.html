@@ -1,0 +1,82 @@
+<h1 id="pathspec-rb1">pathspec-rb(1)</h1>
+
+<h2 data-date="2020/01/04" id="name">NAME</h2>
+
+<p>pathspec - Test pathspecs against a specific path</p>
+
+<h2 id="synopsis">SYNOPSIS</h2>
+
+<p><code>pathspec-rb</code> [<code>OPTIONS</code>] [<code>SUBCOMMAND</code>] [<code>PATH</code>] NAME PATH</p>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p><code>pathspc-rb</code> is a tool that accompanies the pathspec-ruby library to help
+you test what match results the library would find using path specs. You can
+either find all specs matching a path, find all files matching specs, or
+verify that a path would match any spec.</p>
+
+<p>https://github.com/highb/pathspec-ruby</p>
+
+<h2 id="sub-commands">SUB-COMMANDS</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>specs_match</em></td>
+      <td>Find all specs matching path</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>tree</em></td>
+      <td>Find all files under path matching the spec</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td><em>match</em></td>
+      <td>Check if the path matches any spec</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="options">OPTIONS</h2>
+
+<dl>
+  <dt><code>-f &lt;FILENAME&gt;</code>, <code>--file &lt;FILENAME&gt;</code></dt>
+  <dd>Load path specs from the file passed in as argument. If this option is not specified, <code>pathspec-rb</code> defaults to loading <code>.gitignore</code>.</dd>
+  <dt><code>-t [git|regex]</code>, <code>--type [git|regex]</code></dt>
+  <dd>Type of spec expected in the loaded specs file (see <code>-f</code> option). Defaults to <code>git</code>.</dd>
+  <dt><code>-v</code>, <code>--verbose</code></dt>
+  <dd>Only output if there are matches.</dd>
+</dl>
+
+<h2 id="example">EXAMPLE</h2>
+
+<p>Find all files ignored by git under your source directory:</p>
+
+<pre><code>  $ pathspec-rb tree src/
+</code></pre>
+
+<p>List all spec rules that would match for the specified path:</p>
+
+<pre><code>  $ pathspec-rb specs_match build/
+</code></pre>
+
+<p>Check that a path matches at least one of the specs in a new version of a
+gitignore file:</p>
+
+<pre><code>  $ pathspec-rb match -f .gitignore.new spec/fixtures/
+</code></pre>
+
+<h2 id="author">AUTHOR</h2>
+
+<p>Brandon High highb@users.noreply.github.com</p>
+
+<p>Gabriel Filion</p>
