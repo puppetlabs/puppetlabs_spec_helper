@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.1) - 2023-01-23
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.0...v5.0.1)
+
+### Fixed
+
+- (GH-372) Reset min Ruby requirement [#373](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/373) ([chelnak](https://github.com/chelnak))
+
 ## [v5.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.0) - 2023-01-23
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v4.0.1...v5.0.0)
