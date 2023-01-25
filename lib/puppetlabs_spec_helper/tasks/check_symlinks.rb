@@ -2,48 +2,52 @@
 
 require 'pathspec'
 
-# Helpers for validating symlinks.
-class PuppetlabsSpecHelper::Tasks::CheckSymlinks
-  DEFAULT_IGNORED = [
-    '/.git/',
-    '/.bundle/',
-    '/vendor/',
-  ].freeze
+module PuppetlabsSpecHelper
+  module Tasks
+    # Helpers for validating symlinks.
+    class CheckSymlinks
+      DEFAULT_IGNORED = [
+        '/.git/',
+        '/.bundle/',
+        '/vendor/',
+      ].freeze
 
-  IGNORE_LIST_FILES = [
-    '.pdkignore',
-    '.gitignore',
-  ].freeze
+      IGNORE_LIST_FILES = [
+        '.pdkignore',
+        '.gitignore',
+      ].freeze
 
-  def check(dir = Dir.pwd)
-    dir = Pathname.new(dir) unless dir.is_a?(Pathname)
-    results = []
+      def check(dir = Dir.pwd)
+        dir = Pathname.new(dir) unless dir.is_a?(Pathname)
+        results = []
 
-    dir.each_child(true) do |child|
-      next if ignored?(child.to_s)
+        dir.each_child(true) do |child|
+          next if ignored?(child.to_s)
 
-      if child.symlink?
-        results << child
-      elsif child.directory? && child.basename.to_s !~ %r{^(\.git|\.?bundle)$}
-        results.concat(check(child))
+          if child.symlink?
+            results << child
+          elsif child.directory? && child.basename.to_s !~ %r{^(\.git|\.?bundle)$}
+            results.concat(check(child))
+          end
+        end
+
+        results
       end
-    end
 
-    results
-  end
+      def ignored?(path)
+        path = "#{path}/" if File.directory?(path)
 
-  def ignored?(path)
-    path = "#{path}/" if File.directory?(path)
+        !ignore_pathspec.match_paths([path], Dir.pwd).empty?
+      end
 
-    !ignore_pathspec.match_paths([path], Dir.pwd).empty?
-  end
+      def ignore_pathspec
+        @ignore_pathspec ||= PathSpec.new(DEFAULT_IGNORED).tap do |pathspec|
+          IGNORE_LIST_FILES.each do |f|
+            next unless File.file?(f) && File.readable?(f)
 
-  def ignore_pathspec
-    @ignore_pathspec ||= PathSpec.new(DEFAULT_IGNORED).tap do |pathspec|
-      IGNORE_LIST_FILES.each do |f|
-        next unless File.file?(f) && File.readable?(f)
-
-        File.open(f, 'r') { |fd| pathspec.add(fd) }
+            File.open(f, 'r') { |fd| pathspec.add(fd) }
+          end
+        end
       end
     end
   end
