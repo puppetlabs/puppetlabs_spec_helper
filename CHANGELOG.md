@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v5.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.2) - 2023-01-25
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.1...v5.0.2)
+
+### Fixed
+
+- (CONT-515) Fix uninitialized constant error [#379](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/379) ([chelnak](https://github.com/chelnak))
+- puppet-lint: Allow 3.x [#378](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/378) ([bastelfreak](https://github.com/bastelfreak))
+- pathspec: Allow 1.x [#377](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/377) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v5.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.1) - 2023-01-23
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.0...v5.0.1)
