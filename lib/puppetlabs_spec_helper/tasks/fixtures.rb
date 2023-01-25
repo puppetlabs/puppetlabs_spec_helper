@@ -317,7 +317,8 @@ module PuppetlabsSpecHelper
             end
           else
             # the last thread started should be the longest wait
-            item, item_opts = items.reverse.find { |_i, o| o.key?(:thread) }
+            # Rubocop does an invalid suggestion: https://github.com/rubocop/rubocop-performance/issues/336
+            item, item_opts = items.select { |_i, o| o.key?(:thread) }.last # rubocop:disable Performance/Detect
             logger.debug "Waiting on #{item}"
             item_opts[:thread].join # wait for the thread to finish
             # now that we waited lets try again
