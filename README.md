@@ -49,7 +49,7 @@ Fixture downloads will now execute in parallel to speed up the testing process. 
 to a positive integer, the default is currently 10.  We don't suggest going higher than 25 as the gains are marginal due to some repos taking a long time to download.  Please be aware that your internal VCS system may not be able to handle a high load in which case the server would fail to clone the repository. Because of this issue, this setting is tunable via `MAX_FIXTURE_THREAD_COUNT`.
 
 Additionally, you can also speed up cloning when using the ssh protocol by multiplexing ssh sessions.  Add something similar to your ssh config.
-Note: you may need to change the host if your using an internal git server.
+Note: you may need to change the host if you're using an internal git server.
 
 ```shell
 Host github.com
