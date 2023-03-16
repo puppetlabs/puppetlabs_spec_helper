@@ -69,14 +69,16 @@ RSpec.configure do |c|
   c.module_path = module_path
   c.manifest_dir = File.join(fixture_path, 'manifests')
 
+  # https://github.com/puppetlabs/rspec-puppet#strict_variables
+  c.strict_variables = ENV['STRICT_VARIABLES'] != 'no'
+  # https://github.com/puppetlabs/rspec-puppet#ordering
+  c.ordering = ENV['ORDERING'] if ENV['ORDERING']
+
   c.before :each do
     if c.mock_framework.framework_name == :rspec
       allow(Puppet.features).to receive(:root?).and_return(true)
     else
       Puppet.features.stubs(:root?).returns(true)
     end
-
-    Puppet.settings[:strict_variables] = true if ENV['STRICT_VARIABLES'] == 'yes' || ENV['STRICT_VARIABLES'] != 'no'
-    Puppet.settings[:ordering] = ENV['ORDERING'] if ENV['ORDERING']
   end
 end
