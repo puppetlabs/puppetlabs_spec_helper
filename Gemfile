@@ -2,8 +2,6 @@
 
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
-require 'pry'
-
 gemspec
 
 def location_for(place_or_version, fake_version = nil)
@@ -20,6 +18,8 @@ def location_for(place_or_version, fake_version = nil)
 end
 
 group :development do
+  gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
+
   gem 'codecov'
   gem 'simplecov'
   gem 'simplecov-console'
@@ -39,16 +39,12 @@ group :development do
   gem 'yard'
 end
 
-group :test do
-  gem 'puppet', *location_for(ENV['PUPPET_LOCATION'])
-end
+# # Evaluate Gemfile.local if it exists
+# if File.exists? "#{__FILE__}.local"
+#   eval(File.read("#{__FILE__}.local"), binding)
+# end
 
-# Evaluate Gemfile.local if it exists
-if File.exists? "#{__FILE__}.local"
-  eval(File.read("#{__FILE__}.local"), binding)
-end
-
-# Evaluate ~/.gemfile if it exists
-if File.exists?(File.join(Dir.home, '.gemfile'))
-  eval(File.read(File.join(Dir.home, '.gemfile')), binding)
-end
+# # Evaluate ~/.gemfile if it exists
+# if File.exists?(File.join(Dir.home, '.gemfile'))
+#   eval(File.read(File.join(Dir.home, '.gemfile')), binding)
+# end
