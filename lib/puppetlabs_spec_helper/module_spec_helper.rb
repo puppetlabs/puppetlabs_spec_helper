@@ -55,6 +55,7 @@ end
 # Add all spec lib dirs to LOAD_PATH
 components = module_path.split(File::PATH_SEPARATOR).map do |dir|
   next unless Dir.exist? dir
+
   Dir.entries(dir).reject { |f| f =~ %r{^\.} }.map { |f| File.join(dir, f, 'spec', 'lib') }
 end
 components.flatten.each do |d|

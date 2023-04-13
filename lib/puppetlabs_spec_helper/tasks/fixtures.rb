@@ -251,6 +251,7 @@ module PuppetlabsSpecHelper
 
       def remove_subdirectory(target, subdir)
         return if subdir.nil?
+
         Dir.mktmpdir do |tmpdir|
           FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
           FileUtils.rm_rf("#{target}/#{subdir}")
