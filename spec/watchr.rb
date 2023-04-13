@@ -35,9 +35,7 @@ def run_spec_test(file)
 end
 
 def filter_rspec(data)
-  data.split("\n").select { |l|
-    l =~ %r{^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending}
-  }.join("\n")
+  data.split("\n").grep(%r{^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending}).join("\n")
 end
 
 def run_all_tests
