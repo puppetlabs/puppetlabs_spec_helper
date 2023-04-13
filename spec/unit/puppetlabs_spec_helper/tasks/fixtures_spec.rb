@@ -36,7 +36,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         allow(File).to receive(:file?).with('metadata.json').and_return(true)
       end
 
-      context 'but it is not readable' do
+      context 'when it is not readable' do
         before(:each) do
           allow(File).to receive(:readable?).with('metadata.json').and_return(false)
         end
@@ -44,37 +44,37 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         it_behaves_like 'module name from working directory'
       end
 
-      context 'and it is readable' do
+      context 'when it is readable' do
         before(:each) do
           allow(File).to receive(:readable?).with('metadata.json').and_return(true)
           allow(File).to receive(:read).with('metadata.json').and_return(metadata_content)
         end
 
-        context 'but it contains invalid JSON' do
+        context 'when it contains invalid JSON' do
           let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata", }' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'and it contains a name value' do
+        context 'when it contains a name value' do
           let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata" }' }
 
           it_behaves_like 'module name from metadata'
         end
 
-        context 'but it does not contain a name value' do
+        context 'when it does not contain a name value' do
           let(:metadata_content) { '{}' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'but the name has a null value' do
+        context 'when the name has a null value' do
           let(:metadata_content) { '{ "name": null }' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'but the name is blank' do
+        context 'when the name is blank' do
           let(:metadata_content) { '{ "name": "" }' }
 
           it_behaves_like 'module name from working directory'
