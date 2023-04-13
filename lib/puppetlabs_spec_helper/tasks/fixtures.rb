@@ -243,9 +243,9 @@ module PuppetlabsSpecHelper
         return if subdir.nil?
 
         Dir.mktmpdir do |tmpdir|
-          FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+          FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^.]*,*}"), tmpdir)
           FileUtils.rm_rf("#{target}/#{subdir}")
-          FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), target.to_s)
+          FileUtils.mv(Dir.glob("#{tmpdir}/{.[^.]*,*}"), target.to_s)
         end
       end
 
