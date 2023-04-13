@@ -397,9 +397,9 @@ module PuppetlabsSpecHelper
         # Does working_dir even need to be passed?
         Dir.mktmpdir do |working_dir|
           command = "puppet module install#{ref}#{flags} --ignore-dependencies " \
-          '--force ' \
-          "--module_working_dir \"#{working_dir}\" " \
-          "--target-dir \"#{module_target_dir}\" \"#{remote}\""
+                    '--force ' \
+                    "--module_working_dir \"#{working_dir}\" " \
+                    "--target-dir \"#{module_target_dir}\" \"#{remote}\""
 
           unless system(command)
             raise "Failed to install module #{remote} to #{module_target_dir}"
