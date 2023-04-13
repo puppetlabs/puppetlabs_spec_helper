@@ -452,7 +452,7 @@ task :spec_clean do
 
   Rake::Task[:spec_clean_symlinks].invoke
 
-  if File.zero?('spec/fixtures/manifests/site.pp')
+  if File.empty?('spec/fixtures/manifests/site.pp')
     FileUtils.rm_f('spec/fixtures/manifests/site.pp')
   end
 end
