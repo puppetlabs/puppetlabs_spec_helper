@@ -239,7 +239,7 @@ task :compute_dev_version do
   # If the branch is a release branch we append an 'r' into the new_version,
   # this is due to the release branch buildID conflicting with main branch when trying to push to the staging forge.
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
-  new_version = if (build = ENV['BUILD_NUMBER'])
+  new_version = if (build = ENV.fetch('BUILD_NUMBER', nil))
                   if branch.eql? 'release'
                     '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code
                   else
