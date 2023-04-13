@@ -63,9 +63,7 @@ components.flatten.each do |d|
 end
 
 RSpec.configure do |c|
-  if ENV['GITHUB_ACTIONS'] == 'true'
-    c.formatter = 'RSpec::Github::Formatter'
-  end
+  c.formatter = 'RSpec::Github::Formatter' if ENV['GITHUB_ACTIONS'] == 'true'
 
   c.environmentpath = spec_path
   c.module_path = module_path

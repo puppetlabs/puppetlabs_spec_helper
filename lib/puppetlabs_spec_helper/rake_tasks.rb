@@ -321,9 +321,7 @@ begin
     # Use Rubocop's Github Actions formatter if possible
     if ENV['GITHUB_ACTIONS'] == 'true'
       rubocop_spec = Gem::Specification.find_by_name('rubocop')
-      if Gem::Version.new(rubocop_spec.version) >= Gem::Version.new('1.2')
-        task.formatters << 'github'
-      end
+      task.formatters << 'github' if Gem::Version.new(rubocop_spec.version) >= Gem::Version.new('1.2')
     end
   end
 rescue LoadError
@@ -365,9 +363,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
     # rubocop:enable Lint/NestedMethodDefinition
 
     GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-      if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
-        raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'"
-      end
+      raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'" if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
 
       config.user = changelog_user || changelog_user_from_metadata
       config.project = changelog_project || changelog_project_from_metadata

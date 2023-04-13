@@ -107,9 +107,7 @@ module PuppetlabsSpecHelper
 
         fixtures = fixtures['fixtures']
 
-        if fixtures['symlinks'].nil?
-          fixtures['symlinks'] = auto_symlink
-        end
+        fixtures['symlinks'] = auto_symlink if fixtures['symlinks'].nil?
 
         result = {}
         if fixtures.include?(category) && !fixtures[category].nil?
@@ -117,16 +115,12 @@ module PuppetlabsSpecHelper
 
           # load defaults from the `.fixtures.yml` `defaults` section
           # for the requested category and merge them into my defaults
-          if fixture_defaults.include? category
-            defaults = defaults.merge(fixture_defaults[category])
-          end
+          defaults = defaults.merge(fixture_defaults[category]) if fixture_defaults.include? category
 
           fixtures[category].each do |fixture, opts|
             # convert a simple string fixture to a hash, by
             # using the string fixture as the `repo` option of the hash.
-            if opts.instance_of?(String)
-              opts = { 'repo' => opts }
-            end
+            opts = { 'repo' => opts } if opts.instance_of?(String)
             # there should be a warning or something if it's not a hash...
             next unless opts.instance_of?(Hash)
 
@@ -192,9 +186,7 @@ module PuppetlabsSpecHelper
           raise "Unfortunately #{scm} is not supported yet"
         end
         result = system("#{scm} #{args.flatten.join ' '}")
-        unless File.exist?(target)
-          raise "Failed to clone #{scm} repository #{remote} into #{target}"
-        end
+        raise "Failed to clone #{scm} repository #{remote} into #{target}" unless File.exist?(target)
 
         result
       end
@@ -399,9 +391,7 @@ module PuppetlabsSpecHelper
                     "--module_working_dir \"#{working_dir}\" " \
                     "--target-dir \"#{module_target_dir}\" \"#{remote}\""
 
-          unless system(command)
-            raise "Failed to install module #{remote} to #{module_target_dir}"
-          end
+          raise "Failed to install module #{remote} to #{module_target_dir}" unless system(command)
         end
         $CHILD_STATUS.success?
       end
@@ -452,9 +442,7 @@ task :spec_clean do
 
   Rake::Task[:spec_clean_symlinks].invoke
 
-  if File.empty?('spec/fixtures/manifests/site.pp')
-    FileUtils.rm_f('spec/fixtures/manifests/site.pp')
-  end
+  FileUtils.rm_f('spec/fixtures/manifests/site.pp') if File.empty?('spec/fixtures/manifests/site.pp')
 end
 
 desc 'Clean up any fixture symlinks'

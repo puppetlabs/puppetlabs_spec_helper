@@ -27,9 +27,7 @@ module PuppetlabsSpec
     # dir as returned by my_fixture_dir.
     def my_fixture(name)
       file = File.join(my_fixture_dir, name)
-      unless File.readable? file
-        raise "fixture '#{name}' for #{my_fixture_dir} is not readable"
-      end
+      raise "fixture '#{name}' for #{my_fixture_dir} is not readable" unless File.readable? file
 
       file
     end
@@ -44,9 +42,7 @@ module PuppetlabsSpec
     # area.
     def my_fixtures(glob = '*', flags = 0, &block)
       files = Dir.glob(File.join(my_fixture_dir, glob), flags)
-      if files.empty?
-        raise "fixture '#{glob}' for #{my_fixture_dir} had no files!"
-      end
+      raise "fixture '#{glob}' for #{my_fixture_dir} had no files!" if files.empty?
 
       block && files.each(&block)
       files
