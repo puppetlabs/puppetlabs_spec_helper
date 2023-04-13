@@ -49,7 +49,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, 'files', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
@@ -69,7 +69,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, '.git', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, '.git', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
@@ -87,7 +87,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, '.bundle', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, '.bundle', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
@@ -105,7 +105,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, 'vendor', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'vendor', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
@@ -127,7 +127,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, 'a_directory', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'a_directory', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
@@ -151,7 +151,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:symlinks) do
       {
-        File.join(Dir.pwd, 'another_directory', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'another_directory', 'a_symlink.pp') => File.join(Dir.pwd, 'files', 'a_file.pp')
       }
     end
 
