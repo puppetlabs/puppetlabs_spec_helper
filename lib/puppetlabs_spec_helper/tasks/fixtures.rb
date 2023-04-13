@@ -136,8 +136,6 @@ module PuppetlabsSpecHelper
 
             next unless include_repo?(opts['puppet_version'])
 
-            # rubocop:disable Security/Eval
-            # TODO: Remove eval
             real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
             real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
 
@@ -320,7 +318,7 @@ module PuppetlabsSpecHelper
             # the last thread started should be the longest wait
             # Rubocop seems to push towards using select here.. however the implementation today relies on the result being
             # an array. Select returns a hash which makes it unsuitable so we need to use find_all.last.
-            item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last # rubocop:disable Performance/Detect, Style/CollectionMethods
+            item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last # rubocop:disable Performance/Detect
             logger.debug "Waiting on #{item}"
             item_opts[:thread].join # wait for the thread to finish
             # now that we waited lets try again

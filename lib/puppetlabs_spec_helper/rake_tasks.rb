@@ -241,9 +241,9 @@ task :compute_dev_version do
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
   new_version = if (build = ENV['BUILD_NUMBER'])
                   if branch.eql? 'release'
-                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
+                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code
                   else
-                    '%s-%04d-%s' % [version, build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
+                    '%s-%04d-%s' % [version, build, sha] # legacy support code
                   end
                 else
                   "#{version}-#{sha}"
