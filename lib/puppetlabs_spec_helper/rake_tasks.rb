@@ -112,7 +112,7 @@ task :parallel_spec_standalone do |_t, args|
   else
 
     args = ['-t', 'rspec']
-    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split(' ')).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
+    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
     args.concat(Rake::FileList[pattern].to_a)
 
     ParallelTests::CLI.new.run(args)
@@ -239,11 +239,11 @@ task :compute_dev_version do
   # If the branch is a release branch we append an 'r' into the new_version,
   # this is due to the release branch buildID conflicting with main branch when trying to push to the staging forge.
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
-  new_version = if (build = ENV['BUILD_NUMBER'])
+  new_version = if (build = ENV.fetch('BUILD_NUMBER', nil))
                   if branch.eql? 'release'
-                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
+                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code
                   else
-                    '%s-%04d-%s' % [version, build, sha] # legacy support code # rubocop:disable Style/FormatStringToken
+                    '%s-%04d-%s' % [version, build, sha] # legacy support code
                   end
                 else
                   "#{version}-#{sha}"
@@ -321,9 +321,7 @@ begin
     # Use Rubocop's Github Actions formatter if possible
     if ENV['GITHUB_ACTIONS'] == 'true'
       rubocop_spec = Gem::Specification.find_by_name('rubocop')
-      if Gem::Version.new(rubocop_spec.version) >= Gem::Version.new('1.2')
-        task.formatters << 'github'
-      end
+      task.formatters << 'github' if Gem::Version.new(rubocop_spec.version) >= Gem::Version.new('1.2')
     end
   end
 rescue LoadError
@@ -365,9 +363,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
     # rubocop:enable Lint/NestedMethodDefinition
 
     GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-      if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
-        raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'"
-      end
+      raise "Set CHANGELOG_GITHUB_TOKEN environment variable eg 'export CHANGELOG_GITHUB_TOKEN=valid_token_here'" if ENV['CHANGELOG_GITHUB_TOKEN'].nil?
 
       config.user = changelog_user || changelog_user_from_metadata
       config.project = changelog_project || changelog_project_from_metadata
@@ -383,16 +379,16 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
       config.configure_sections = {
         'Changed' => {
           'prefix' => '### Changed',
-          'labels' => ['backwards-incompatible'],
+          'labels' => ['backwards-incompatible']
         },
         'Added' => {
           'prefix' => '### Added',
-          'labels' => ['feature', 'enhancement'],
+          'labels' => ['feature', 'enhancement']
         },
         'Fixed' => {
           'prefix' => '### Fixed',
-          'labels' => ['bugfix'],
-        },
+          'labels' => ['bugfix']
+        }
       }
     end
   else

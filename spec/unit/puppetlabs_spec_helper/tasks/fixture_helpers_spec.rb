@@ -36,7 +36,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         allow(File).to receive(:file?).with('metadata.json').and_return(true)
       end
 
-      context 'but it is not readable' do
+      context 'when it is not readable' do
         before(:each) do
           allow(File).to receive(:readable?).with('metadata.json').and_return(false)
         end
@@ -44,37 +44,37 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         it_behaves_like 'module name from working directory'
       end
 
-      context 'and it is readable' do
+      context 'when it is readable' do
         before(:each) do
           allow(File).to receive(:readable?).with('metadata.json').and_return(true)
           allow(File).to receive(:read).with('metadata.json').and_return(metadata_content)
         end
 
-        context 'but it contains invalid JSON' do
+        context 'when it contains invalid JSON' do
           let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata", }' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'and it contains a name value' do
+        context 'when it contains a name value' do
           let(:metadata_content) { '{ "name": "my-awesome-module_from_metadata" }' }
 
           it_behaves_like 'module name from metadata'
         end
 
-        context 'but it does not contain a name value' do
+        context 'when it does not contain a name value' do
           let(:metadata_content) { '{}' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'but the name has a null value' do
+        context 'when the name has a null value' do
           let(:metadata_content) { '{ "name": null }' }
 
           it_behaves_like 'module name from working directory'
         end
 
-        context 'but the name is blank' do
+        context 'when the name is blank' do
           let(:metadata_content) { '{ "name": "" }' }
 
           it_behaves_like 'module name from working directory'
@@ -141,7 +141,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'branch' => nil,
             'scm' => nil,
             'flags' => nil,
-            'subdir' => nil,
+            'subdir' => nil
           },
         )
       end
@@ -159,7 +159,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'branch' => nil,
             'scm' => nil,
             'flags' => '--module_repository=https://myforge.example.com/',
-            'subdir' => nil,
+            'subdir' => nil
           },
         )
       end
@@ -170,7 +170,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(
           'fixtures' => {
-            'repositories' => { 'stdlib' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git' },
+            'repositories' => { 'stdlib' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git' }
           },
         )
       end
@@ -183,7 +183,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'branch' => nil,
             'scm' => nil,
             'flags' => nil,
-            'subdir' => nil,
+            'subdir' => nil
           },
         )
       end
@@ -198,9 +198,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
               'stdlib' => {
                 'scm' => 'git',
                 'repo' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git',
-                'ref' => 'this/is/a/branch',
-              },
-            },
+                'ref' => 'this/is/a/branch'
+              }
+            }
           },
         )
       end
@@ -222,9 +222,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'forge_modules' => {
               'stdlib' => {
                 'repo' => 'puppetlabs-stdlib',
-                'puppet_version' => Puppet::PUPPETVERSION,
-              },
-            },
+                'puppet_version' => Puppet::PUPPETVERSION
+              }
+            }
           },
         )
         expect(helper.fixtures('forge_modules')).to include('puppetlabs-stdlib')
@@ -236,9 +236,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'forge_modules' => {
               'stdlib' => {
                 'repo' => 'puppetlabs-stdlib',
-                'puppet_version' => '>= 999.9.9',
-              },
-            },
+                'puppet_version' => '>= 999.9.9'
+              }
+            }
           },
         )
         expect(helper.fixtures('forge_modules')).to eq({})
@@ -250,9 +250,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
             'forge_modules' => {
               'stdlib' => {
                 'repo' => 'puppetlabs-stdlib',
-                'puppet_version' => Puppet::PUPPETVERSION,
-              },
-            },
+                'puppet_version' => Puppet::PUPPETVERSION
+              }
+            }
           },
         )
         expect(helper.fixtures('forge_modules')).to include('puppetlabs-stdlib')

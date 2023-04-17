@@ -16,7 +16,7 @@ end
 spec_path = File.expand_path(File.join(Dir.pwd, 'spec'))
 fixture_path = File.join(spec_path, 'fixtures')
 
-env_module_path = ENV['MODULEPATH']
+env_module_path = ENV.fetch('MODULEPATH', nil)
 module_path = File.join(fixture_path, 'modules')
 
 module_path = [module_path, env_module_path].join(File::PATH_SEPARATOR) if env_module_path
@@ -55,16 +55,15 @@ end
 # Add all spec lib dirs to LOAD_PATH
 components = module_path.split(File::PATH_SEPARATOR).map do |dir|
   next unless Dir.exist? dir
-  Dir.entries(dir).reject { |f| f =~ %r{^\.} }.map { |f| File.join(dir, f, 'spec', 'lib') }
+
+  Dir.entries(dir).grep_v(%r{^\.}).map { |f| File.join(dir, f, 'spec', 'lib') }
 end
 components.flatten.each do |d|
   $LOAD_PATH << d if FileTest.directory?(d) && !$LOAD_PATH.include?(d)
 end
 
 RSpec.configure do |c|
-  if ENV['GITHUB_ACTIONS'] == 'true'
-    c.formatter = 'RSpec::Github::Formatter'
-  end
+  c.formatter = 'RSpec::Github::Formatter' if ENV['GITHUB_ACTIONS'] == 'true'
 
   c.environmentpath = spec_path
   c.module_path = module_path

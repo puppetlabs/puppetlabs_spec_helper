@@ -57,9 +57,7 @@ RSpec.configure do |config|
   # @mock_framework is used since more than seven years, and we need to avoid
   # `mock_framework`'s autoloading to distinguish between the default, and
   # the module's choice.
-  if config.instance_variable_get(:@mock_framework).nil?
-    config.mock_with :rspec
-  end
+  config.mock_with :rspec if config.instance_variable_get(:@mock_framework).nil?
 
   # Here we do some general setup that is relevant to all initialization modes, regardless
   # of the availability of the TestHelper API.

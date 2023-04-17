@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Style/GlobalVars # TODO: investigate the use of instance variables
-
 require 'fileutils'
 require 'tempfile'
 require 'pathname'

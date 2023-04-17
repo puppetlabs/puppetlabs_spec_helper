@@ -107,9 +107,7 @@ module PuppetlabsSpecHelper
 
         fixtures = fixtures['fixtures']
 
-        if fixtures['symlinks'].nil?
-          fixtures['symlinks'] = auto_symlink
-        end
+        fixtures['symlinks'] = auto_symlink if fixtures['symlinks'].nil?
 
         result = {}
         if fixtures.include?(category) && !fixtures[category].nil?
@@ -117,16 +115,12 @@ module PuppetlabsSpecHelper
 
           # load defaults from the `.fixtures.yml` `defaults` section
           # for the requested category and merge them into my defaults
-          if fixture_defaults.include? category
-            defaults = defaults.merge(fixture_defaults[category])
-          end
+          defaults = defaults.merge(fixture_defaults[category]) if fixture_defaults.include? category
 
           fixtures[category].each do |fixture, opts|
             # convert a simple string fixture to a hash, by
             # using the string fixture as the `repo` option of the hash.
-            if opts.instance_of?(String)
-              opts = { 'repo' => opts }
-            end
+            opts = { 'repo' => opts } if opts.instance_of?(String)
             # there should be a warning or something if it's not a hash...
             next unless opts.instance_of?(Hash)
 
@@ -136,8 +130,6 @@ module PuppetlabsSpecHelper
 
             next unless include_repo?(opts['puppet_version'])
 
-            # rubocop:disable Security/Eval
-            # TODO: Remove eval
             real_target = eval("\"#{opts['target']}\"", binding, __FILE__, __LINE__) # evaluating target reference in this context (see auto_symlink)
             real_source = eval("\"#{opts['repo']}\"", binding, __FILE__, __LINE__) # evaluating repo reference in this context (see auto_symlink)
 
@@ -194,9 +186,7 @@ module PuppetlabsSpecHelper
           raise "Unfortunately #{scm} is not supported yet"
         end
         result = system("#{scm} #{args.flatten.join ' '}")
-        unless File.exist?(target)
-          raise "Failed to clone #{scm} repository #{remote} into #{target}"
-        end
+        raise "Failed to clone #{scm} repository #{remote} into #{target}" unless File.exist?(target)
 
         result
       end
@@ -251,10 +241,11 @@ module PuppetlabsSpecHelper
 
       def remove_subdirectory(target, subdir)
         return if subdir.nil?
+
         Dir.mktmpdir do |tmpdir|
-          FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^\.]*,*}"), tmpdir)
+          FileUtils.mv(Dir.glob("#{target}/#{subdir}/{.[^.]*,*}"), tmpdir)
           FileUtils.rm_rf("#{target}/#{subdir}")
-          FileUtils.mv(Dir.glob("#{tmpdir}/{.[^\.]*,*}"), target.to_s)
+          FileUtils.mv(Dir.glob("#{tmpdir}/{.[^.]*,*}"), target.to_s)
         end
       end
 
@@ -319,7 +310,7 @@ module PuppetlabsSpecHelper
             # the last thread started should be the longest wait
             # Rubocop seems to push towards using select here.. however the implementation today relies on the result being
             # an array. Select returns a hash which makes it unsuitable so we need to use find_all.last.
-            item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last # rubocop:disable Performance/Detect, Style/CollectionMethods
+            item, item_opts = items.find_all { |_i, o| o.key?(:thread) }.last # rubocop:disable Performance/Detect
             logger.debug "Waiting on #{item}"
             item_opts[:thread].join # wait for the thread to finish
             # now that we waited lets try again
@@ -395,14 +386,12 @@ module PuppetlabsSpecHelper
         # so we randomize the directory instead.
         # Does working_dir even need to be passed?
         Dir.mktmpdir do |working_dir|
-          command = "puppet module install#{ref}#{flags} --ignore-dependencies" \
-          ' --force' \
-          " --module_working_dir \"#{working_dir}\"" \
-          " --target-dir \"#{module_target_dir}\" \"#{remote}\""
+          command = "puppet module install#{ref}#{flags} --ignore-dependencies " \
+                    '--force ' \
+                    "--module_working_dir \"#{working_dir}\" " \
+                    "--target-dir \"#{module_target_dir}\" \"#{remote}\""
 
-          unless system(command)
-            raise "Failed to install module #{remote} to #{module_target_dir}"
-          end
+          raise "Failed to install module #{remote} to #{module_target_dir}" unless system(command)
         end
         $CHILD_STATUS.success?
       end
@@ -453,9 +442,7 @@ task :spec_clean do
 
   Rake::Task[:spec_clean_symlinks].invoke
 
-  if File.zero?('spec/fixtures/manifests/site.pp')
-    FileUtils.rm_f('spec/fixtures/manifests/site.pp')
-  end
+  FileUtils.rm_f('spec/fixtures/manifests/site.pp') if File.empty?('spec/fixtures/manifests/site.pp')
 end
 
 desc 'Clean up any fixture symlinks'

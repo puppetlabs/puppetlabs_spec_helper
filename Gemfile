@@ -4,13 +4,22 @@ source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 gemspec
 
-if ENV['PUPPET_GEM_VERSION']
-  gem 'puppet', ENV['PUPPET_GEM_VERSION'], :require => false
-else
-  gem 'puppet', :require => false
+def location_for(place_or_version, fake_version = nil)
+  git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
+  file_url_regex = %r{\Afile:\/\/(?<path>.*)}
+
+  if place_or_version && (git_url = place_or_version.match(git_url_regex))
+    [fake_version, { git: git_url[:url], branch: git_url[:branch], require: false }].compact
+  elsif place_or_version && (file_url = place_or_version.match(file_url_regex))
+    ['>= 0', { path: File.expand_path(file_url[:path]), require: false }]
+  else
+    [place_or_version, { require: false }]
+  end
 end
 
 group :development do
+  gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
+
   gem 'codecov'
   gem 'simplecov'
   gem 'simplecov-console'
@@ -22,21 +31,20 @@ group :development do
   gem 'rake'
   gem 'rspec', '~> 3.1'
   gem 'rspec-its', '~> 1.0'
-  gem 'rubocop', '~> 1.6.1', require: false
-  gem 'rubocop-rspec', '~> 2.0.1', require: false
-  gem 'rubocop-performance', '~> 1.9.1', require: false
+  gem 'rubocop', '~> 1.48.1', require: false
+  gem 'rubocop-rspec', '~> 2.19', require: false
+  gem 'rubocop-performance', '~> 1.16', require: false
 
   gem 'fakefs'
   gem 'yard'
 end
 
-
 # Evaluate Gemfile.local if it exists
-if File.exists? "#{__FILE__}.local"
+if File.exist? "#{__FILE__}.local"
   eval(File.read("#{__FILE__}.local"), binding)
 end
 
 # Evaluate ~/.gemfile if it exists
-if File.exists?(File.join(Dir.home, '.gemfile'))
+if File.exist?(File.join(Dir.home, '.gemfile'))
   eval(File.read(File.join(Dir.home, '.gemfile')), binding)
 end

@@ -40,7 +40,7 @@ RSpec.shared_context 'with a rake task', type: :task do
 
   include FakeFS::SpecHelpers
 
-  let(:task_name) { self.class.top_level_description.sub(%r{\Arake }, '') }
+  let(:task_name) { self.class.top_level_description.delete_prefix('rake ') }
 end
 
 # configure RSpec after including all the code
