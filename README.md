@@ -257,7 +257,7 @@ fixtures:
       ref: "2.6.0"
 ```
 
-Only install the `yumrepo_core` module when testing against Puppet 6 or greater:
+Only install the `yumrepo_core` module when testing against Puppet 7 or greater:
 
 ```yaml
 fixtures:
