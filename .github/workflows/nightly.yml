@@ -39,3 +39,4 @@ jobs:
     secrets: "inherit"
     with:
       ruby_version: ${{ matrix.ruby_version }}
+      puppet_gem_version: ${{ matrix.puppet_gem_version }}
