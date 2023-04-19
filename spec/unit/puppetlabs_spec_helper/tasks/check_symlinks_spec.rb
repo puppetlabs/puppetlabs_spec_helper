@@ -55,7 +55,7 @@ describe 'rake check:symlinks', type: :task do
 
     it 'raises an error' do
       expect { task.execute }
-        .to raise_error(%r{symlink\(s\) exist}i)
+        .to raise_error(/symlink\(s\) exist/i)
         .and output(a_string_including(expected_output)).to_stdout
     end
   end

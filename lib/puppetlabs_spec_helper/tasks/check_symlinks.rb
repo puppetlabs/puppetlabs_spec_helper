@@ -26,7 +26,7 @@ module PuppetlabsSpecHelper
 
           if child.symlink?
             results << child
-          elsif child.directory? && child.basename.to_s !~ %r{^(\.git|\.?bundle)$}
+          elsif child.directory? && child.basename.to_s !~ /^(\.git|\.?bundle)$/
             results.concat(check(child))
           end
         end

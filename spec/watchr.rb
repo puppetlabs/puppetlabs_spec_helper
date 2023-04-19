@@ -10,7 +10,7 @@ def growl(message)
   growlnotify = `which growlnotify`.chomp
   title = 'Watchr Test Results'
   image = case message
-          when %r{(\d+)\s+?(failure|error)}i
+          when /(\d+)\s+?(failure|error)/i
             (Regexp.last_match(1).to_i == 0) ? '~/.watchr_images/passed.png' : '~/.watchr_images/failed.png'
           else
             '~/.watchr_images/unknown.png'
@@ -35,7 +35,7 @@ def run_spec_test(file)
 end
 
 def filter_rspec(data)
-  data.split("\n").grep(%r{^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending}).join("\n")
+  data.split("\n").grep(/^(\d+)\s+exampl\w+.*?(\d+).*?failur\w+.*?(\d+).*?pending/).join("\n")
 end
 
 def run_all_tests

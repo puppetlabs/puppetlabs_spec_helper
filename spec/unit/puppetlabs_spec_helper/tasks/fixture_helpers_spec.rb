@@ -118,7 +118,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         expect(File).to receive(:exist?).with('.fixtures.yml').and_return true
         expect(YAML).to receive(:load_file).with('.fixtures.yml').and_raise(Psych::SyntaxError.new('/file', '123', '0', '0', 'spec message', 'spec context'))
-        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{malformed YAML})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, /malformed YAML/)
       end
     end
 
@@ -126,7 +126,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('some' => 'key')
-        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{No 'fixtures'})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, /No 'fixtures'/)
       end
     end
 

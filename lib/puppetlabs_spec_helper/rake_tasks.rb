@@ -227,7 +227,7 @@ task :compute_dev_version do
     version = modinfo['version']
   elsif File.exist?('Modulefile')
     modfile = File.read('Modulefile')
-    version = modfile.match(%r{\nversion +['"](.*)['"]})[1]
+    version = modfile.match(/\nversion +['"](.*)['"]/)[1]
   else
     raise 'Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!'
   end

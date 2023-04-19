@@ -22,7 +22,7 @@ describe 'rake check:test_file', type: :task do
       expected_output = test_files.join("\n")
 
       expect { task.execute }
-        .to raise_error(%r{pp files present in tests folder})
+        .to raise_error(/pp files present in tests folder/)
         .and output(a_string_including(expected_output)).to_stdout
     end
   end
