@@ -165,14 +165,14 @@ PuppetLint.configuration.ignore_paths << 'spec/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'tests/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'types/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'vendor/**/*.pp'
-puppet_lint_disable_checks = [
-  '80chars',
-  '140chars',
-  'class_inherits_from_params_class',
-  'class_parameter_defaults',
-  'disable_autoloader_layout',
-  'documentation',
-  'single_quote_string_with_variables'
+puppet_lint_disable_checks = %w[
+  80chars
+  140chars
+  class_inherits_from_params_class
+  class_parameter_defaults
+  disable_autoloader_layout
+  documentation
+  single_quote_string_with_variables
 ]
 
 puppet_lint_disable_checks.each do |check|
@@ -383,7 +383,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
         },
         'Added' => {
           'prefix' => '### Added',
-          'labels' => ['feature', 'enhancement']
+          'labels' => %w[feature enhancement]
         },
         'Fixed' => {
           'prefix' => '### Fixed',
