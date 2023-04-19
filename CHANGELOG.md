@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.0-rc.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.0-rc.1) - 2023-04-19
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.3...v6.0.0-rc.1)
+
+### Added
+
+- (CONT-807) Ruby 3 / Puppet 8 Additions [#393](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/393) ([chelnak](https://github.com/chelnak))
+
+### Changed
+- (CONT-807) Add Ruby 3.2 support [#390](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/390) ([GSPatton](https://github.com/GSPatton))
+
 ## [v5.0.3](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.3) - 2023-01-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.2...v5.0.3)
