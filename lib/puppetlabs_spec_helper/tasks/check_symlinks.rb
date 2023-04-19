@@ -9,12 +9,12 @@ module PuppetlabsSpecHelper
       DEFAULT_IGNORED = [
         '/.git/',
         '/.bundle/',
-        '/vendor/',
+        '/vendor/'
       ].freeze
 
       IGNORE_LIST_FILES = [
         '.pdkignore',
-        '.gitignore',
+        '.gitignore'
       ].freeze
 
       def check(dir = Dir.pwd)
@@ -26,7 +26,7 @@ module PuppetlabsSpecHelper
 
           if child.symlink?
             results << child
-          elsif child.directory? && child.basename.to_s !~ %r{^(\.git|\.?bundle)$}
+          elsif child.directory? && child.basename.to_s !~ /^(\.git|\.?bundle)$/
             results.concat(check(child))
           end
         end

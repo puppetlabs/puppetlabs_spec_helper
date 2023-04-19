@@ -9,6 +9,6 @@ RSpec.describe 'rake' do
     Open3.capture2e('rake', '--rakefile', 'spec/acceptance/fixtures/Rakefile', '-T')
   end
 
-  it { expect(output[0]).to match %r{spec_prep} }
+  it { expect(output[0]).to match(/spec_prep/) }
   it { expect(output[1]).to be_success }
 end

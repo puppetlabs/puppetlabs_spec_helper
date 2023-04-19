@@ -7,7 +7,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
   describe '.module_name' do
     subject(:module_name) { described_class.module_name }
 
-    before(:each) do
+    before do
       allow(Dir).to receive(:pwd).and_return(File.join('path', 'to', 'my-awsome-module_from_pwd'))
     end
 
@@ -24,7 +24,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     end
 
     context 'when metadata.json does not exist' do
-      before(:each) do
+      before do
         allow(File).to receive(:file?).with('metadata.json').and_return(false)
       end
 
@@ -32,12 +32,12 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     end
 
     context 'when metadata.json does exist' do
-      before(:each) do
+      before do
         allow(File).to receive(:file?).with('metadata.json').and_return(true)
       end
 
       context 'when it is not readable' do
-        before(:each) do
+        before do
           allow(File).to receive(:readable?).with('metadata.json').and_return(false)
         end
 
@@ -45,7 +45,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
 
       context 'when it is readable' do
-        before(:each) do
+        before do
           allow(File).to receive(:readable?).with('metadata.json').and_return(true)
           allow(File).to receive(:read).with('metadata.json').and_return(metadata_content)
         end
@@ -86,7 +86,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
   describe '.fixtures' do
     subject(:helper) { described_class }
 
-    before :each do
+    before do
       # Unstub the fixtures "helpers"
       PuppetlabsSpec::Fixtures.instance_methods.each do |m|
         PuppetlabsSpec::Fixtures.send(:undef_method, m)
@@ -118,7 +118,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         expect(File).to receive(:exist?).with('.fixtures.yml').and_return true
         expect(YAML).to receive(:load_file).with('.fixtures.yml').and_raise(Psych::SyntaxError.new('/file', '123', '0', '0', 'spec message', 'spec context'))
-        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{malformed YAML})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, /malformed YAML/)
       end
     end
 
@@ -126,7 +126,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'raises an error' do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return('some' => 'key')
-        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, %r{No 'fixtures'})
+        expect { helper.fixtures('forge_modules') }.to raise_error(RuntimeError, /No 'fixtures'/)
       end
     end
 
@@ -166,7 +166,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     end
 
     context 'when file specifies repository fixtures' do
-      before(:each) do
+      before do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(
           'fixtures' => {
@@ -190,7 +190,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     end
 
     context 'when file specifies repository fixtures with an invalid git ref' do
-      before(:each) do
+      before do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true
         allow(YAML).to receive(:load_file).with('.fixtures.yml').and_return(
           'fixtures' => {

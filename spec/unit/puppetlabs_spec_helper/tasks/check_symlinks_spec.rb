@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'rake check:symlinks', type: :task do
-  before(:each) do
+  before do
     test_files.each do |f|
       FileUtils.mkdir_p(File.dirname(f))
       FileUtils.touch(f)
@@ -31,7 +31,7 @@ describe 'rake check:symlinks', type: :task do
     let(:test_files) do
       [
         File.join(Dir.pwd, 'files', 'a_file.pp'),
-        File.join(Dir.pwd, 'files', 'another_file.pp'),
+        File.join(Dir.pwd, 'files', 'another_file.pp')
       ]
     end
 
@@ -43,7 +43,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there is a symlink present' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -55,7 +55,7 @@ describe 'rake check:symlinks', type: :task do
 
     it 'raises an error' do
       expect { task.execute }
-        .to raise_error(%r{symlink\(s\) exist}i)
+        .to raise_error(/symlink\(s\) exist/i)
         .and output(a_string_including(expected_output)).to_stdout
     end
   end
@@ -63,7 +63,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under .git/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -81,7 +81,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under .bundle/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -99,7 +99,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under vendor/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -115,13 +115,13 @@ describe 'rake check:symlinks', type: :task do
   end
 
   context 'when there are symlinks under a directory listed in .gitignore' do
-    before(:each) do
+    before do
       File.write(File.join(Dir.pwd, '.gitignore'), "a_directory/\n")
     end
 
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -137,7 +137,7 @@ describe 'rake check:symlinks', type: :task do
   end
 
   context 'when there are symlinks under a directory listed in .pdkignore' do
-    before(:each) do
+    before do
       File.open(File.join(Dir.pwd, '.pdkignore'), 'w') do |f|
         f.puts '/another_directory/'
       end
@@ -145,7 +145,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 

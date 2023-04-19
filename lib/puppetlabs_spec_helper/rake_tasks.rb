@@ -165,14 +165,14 @@ PuppetLint.configuration.ignore_paths << 'spec/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'tests/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'types/**/*.pp'
 PuppetLint.configuration.ignore_paths << 'vendor/**/*.pp'
-puppet_lint_disable_checks = [
-  '80chars',
-  '140chars',
-  'class_inherits_from_params_class',
-  'class_parameter_defaults',
-  'disable_autoloader_layout',
-  'documentation',
-  'single_quote_string_with_variables',
+puppet_lint_disable_checks = %w[
+  80chars
+  140chars
+  class_inherits_from_params_class
+  class_parameter_defaults
+  disable_autoloader_layout
+  documentation
+  single_quote_string_with_variables
 ]
 
 puppet_lint_disable_checks.each do |check|
@@ -227,7 +227,7 @@ task :compute_dev_version do
     version = modinfo['version']
   elsif File.exist?('Modulefile')
     modfile = File.read('Modulefile')
-    version = modfile.match(%r{\nversion +['"](.*)['"]})[1]
+    version = modfile.match(/\nversion +['"](.*)['"]/)[1]
   else
     raise 'Could not find a metadata.json or Modulefile! Cannot compute dev version without one or the other!'
   end
@@ -241,9 +241,9 @@ task :compute_dev_version do
   # More info can be found at https://tickets.puppetlabs.com/browse/FM-6170
   new_version = if (build = ENV.fetch('BUILD_NUMBER', nil))
                   if branch.eql? 'release'
-                    '%s-%s%04d-%s' % [version, 'r', build, sha] # legacy support code
+                    format('%s-%s%04d-%s', version, 'r', build, sha) # legacy support code
                   else
-                    '%s-%04d-%s' % [version, build, sha] # legacy support code
+                    format('%s-%04d-%s', version, build, sha) # legacy support code
                   end
                 else
                   "#{version}-#{sha}"
@@ -383,7 +383,7 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
         },
         'Added' => {
           'prefix' => '### Added',
-          'labels' => ['feature', 'enhancement']
+          'labels' => %w[feature enhancement]
         },
         'Fixed' => {
           'prefix' => '### Fixed',

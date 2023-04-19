@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'rake check:test_file', type: :task do
   context 'when there are .pp files under tests/' do
-    before(:each) do
+    before do
       test_files.each do |f|
         FileUtils.mkdir_p(File.dirname(f))
         FileUtils.touch(f)
@@ -14,7 +14,7 @@ describe 'rake check:test_file', type: :task do
     let(:test_files) do
       [
         File.join(Dir.pwd, 'tests', 'an_example.pp'),
-        File.join(Dir.pwd, 'tests', 'deep', 'directory', 'structure', 'another_example.pp'),
+        File.join(Dir.pwd, 'tests', 'deep', 'directory', 'structure', 'another_example.pp')
       ]
     end
 
@@ -22,13 +22,13 @@ describe 'rake check:test_file', type: :task do
       expected_output = test_files.join("\n")
 
       expect { task.execute }
-        .to raise_error(%r{pp files present in tests folder})
+        .to raise_error(/pp files present in tests folder/)
         .and output(a_string_including(expected_output)).to_stdout
     end
   end
 
   context 'when there are no .pp files under tests/' do
-    before(:each) do
+    before do
       FileUtils.mkdir('tests')
     end
 
