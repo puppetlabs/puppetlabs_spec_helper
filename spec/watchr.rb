@@ -11,7 +11,7 @@ def growl(message)
   title = 'Watchr Test Results'
   image = case message
           when /(\d+)\s+?(failure|error)/i
-            (Regexp.last_match(1).to_i == 0) ? '~/.watchr_images/passed.png' : '~/.watchr_images/failed.png'
+            Regexp.last_match(1).to_i == 0 ? '~/.watchr_images/passed.png' : '~/.watchr_images/failed.png'
           else
             '~/.watchr_images/unknown.png'
           end
