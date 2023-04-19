@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'rake check:symlinks', type: :task do
-  before(:each) do
+  before do
     test_files.each do |f|
       FileUtils.mkdir_p(File.dirname(f))
       FileUtils.touch(f)
@@ -115,7 +115,7 @@ describe 'rake check:symlinks', type: :task do
   end
 
   context 'when there are symlinks under a directory listed in .gitignore' do
-    before(:each) do
+    before do
       File.write(File.join(Dir.pwd, '.gitignore'), "a_directory/\n")
     end
 
@@ -137,7 +137,7 @@ describe 'rake check:symlinks', type: :task do
   end
 
   context 'when there are symlinks under a directory listed in .pdkignore' do
-    before(:each) do
+    before do
       File.open(File.join(Dir.pwd, '.pdkignore'), 'w') do |f|
         f.puts '/another_directory/'
       end

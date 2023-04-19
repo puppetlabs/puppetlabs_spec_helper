@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'rake check:test_file', type: :task do
   context 'when there are .pp files under tests/' do
-    before(:each) do
+    before do
       test_files.each do |f|
         FileUtils.mkdir_p(File.dirname(f))
         FileUtils.touch(f)
@@ -28,7 +28,7 @@ describe 'rake check:test_file', type: :task do
   end
 
   context 'when there are no .pp files under tests/' do
-    before(:each) do
+    before do
       FileUtils.mkdir('tests')
     end
 
