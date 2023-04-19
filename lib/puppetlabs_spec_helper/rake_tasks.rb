@@ -172,7 +172,7 @@ puppet_lint_disable_checks = [
   'class_parameter_defaults',
   'disable_autoloader_layout',
   'documentation',
-  'single_quote_string_with_variables',
+  'single_quote_string_with_variables'
 ]
 
 puppet_lint_disable_checks.each do |check|

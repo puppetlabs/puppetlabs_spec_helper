@@ -14,7 +14,7 @@ describe 'rake check:test_file', type: :task do
     let(:test_files) do
       [
         File.join(Dir.pwd, 'tests', 'an_example.pp'),
-        File.join(Dir.pwd, 'tests', 'deep', 'directory', 'structure', 'another_example.pp'),
+        File.join(Dir.pwd, 'tests', 'deep', 'directory', 'structure', 'another_example.pp')
       ]
     end
 

@@ -29,7 +29,7 @@ if ENV['SIMPLECOV'] == 'yes'
     SimpleCov.formatters = [
       SimpleCov::Formatter::HTMLFormatter,
       SimpleCov::Formatter::Console,
-      SimpleCov::Formatter::Codecov,
+      SimpleCov::Formatter::Codecov
     ]
     SimpleCov.start do
       track_files 'lib/**/*.rb'

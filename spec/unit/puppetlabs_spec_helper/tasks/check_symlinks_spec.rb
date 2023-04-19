@@ -31,7 +31,7 @@ describe 'rake check:symlinks', type: :task do
     let(:test_files) do
       [
         File.join(Dir.pwd, 'files', 'a_file.pp'),
-        File.join(Dir.pwd, 'files', 'another_file.pp'),
+        File.join(Dir.pwd, 'files', 'another_file.pp')
       ]
     end
 
@@ -43,7 +43,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there is a symlink present' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -63,7 +63,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under .git/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -81,7 +81,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under .bundle/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -99,7 +99,7 @@ describe 'rake check:symlinks', type: :task do
   context 'when there are symlinks under vendor/' do
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -121,7 +121,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
@@ -145,7 +145,7 @@ describe 'rake check:symlinks', type: :task do
 
     let(:test_files) do
       [
-        File.join(Dir.pwd, 'files', 'a_file.pp'),
+        File.join(Dir.pwd, 'files', 'a_file.pp')
       ]
     end
 
