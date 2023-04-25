@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.1) - 2023-04-25
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.0...v6.0.1)
+
+### Fixed
+
+- (MAINT) Bump lint and rspec-puppet dependencies [#395](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/395) ([chelnak](https://github.com/chelnak))
+
 ## [v6.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.0) - 2023-04-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.0.rc.1...v6.0.0)
