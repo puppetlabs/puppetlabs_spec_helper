@@ -5,9 +5,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v6.0.0-rc.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.0-rc.1) - 2023-04-19
+## [v6.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.0) - 2023-04-25
 
-[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.3...v6.0.0-rc.1)
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.0.rc.1...v6.0.0)
+
+### Added
+
+- Use rspec-puppet settings to configure Puppet [#389](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/389) ([ekohl](https://github.com/ekohl))
+
+## [v6.0.0.rc.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.0.rc.1) - 2023-04-19
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.3...v6.0.0.rc.1)
 
 ### Added
 
