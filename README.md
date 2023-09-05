@@ -230,8 +230,8 @@ Add `firewall` and `stdlib` as required module fixtures:
 ```yaml
 fixtures:
   repositories:
-    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
-    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
+    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
 ```
 
 Put a supplementary repository at a different location
@@ -239,8 +239,8 @@ Put a supplementary repository at a different location
 ```yaml
 fixtures:
   repositories:
-    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
-    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib"
+    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
     control_repo:
       repo: "https://github.com/puppetlabs/control-repo"
       target: "spec/fixtures/control_repos"
@@ -251,9 +251,9 @@ Specify that the git tag `2.4.2` of `stdlib` should be checked out:
 ```yaml
 fixtures:
   repositories:
-    firewall: "git://github.com/puppetlabs/puppetlabs-firewall"
+    firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
     stdlib:
-      repo: "git://github.com/puppetlabs/puppetlabs-stdlib"
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
       ref: "2.6.0"
 ```
 
@@ -263,7 +263,7 @@ Only install the `yumrepo_core` module when testing against Puppet 7 or greater:
 fixtures:
   repositories:
     yumrepo_core:
-      repo: "git://github.com/puppetlabs/puppetlabs-yumrepo_core"
+      repo: "https://github.com/puppetlabs/puppetlabs-yumrepo_core.git"
       puppet_version: ">= 6.0.0"
 ```
 
@@ -273,7 +273,7 @@ Move manifests and siblings to root directory when they are inside a `code` dire
 fixtures:
   repositories:
     stdlib:
-      repo: "git://github.com/puppetlabs/puppetlabs-extradirectory"
+      repo: "https://github.com/puppetlabs/puppetlabs-extradirectory.git"
       subdir: "code"
 ```
 
@@ -299,7 +299,7 @@ fixtures:
       flags: "--module_repository https://my_repo.com"
     repositories:
       firewall:
-        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+        repo: "https://github.com/puppetlabs/puppetlabs-firewall.git"
         ref: "2.6.0"
         flags: "--verbose"
 ```
@@ -317,7 +317,7 @@ fixtures:
       ref: "2.6.0"
     repositories:
       firewall:
-        repo: "git://github.com/puppetlabs/puppetlabs-firewall"
+        repo: "https://github.com/puppetlabs/puppetlabs-firewall.git"
         ref: "2.6.0"
 ```
 
