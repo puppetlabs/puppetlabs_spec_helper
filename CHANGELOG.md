@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.2) - 2023-09-25
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.1...v6.0.2)
+
+### Fixed
+
+- (CAT-1430) - Require puppet-lint ~> 4.0 [#409](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/409) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v6.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.1) - 2023-04-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.0...v6.0.1)
@@ -267,10 +275,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [v2.6.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.6.0) - 2017-12-08
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.5.1...v2.6.0)
-
-### Added
-
-- Add `defaults` section to `.fixtures.yml` [#218](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/218) ([](https://github.com/))
 
 ## [v2.5.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.5.1) - 2017-11-22
 
