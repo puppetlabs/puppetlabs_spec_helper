@@ -8,5 +8,32 @@ on:
 
 jobs:
   spec:
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version:
+          - '2.7'
+          - '3.2'
     uses: "puppetlabs/cat-github-actions/.github/workflows/gem_ci.yml@main"
     secrets: "inherit"
+    with:
+      ruby_version: ${{ matrix.ruby_version }}
+
+  acceptance:
+    needs: spec
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby_version:
+          - '2.7'
+          - '3.2'
+        include:
+          - ruby_version: '2.7'
+            puppet_version: '~> 7.0'
+          - ruby_version: '3.2'
+            puppet_version: '~> 8.0'
+    uses: "puppetlabs/cat-github-actions/.github/workflows/gem_acceptance.yml@main"
+    secrets: "inherit"
+    with:
+      ruby_version: ${{ matrix.ruby_version }}
+      puppet_version: ${{ matrix.puppet_version }}
