@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'puppet-lint', '~> 4.0'
   spec.add_runtime_dependency 'puppet-syntax', '~> 3.0'
   spec.add_runtime_dependency 'rspec-github', '~> 2.0'
-  spec.add_runtime_dependency 'rspec-puppet', '>= 2.0'
+  spec.add_runtime_dependency 'rspec-puppet', '~> 4.0'
 
   spec.requirements << 'puppet, >= 7.0.0'
 end
