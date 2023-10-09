@@ -67,7 +67,6 @@ RSpec.configure do |c|
 
   c.environmentpath = spec_path
   c.module_path = module_path
-  c.manifest_dir = File.join(fixture_path, 'manifests')
 
   # https://github.com/puppetlabs/rspec-puppet#strict_variables
   c.strict_variables = ENV['STRICT_VARIABLES'] != 'no'
