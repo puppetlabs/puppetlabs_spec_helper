@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.3](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.3) - 2023-10-09
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.2...v6.0.3)
+
+### Fixed
+
+- (bug) - remove obselete manfiest dir config setting & require rspec-puppet 4.x [#412](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/412) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v6.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v6.0.2) - 2023-09-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.1...v6.0.2)
@@ -33,12 +41,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.3...v6.0.0.rc.1)
 
+### Changed
+- (CONT-807) Add Ruby 3.2 support [#390](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/390) ([GSPatton](https://github.com/GSPatton))
+
 ### Added
 
 - (CONT-807) Ruby 3 / Puppet 8 Additions [#393](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/393) ([chelnak](https://github.com/chelnak))
-
-### Changed
-- (CONT-807) Add Ruby 3.2 support [#390](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/390) ([GSPatton](https://github.com/GSPatton))
 
 ## [v5.0.3](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v5.0.3) - 2023-01-25
 
@@ -66,16 +74,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v4.0.1...v5.0.0)
 
+### Changed
+- (CONT-237) Deprecation and legacy version support removal [#364](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/364) ([chelnak](https://github.com/chelnak))
+- (CONT-237) Bump minimum Ruby version requirement [#358](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/358) ([chelnak](https://github.com/chelnak))
+- Drop outdated future parser support [#348](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/348) ([binford2k](https://github.com/binford2k))
+
 ### Added
 
 - Add rspec-github integration [#353](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/353) ([ekohl](https://github.com/ekohl))
 - Run the `strings:validate:reference` task during `validate` [#352](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/352) ([smortex](https://github.com/smortex))
 - Configure puppet-lint to fail on warnings again [#347](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/347) ([ekohl](https://github.com/ekohl))
-
-### Changed
-- (CONT-237) Deprecation and legacy version support removal [#364](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/364) ([chelnak](https://github.com/chelnak))
-- (CONT-237) Bump minimum Ruby version requirement [#358](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/358) ([chelnak](https://github.com/chelnak))
-- Drop outdated future parser support [#348](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/348) ([binford2k](https://github.com/binford2k))
 
 ### Fixed
 
@@ -438,12 +446,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0)
 
+### Changed
+- Deprecate PuppetInternals.scope [#108](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/108) ([DavidS](https://github.com/DavidS))
+
 ### Added
 
 - Update puppet-lint and puppet-syntax default ignore paths [#165](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/165) ([DavidS](https://github.com/DavidS))
-
-### Changed
-- Deprecate PuppetInternals.scope [#108](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/108) ([DavidS](https://github.com/DavidS))
 
 ## [1.1.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/1.1.1) - 2016-03-02
 
