@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.1) - 2023-11-22
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.0...v7.0.1)
+
+### Fixed
+
+- (CAT-1603) - Revert back to puppet-lint and rspec-puppet [#417](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/417) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v7.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.0) - 2023-10-18
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.3...v7.0.0)
