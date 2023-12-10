@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.2) - 2023-12-10
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.1...v7.0.2)
+
+### Fixed
+
+- Skip non-existing paths in $MODULEPATH silently [#419](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/419) ([kjetilho](https://github.com/kjetilho))
+
 ## [v7.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.1) - 2023-11-22
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.0...v7.0.1)
