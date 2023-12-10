@@ -58,7 +58,7 @@ components = module_path.split(File::PATH_SEPARATOR).map do |dir|
 
   Dir.entries(dir).grep_v(/^\./).map { |f| File.join(dir, f, 'spec', 'lib') }
 end
-components.flatten.each do |d|
+components.compact.flatten.each do |d|
   $LOAD_PATH << d if FileTest.directory?(d) && !$LOAD_PATH.include?(d)
 end
 
