@@ -176,7 +176,7 @@ puppet_lint_disable_checks = %w[
 ]
 
 puppet_lint_disable_checks.each do |check|
-  PuppetLint.configuration.send("disable_#{check}")
+  PuppetLint.configuration.send(:"disable_#{check}")
 end
 PuppetLint::RakeTask.new(:lint)
 
