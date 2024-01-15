@@ -1,25 +1,33 @@
 # frozen_string_literal: true
 
 if ENV['COVERAGE'] == 'yes'
-  require 'simplecov'
-  require 'simplecov-console'
-  require 'codecov'
+  begin
+    require 'simplecov'
+    require 'simplecov-console'
 
-  SimpleCov.formatters = [
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Console,
-    SimpleCov::Formatter::Codecov
-  ]
-  SimpleCov.start do
-    track_files 'lib/**/*.rb'
+    SimpleCov.formatters = [
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::Console
+    ]
 
-    add_filter 'lib/puppetlabs_spec_helper/version.rb'
+    if ENV['CI'] == 'true'
+      require 'codecov'
+      SimpleCov.formatters << SimpleCov::Formatter::Codecov
+    end
 
-    add_filter '/spec'
+    SimpleCov.start do
+      track_files 'lib/**/*.rb'
 
-    # do not track vendored files
-    add_filter '/vendor'
-    add_filter '/.vendor'
+      add_filter 'lib/puppetlabs_spec_helper/version.rb'
+
+      add_filter '/spec'
+
+      # do not track vendored files
+      add_filter '/vendor'
+      add_filter '/.vendor'
+    end
+  rescue LoadError
+    raise 'Add the simplecov, simplecov-console, codecov gems to Gemfile to enable this task'
   end
 end
 
