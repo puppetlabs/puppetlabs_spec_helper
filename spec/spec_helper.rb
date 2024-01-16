@@ -4,30 +4,32 @@ if ENV['COVERAGE'] == 'yes'
   begin
     require 'simplecov'
     require 'simplecov-console'
-
-    SimpleCov.formatters = [
-      SimpleCov::Formatter::HTMLFormatter,
-      SimpleCov::Formatter::Console
-    ]
-
-    if ENV['CI'] == 'true'
-      require 'codecov'
-      SimpleCov.formatters << SimpleCov::Formatter::Codecov
-    end
-
-    SimpleCov.start do
-      track_files 'lib/**/*.rb'
-
-      add_filter 'lib/puppetlabs_spec_helper/version.rb'
-
-      add_filter '/spec'
-
-      # do not track vendored files
-      add_filter '/vendor'
-      add_filter '/.vendor'
-    end
   rescue LoadError
-    raise 'Add the simplecov, simplecov-console, codecov gems to Gemfile to enable this task'
+    raise 'Add the simplecov and simplecov-console gems to Gemfile to enable this task'
+  end
+
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::Console
+  ]
+
+  begin
+    require 'codecov'
+    SimpleCov.formatters << SimpleCov::Formatter::Codecov
+  rescue LoadError
+    # continue without codecov, we could warn here but we want to avoid if possible
+  end
+
+  SimpleCov.start do
+    track_files 'lib/**/*.rb'
+
+    add_filter 'lib/puppetlabs_spec_helper/version.rb'
+
+    add_filter '/spec'
+
+    # do not track vendored files
+    add_filter '/vendor'
+    add_filter '/.vendor'
   end
 end
 
