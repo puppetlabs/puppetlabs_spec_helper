@@ -410,7 +410,7 @@ You can enable it, set the following environment variable:s
 
 ``SIMPLECOV=yes``
 
-Remember to add the simplecov-console and codecov gems to your `Gemfile`. If you run `spec:simplecov` on Travis-CI or any of the other supported CI services, reports gets automatically uploaded to https://codecov.io/ .
+Remember to add the simplecov-console gem to your `Gemfile`. If you run `spec:simplecov` on Travis-CI or any of the other supported CI services, reports get generated which can then be uploaded to [codecov.io](https://codecov.io) with the recommended [codecov uploader](https://docs.codecov.com/docs/codecov-uploader).
 
 Some Notes for Windows Users
 ============================

@@ -20,7 +20,6 @@ end
 group :development do
   gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])
 
-  gem 'codecov'
   gem 'simplecov'
   gem 'simplecov-console'
 
