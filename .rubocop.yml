@@ -17,3 +17,6 @@ AllCops:
 # Disabled
 Style/ClassAndModuleChildren:
   Enabled: false
+
+Layout/LineLength:
+  Max: 200
