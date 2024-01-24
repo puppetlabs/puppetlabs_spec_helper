@@ -13,13 +13,6 @@ if ENV['COVERAGE'] == 'yes'
     SimpleCov::Formatter::Console
   ]
 
-  begin
-    require 'codecov'
-    SimpleCov.formatters << SimpleCov::Formatter::Codecov
-  rescue LoadError
-    # continue without codecov, we could warn here but we want to avoid if possible
-  end
-
   SimpleCov.start do
     track_files 'lib/**/*.rb'
 
