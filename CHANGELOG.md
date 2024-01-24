@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v7.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.2) - 2023-12-10
+## [v7.0.3](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.3) - 2024-01-24
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.2...v7.0.3)
+
+### Fixed
+
+- (CAT-1688) Upgrade Rubocop to `~> 1.50.0` [#426](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/426) ([LukasAud](https://github.com/LukasAud))
+- (maint) - Make codecov gem support optional - changes to spec:simplecov rake task [#424](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/424) ([jordanbreen28](https://github.com/jordanbreen28))
+
+## [v7.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.2) - 2023-12-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.1...v7.0.2)
 
