@@ -151,7 +151,7 @@ module PuppetlabsSpecHelper
         return hash unless hash['scm'] == 'git'
 
         # Forward slashes in the ref aren't allowed. And is probably a branch name.
-        raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref'].include?('/')
+        raise ArgumentError, "The ref for #{hash['target']} is invalid (Contains a forward slash). If this is a branch name, please use the 'branch' setting instead." if hash['ref']&.include?('/')
 
         hash
       end
