@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'mocha', '~> 1.0'
   spec.add_runtime_dependency 'pathspec', '>= 0.2', '< 2.0.0'
   spec.add_runtime_dependency 'puppet-lint', '~> 4.0'
-  spec.add_runtime_dependency 'puppet-syntax', '~> 3.0'
+  spec.add_runtime_dependency 'puppet-syntax', '~> 4.0'
   spec.add_runtime_dependency 'rspec-github', '~> 2.0'
   spec.add_runtime_dependency 'rspec-puppet', '~> 4.0'
 
