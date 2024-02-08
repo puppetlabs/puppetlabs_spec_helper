@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.4](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.4) - 2024-02-08
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.3...v7.0.4)
+
+### Fixed
+
+- puppet-syntax: Require 4.x [#433](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/433) ([bastelfreak](https://github.com/bastelfreak))
+- (GH-397) - Honour default symlink when additional symlinks delcared [#431](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/431) ([jordanbreen28](https://github.com/jordanbreen28))
+- (GH-422) - Allow `ref` to be optional in fixtures [#430](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/430) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v7.0.3](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.3) - 2024-01-24
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.2...v7.0.3)
