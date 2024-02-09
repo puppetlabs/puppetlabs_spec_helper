@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.5](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.5) - 2024-02-09
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.4...v7.0.5)
+
+### Fixed
+
+- (bug) - check for empty fixtures array, as well as nil [#435](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/435) ([jordanbreen28](https://github.com/jordanbreen28))
+
 ## [v7.0.4](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.4) - 2024-02-08
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.3...v7.0.4)
