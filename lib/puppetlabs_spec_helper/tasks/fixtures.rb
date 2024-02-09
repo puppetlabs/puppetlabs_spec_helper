@@ -106,8 +106,7 @@ module PuppetlabsSpecHelper
                            end
 
         fixtures = fixtures['fixtures']
-
-        fixtures['symlinks'] = fixtures['symlinks'].nil? ? auto_symlink : auto_symlink.merge!(fixtures['symlinks'])
+        fixtures['symlinks'] = fixtures['symlinks'].nil? || fixtures['symlinks'].empty? ? auto_symlink : auto_symlink.merge!(fixtures['symlinks'])
 
         result = {}
         if fixtures.include?(category) && !fixtures[category].nil?
