@@ -30,7 +30,7 @@ group :development do
   gem 'rake'
   gem 'rspec', '~> 3.1'
   gem 'rspec-its', '~> 1.0'
-  gem 'rubocop', '~> 1.50.0', require: false
+  gem 'rubocop', '~> 1.60.2', require: false
   gem 'rubocop-rspec', '~> 2.19', require: false
   gem 'rubocop-performance', '~> 1.16', require: false
 
