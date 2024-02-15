@@ -8,6 +8,7 @@ require 'pathname'
 require 'puppetlabs_spec_helper/version'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 require 'puppetlabs_spec_helper/tasks/check_symlinks'
+require 'puppetlabs_spec_helper/tasks/spec_described'
 require 'English'
 
 # optional gems
@@ -250,6 +251,41 @@ task :compute_dev_version do
                 end
 
   print new_version
+end
+
+describe_problems = %w[missing unknown]
+
+desc "Check to ensure defined puppet code has been described in spec\n(defaults: coverage=100)"
+task :spec_described, [:coverage] do |_task, args|
+  args.with_defaults(coverage: '100')
+
+  colorize = RSpec::Core::Formatters::ConsoleCodes
+  described = PuppetlabsSpecHelper::Tasks::SpecDescribed.new
+  result = described.check
+
+  puts "Spec described coverage: #{colorize.wrap(format('%3.1f%%', result[:percent]), described.coverage_color(result[:percent], args[:coverage], warn: 1))}"
+
+  if result[:have] < result[:want] || !result[:unknown].values.flatten.empty?
+    (result[:code].keys | result[:missing].keys).each do |res_type|
+      want_type = (result[:code][res_type]&.size || 0)
+      miss_type = (result[:missing][res_type]&.size || 0)
+      percent_type = (want_type - miss_type) / want_type.to_f * 100.0
+      color = described.coverage_color(percent_type, args[:coverage])
+      puts "  * #{RSpec::Core::Formatters::Helpers.pluralize(want_type, res_type)}: #{colorize.wrap(format('%3.1f%%', percent_type), color)}"
+
+      describe_problems.each do |problem|
+        what = result[:"#{problem}"]
+        next if what[res_type].nil? || what[res_type].empty?
+
+        puts "    #{problem}:"
+        what[res_type].each do |r|
+          info = " in #{result[:test_files][r]}" if result[:test_files][r]
+          puts "    - #{r}#{info}"
+        end
+      end
+    end
+  end
+  abort if result[:percent] < args[:coverage].to_f
 end
 
 desc 'Runs all necessary checks on a module in preparation for a release'
