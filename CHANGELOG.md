@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.1.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.1.0) - 2024-03-12
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.5...v7.1.0)
+
+### Added
+
+- puppet-syntax: Validate Hiera keys [#444](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/444) ([bastelfreak](https://github.com/bastelfreak))
+- puppet-syntax: Validate hiera keys [#441](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/441) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.0.5](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.0.5) - 2024-02-09
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.4...v7.0.5)
