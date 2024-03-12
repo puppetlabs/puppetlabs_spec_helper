@@ -193,6 +193,7 @@ PuppetSyntax.exclude_paths << 'vendor/**/*'
 PuppetSyntax.exclude_paths << '.vendor/**/*'
 PuppetSyntax.exclude_paths << 'plans/**/*'
 PuppetSyntax.check_hiera_keys = true
+PuppetSyntax.check_hiera_data = true
 
 desc 'Check syntax of Ruby files and call :syntax and :metadata_lint'
 task :validate do
