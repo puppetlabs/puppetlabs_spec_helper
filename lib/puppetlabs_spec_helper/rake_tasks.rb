@@ -111,8 +111,9 @@ task :parallel_spec_standalone do |_t, args|
     warn 'No files for parallel_spec to run against'
   else
 
-    args = ['-t', 'rspec']
-    args.push('--').concat(ENV['CI_SPEC_OPTIONS'].strip.split).push('--') unless ENV['CI_SPEC_OPTIONS'].nil? || ENV['CI_SPEC_OPTIONS'].strip.empty?
+    args = ['--type', 'rspec']
+    additional_options = ['--format', 'progress'] + ENV['CI_SPEC_OPTIONS'].to_s.strip.split
+    args.push('--').concat(additional_options).push('--')
     args.concat(Rake::FileList[pattern].to_a)
 
     ParallelTests::CLI.new.run(args)
