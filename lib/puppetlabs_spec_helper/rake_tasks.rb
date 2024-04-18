@@ -191,7 +191,6 @@ PuppetSyntax.exclude_paths << 'spec/fixtures/**/*'
 PuppetSyntax.exclude_paths << 'pkg/**/*'
 PuppetSyntax.exclude_paths << 'vendor/**/*'
 PuppetSyntax.exclude_paths << '.vendor/**/*'
-PuppetSyntax.exclude_paths << 'plans/**/*'
 PuppetSyntax.check_hiera_keys = true
 PuppetSyntax.check_hiera_data = true
 
