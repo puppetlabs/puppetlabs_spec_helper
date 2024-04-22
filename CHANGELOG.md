@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.2.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.2.0) - 2024-04-22
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.1.0...v7.2.0)
+
+### Added
+
+- (CAT-273) Remove plan exclusion from rake tasks [#447](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/447) ([LukasAud](https://github.com/LukasAud))
+
+### Fixed
+
+- puppet-syntax: Ensure we are using 4.1.1 or newer [#445](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/445) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.1.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.1.0) - 2024-03-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.0.5...v7.1.0)
