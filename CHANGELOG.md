@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.3.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.3.0) - 2024-05-16
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.2.0...v7.3.0)
+
+### Added
+
+- spec_standalone: apply default formatting [#452](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/452) ([bastelfreak](https://github.com/bastelfreak))
+- parallel_spec_standalone: use --format progress [#446](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/446) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.2.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.2.0) - 2024-04-22
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.1.0...v7.2.0)
@@ -74,6 +83,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.3...v7.0.0)
 
 ### Changed
+
 - (CAT-1222) - Require puppetlabs-rspec-puppet over rspec-puppet [#415](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/415) ([jordanbreen28](https://github.com/jordanbreen28))
 - (CAT-1256)- Require puppetlabs-puppet-lint over puppet-lint [#411](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/411) ([GSPatton](https://github.com/GSPatton))
 
@@ -114,6 +124,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v5.0.3...v6.0.0.rc.1)
 
 ### Changed
+
 - (CONT-807) Add Ruby 3.2 support [#390](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/390) ([GSPatton](https://github.com/GSPatton))
 
 ### Added
@@ -147,6 +158,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v4.0.1...v5.0.0)
 
 ### Changed
+
 - (CONT-237) Deprecation and legacy version support removal [#364](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/364) ([chelnak](https://github.com/chelnak))
 - (CONT-237) Bump minimum Ruby version requirement [#358](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/358) ([chelnak](https://github.com/chelnak))
 - Drop outdated future parser support [#348](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/348) ([binford2k](https://github.com/binford2k))
@@ -519,6 +531,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/1.1.1...1.2.0)
 
 ### Changed
+
 - Deprecate PuppetInternals.scope [#108](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/108) ([DavidS](https://github.com/DavidS))
 
 ### Added
