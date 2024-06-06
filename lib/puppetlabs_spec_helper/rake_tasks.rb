@@ -46,8 +46,9 @@ end
 task default: [:help]
 
 pattern = 'spec/{aliases,classes,defines,functions,hosts,integration,plans,tasks,type_aliases,types,unit}/**/*_spec.rb'
+
 RSpec::Core::RakeTask.new(:spec_standalone) do |t, args|
-  t.rspec_opts = ['--format', 'documentation', '--color']
+  t.rspec_opts = []
   t.rspec_opts << ENV['CI_SPEC_OPTIONS'] unless ENV['CI_SPEC_OPTIONS'].nil?
   if ENV['CI_NODE_TOTAL'] && ENV['CI_NODE_INDEX']
     ci_total = ENV['CI_NODE_TOTAL'].to_i
