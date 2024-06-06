@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module PuppetlabsSpecHelper
-  VERSION = '7.3.0'
+  VERSION = '7.3.1'
 end
