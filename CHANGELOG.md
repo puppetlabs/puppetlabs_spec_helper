@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v7.3.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.3.0) - 2024-05-16
+## [v7.3.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.3.1) - 2024-06-06
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.3.0...v7.3.1)
+
+### Fixed
+
+- Revert "spec_standalone: apply default formatting" [#454](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/454) ([david22swan](https://github.com/david22swan))
+
+## [v7.3.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.3.0) - 2024-05-23
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.2.0...v7.3.0)
 
