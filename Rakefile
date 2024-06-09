@@ -21,3 +21,9 @@ end
 
 require 'yard'
 YARD::Rake::YardocTask.new
+
+begin
+  require 'voxpupuli/rubocop/rake'
+rescue LoadError
+  # the voxpupuli-rubocop gem is optional
+end
