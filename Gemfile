@@ -33,8 +33,6 @@ group :development do
   gem 'rubocop', '~> 1.50.0', require: false
   gem 'rubocop-rspec', '~> 2.19', require: false
   gem 'rubocop-performance', '~> 1.16', require: false
-  gem 'rubocop-factory_bot', '!= 2.26.0', require: false
-  gem 'rubocop-rspec_rails', '!= 2.29.0', require: false
 
   gem 'fakefs'
   gem 'yard'
