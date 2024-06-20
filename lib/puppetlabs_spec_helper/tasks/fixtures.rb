@@ -317,7 +317,7 @@ module PuppetlabsSpecHelper
           end
         end
         # wait for all the threads to finish
-        items.each { |_remote, opts| opts[:thread].join }
+        items.each_value { |opts| opts[:thread].join }
       end
 
       # @param target [String] - the target directory
@@ -427,12 +427,12 @@ end
 
 desc 'Clean up the fixtures directory'
 task :spec_clean do
-  repositories.each do |_remote, opts|
+  repositories.each_value do |opts|
     target = opts['target']
     FileUtils.rm_rf(target)
   end
 
-  forge_modules.each do |_remote, opts|
+  forge_modules.each_value do |opts|
     target = opts['target']
     FileUtils.rm_rf(target)
   end
@@ -446,7 +446,7 @@ end
 
 desc 'Clean up any fixture symlinks'
 task :spec_clean_symlinks do
-  fixtures('symlinks').each do |_source, opts|
+  fixtures('symlinks').each_value do |opts|
     target = opts['target']
     FileUtils.rm_f(target)
   end
