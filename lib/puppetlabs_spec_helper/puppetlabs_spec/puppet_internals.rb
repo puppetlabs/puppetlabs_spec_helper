@@ -39,7 +39,7 @@ module PuppetlabsSpec
       # exposed hack.
       return nil unless Puppet::Parser::Functions.function(name)
 
-      scope.method("function_#{name}".to_sym)
+      scope.method(:"function_#{name}")
     end
     module_function :function_method
   end
