@@ -381,16 +381,16 @@ def create_gch_task(changelog_user = nil, changelog_project = nil, changelog_sin
       config.configure_sections = {
         'Changed' => {
           'prefix' => '### Changed',
-          'labels' => ['backwards-incompatible']
+          'labels' => ['backwards-incompatible'],
         },
         'Added' => {
           'prefix' => '### Added',
-          'labels' => %w[feature enhancement]
+          'labels' => %w[feature enhancement],
         },
         'Fixed' => {
           'prefix' => '### Fixed',
-          'labels' => ['bugfix']
-        }
+          'labels' => ['bugfix'],
+        },
       }
     end
   else

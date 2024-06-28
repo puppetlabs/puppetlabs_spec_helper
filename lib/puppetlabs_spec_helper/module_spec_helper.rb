@@ -31,7 +31,7 @@ if ENV['SIMPLECOV'] == 'yes'
 
   SimpleCov.formatters = [
     SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Console
+    SimpleCov::Formatter::Console,
   ]
 
   begin
