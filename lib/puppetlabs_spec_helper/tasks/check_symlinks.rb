@@ -9,12 +9,12 @@ module PuppetlabsSpecHelper
       DEFAULT_IGNORED = [
         '/.git/',
         '/.bundle/',
-        '/vendor/'
+        '/vendor/',
       ].freeze
 
       IGNORE_LIST_FILES = [
         '.pdkignore',
-        '.gitignore'
+        '.gitignore',
       ].freeze
 
       def check(dir = Dir.pwd)
