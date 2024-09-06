@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.4.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.4.0) - 2024-09-06
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.3.1...v7.4.0)
+
+### Added
+
+- Require rspec-puppet 5.x [#470](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/470) ([bastelfreak](https://github.com/bastelfreak))
+- Add Ruby 3.3 to CI matrix [#459](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/459) ([bastelfreak](https://github.com/bastelfreak))
+- Switch to voxpupuli-rubocop [#458](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/458) ([bastelfreak](https://github.com/bastelfreak))
+- pathspec: Allow 2.x [#457](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/457) ([bastelfreak](https://github.com/bastelfreak))
+- mocha: Allow 2.x [#456](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/456) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.3.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.3.1) - 2024-06-06
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.3.0...v7.3.1)
