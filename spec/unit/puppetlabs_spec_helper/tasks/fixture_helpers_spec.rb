@@ -165,6 +165,29 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
     end
 
+    context 'when forge_api_key env variable is set' do
+      before do
+        # required to prevent unwanted output on stub of $CHILD_STATUS
+        RSpec::Mocks.configuration.allow_message_expectations_on_nil = true
+      end
+
+      after do
+        RSpec::Mocks.configuration.allow_message_expectations_on_nil = false
+      end
+
+      it 'correctly sets --forge_authorization' do
+        allow(ENV).to receive(:fetch).with('FORGE_API_KEY', nil).and_return('myforgeapikey')
+        # Mock the system call to prevent actual execution
+        allow_any_instance_of(Kernel).to receive(:system) do |command| # rubocop:disable RSpec/AnyInstance
+          expect(command).to include('--forge_authorization "Bearer myforgeapikey"')
+          # Simulate setting $CHILD_STATUS to a successful status
+          allow($CHILD_STATUS).to receive(:success?).and_return(true)
+          true
+        end
+        helper.download_module('puppetlabs-stdlib', 'target' => 'spec/fixtures/modules/stdlib')
+      end
+    end
+
     context 'when file specifies repository fixtures' do
       before do
         allow(File).to receive(:exist?).with('.fixtures.yml').and_return true

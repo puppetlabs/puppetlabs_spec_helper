@@ -379,6 +379,9 @@ module PuppetlabsSpecHelper
           flags = " #{opts['flags']}" if opts['flags']
         end
 
+        forge_token = ENV.fetch('FORGE_API_KEY', nil)
+        flags += " --forge_authorization \"Bearer #{forge_token}\"" if forge_token
+
         return false if File.directory?(target) && (ref.empty? || opts['ref'] == module_version(target))
 
         # The PMT cannot handle multi threaded runs due to cache directory collisons
