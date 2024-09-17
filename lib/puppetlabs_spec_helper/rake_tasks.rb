@@ -121,11 +121,6 @@ task :parallel_spec_standalone do |_t, args|
   end
 end
 
-desc 'Clean a built module package'
-task :clean do
-  FileUtils.rm_rf('pkg/')
-end
-
 require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for
 # the PuppetLint::RakeTask
