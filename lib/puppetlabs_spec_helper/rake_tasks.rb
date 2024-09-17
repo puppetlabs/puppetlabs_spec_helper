@@ -121,35 +121,6 @@ task :parallel_spec_standalone do |_t, args|
   end
 end
 
-desc 'Build puppet module package'
-task :build do
-  Rake::Task['build:pdk'].invoke
-end
-
-namespace :build do
-  desc 'Build Puppet module with PDK'
-  task :pdk do
-    require 'pdk/util'
-    require 'pdk/module/build'
-
-    path = PDK::Module::Build.invoke(force: true, 'target-dir': File.join(Dir.pwd, 'pkg'))
-    puts "Module built: #{path}"
-  rescue LoadError
-    _ = `pdk --version`
-    unless $CHILD_STATUS.success?
-      warn 'Unable to build module. Please install PDK or add the `pdk` gem to your Gemfile.'
-      abort
-    end
-
-    system('pdk build --force')
-  end
-end
-
-desc 'Clean a built module package'
-task :clean do
-  FileUtils.rm_rf('pkg/')
-end
-
 require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for
 # the PuppetLint::RakeTask
