@@ -211,21 +211,21 @@ When specifying the repo source of the fixture you have a few options as to whic
    puppet_version: '>= 6.0.0'
    ```
 
-Using Forge Authorization
-==============
+ **Notes:**
 
-In order to perform forge operations which required authorization, such as installing premium modules, you can export your forge api key as an environment variable in your terminal.
+ * `ref` and `branch` can be used together to get a specific revision on a specific branch
+ * Top level `defaults` option could be used to set global options
+
+Using Forge Authorization
+-----------------
+
+In order to perform forge operations which require authorization, such as installing premium modules, you can export your forge api key as an environment variable in your terminal.
 
 ```bash
 FORGE_API_KEY='your_api_key'
 ```
 
 puppetlabs_spec_helper will then automatically append this key to all `puppet module install` requests when running `rake spec_prep`.
-
- **Notes:**
-
- * `ref` and `branch` can be used together to get a specific revision on a specific branch
- * Top level `defaults` option could be used to set global options
 
 Fixtures Examples
 -----------------
