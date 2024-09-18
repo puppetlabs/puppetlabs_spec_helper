@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v8.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v8.0.0) - 2024-09-18
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.4.0...v8.0.0)
+
+### Changed
+
+- (breaking) - Remove build rake tasks [#472](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/472) ([jordanbreen28](https://github.com/jordanbreen28))
+
+### Added
+
+- (CAT-1984) - Add forge auth to fixtures module install [#473](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/473) ([jordanbreen28](https://github.com/jordanbreen28))
+
+### Fixed
+
+- cleanup: remove class_parameter_defaults disable [#474](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/474) ([waipeng](https://github.com/waipeng))
+
 ## [v7.4.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v7.4.0) - 2024-09-06
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.3.1...v7.4.0)
