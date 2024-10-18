@@ -141,7 +141,7 @@ puppet_lint_disable_checks = %w[
   80chars
   140chars
   class_inherits_from_params_class
-  disable_autoloader_layout
+  autoloader_layout
   documentation
   single_quote_string_with_variables
 ]
