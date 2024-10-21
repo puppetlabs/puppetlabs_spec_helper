@@ -121,6 +121,8 @@ task :parallel_spec_standalone do |_t, args|
   end
 end
 
+# Ensure that any changes to lint here are reflected within the config_defaults.yml file inside the pdk-templates:
+# - https://github.com/puppetlabs/pdk-templates/blob/d9e6478ff7730a8ce072ce0c1d36a9b79f05ba2c/config_defaults.yml#L69
 require 'puppet-lint/tasks/puppet-lint'
 # Must clear as it will not override the existing puppet-lint rake task since we require to import for
 # the PuppetLint::RakeTask
