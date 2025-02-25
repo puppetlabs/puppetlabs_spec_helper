@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.executables = Dir['bin/**/*'].map { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.7')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6')
 
   spec.add_runtime_dependency 'mocha', '>= 1.0', '< 3'
   spec.add_runtime_dependency 'pathspec', '>= 0.2', '< 3'
