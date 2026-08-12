@@ -6,6 +6,7 @@
 # shellcheck source=/dev/null
 . "$(dirname "$0")/_parse_input.sh"
 
+# shellcheck disable=SC2154  # cmd is set by the sourced _parse_input.sh
 if echo "$cmd" | grep -qE '(^|[;&|])[[:space:]]*(sudo[[:space:]]+|xargs[[:space:]]+)?([^[:space:]]*/)?rm([[:space:]]|$)'; then
   echo '{"continue":false,"stopReason":"Project rule: never delete a file without explicit permission."}'
 fi
