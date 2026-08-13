@@ -4,6 +4,11 @@ source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 gemspec
 
+# Temporary: resolve puppet-syntax from the puppetlabs-maintained fork (5.1.x
+# line, puppet >= 7, < 10) for Puppet 9 support, until 5.1.0 is published to
+# the gem repo. Remove once published. See MODULES-11926.
+gem 'puppet-syntax', git: 'https://github.com/puppetlabs/puppet-syntax', tag: '5.1.0'
+
 def location_for(place_or_version, fake_version = nil)
   git_url_regex = %r{\A(?<url>(https?|git)[:@][^#]*)(#(?<branch>.*))?}
   file_url_regex = %r{\Afile:\/\/(?<path>.*)}
