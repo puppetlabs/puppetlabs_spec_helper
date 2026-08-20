@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v9.0.0) - 2026-08-20
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v8.0.0...v9.0.0)
+
+### Changed
+
+- (MODULES-11700) Allow puppet-lint 5.x (Ruby 3.4+ compatible) [#485](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/485) ([imaqsood](https://github.com/imaqsood))
+- (CAT-2281) Remove puppet 7 infrastructure [#482](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/482) ([LukasAud](https://github.com/LukasAud))
+
+### Added
+
+- rspec-github: Allow 3.x [#480](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/480) ([bastelfreak](https://github.com/bastelfreak))
+
+### Fixed
+
+- (BUGFIX) Correct `disable_autoloader_layout` Lint config [#477](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/477) ([david22swan](https://github.com/david22swan))
+
 ## [v8.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v8.0.0) - 2024-09-18
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.4.0...v8.0.0)
@@ -30,6 +47,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Require rspec-puppet 5.x [#470](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/470) ([bastelfreak](https://github.com/bastelfreak))
 - Add Ruby 3.3 to CI matrix [#459](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/459) ([bastelfreak](https://github.com/bastelfreak))
 - Switch to voxpupuli-rubocop [#458](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/458) ([bastelfreak](https://github.com/bastelfreak))
+
+### Other
+
 - pathspec: Allow 2.x [#457](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/457) ([bastelfreak](https://github.com/bastelfreak))
 - mocha: Allow 2.x [#456](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/456) ([bastelfreak](https://github.com/bastelfreak))
 
@@ -151,7 +171,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v6.0.0.rc.1...v6.0.0)
 
-### Added
+### Other
 
 - Use rspec-puppet settings to configure Puppet [#389](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/389) ([ekohl](https://github.com/ekohl))
 
@@ -163,7 +183,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - (CONT-807) Add Ruby 3.2 support [#390](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/390) ([GSPatton](https://github.com/GSPatton))
 
-### Added
+### Other
 
 - (CONT-807) Ruby 3 / Puppet 8 Additions [#393](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/393) ([chelnak](https://github.com/chelnak))
 
@@ -199,16 +219,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - (CONT-237) Bump minimum Ruby version requirement [#358](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/358) ([chelnak](https://github.com/chelnak))
 - Drop outdated future parser support [#348](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/348) ([binford2k](https://github.com/binford2k))
 
-### Added
-
-- Add rspec-github integration [#353](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/353) ([ekohl](https://github.com/ekohl))
-- Run the `strings:validate:reference` task during `validate` [#352](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/352) ([smortex](https://github.com/smortex))
-- Configure puppet-lint to fail on warnings again [#347](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/347) ([ekohl](https://github.com/ekohl))
-
 ### Fixed
 
 - (CONT-237) Rubocop updates [#360](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/360) ([chelnak](https://github.com/chelnak))
 - Fix check:git_ignore rake task for git >= 2.32.0 [#346](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/346) ([ekohl](https://github.com/ekohl))
+
+### Other
+
+- Add rspec-github integration [#353](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/353) ([ekohl](https://github.com/ekohl))
+- Run the `strings:validate:reference` task during `validate` [#352](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/352) ([smortex](https://github.com/smortex))
+- Configure puppet-lint to fail on warnings again [#347](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/347) ([ekohl](https://github.com/ekohl))
 
 ## [v4.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v4.0.1) - 2021-08-23
 
@@ -222,7 +242,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v3.0.0...v4.0.0)
 
-### Added
+### Other
 
 - Use Rubocop's Github Actions formatter if possible [#340](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/340) ([ekohl](https://github.com/ekohl))
 - Remove beaker integration [#338](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/338) ([ekohl](https://github.com/ekohl))
@@ -231,7 +251,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.16.0...v3.0.0)
 
-### Added
+### Other
 
 - Restructure PuppetLint rake tasks so they can be configurable [#330](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/330) ([nmaludy](https://github.com/nmaludy))
 
@@ -239,7 +259,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.15.0...v2.16.0)
 
-### Added
+### Other
 
 - Add a check task [#327](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/327) ([ekohl](https://github.com/ekohl))
 - Update fixtures from forge when the module version doesn't match; fix git < 2.7 compatibility [#269](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/269) ([nabertrand](https://github.com/nabertrand))
@@ -249,7 +269,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.14.1...v2.15.0)
 
-### Added
+### Fixed
+
+- (MAINT) Fix initialize of Gettext call [#292](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/292) ([ThoughtCrhyme](https://github.com/ThoughtCrhyme))
+
+### Other
 
 - Add Ruby 2.6/Puppet6 to CI matrix [#311](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/311) ([bastelfreak](https://github.com/bastelfreak))
 - (GH-297) Don't allow git refs with forward slashes [#299](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/299) ([glennsarti](https://github.com/glennsarti))
@@ -258,10 +282,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Ignore plans folder and any subfolder [#294](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/294) ([cyberious](https://github.com/cyberious))
 - Download forge modules in parallel [#284](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/284) ([logicminds](https://github.com/logicminds))
 - (maint) migrate the changelog task from pdk-templates [#278](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/278) ([DavidS](https://github.com/DavidS))
-
-### Fixed
-
-- (MAINT) Fix initialize of Gettext call [#292](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/292) ([ThoughtCrhyme](https://github.com/ThoughtCrhyme))
 
 ## [v2.14.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.14.1) - 2019-03-26
 
@@ -275,15 +295,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.13.1...v2.14.0)
 
-### Added
+### Fixed
+
+- Remove `--color` from everywhere, use RSpec default detection instead [#280](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/280) ([DavidS](https://github.com/DavidS))
+
+### Other
 
 - (feat) dont load the beaker if litmus is there [#281](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/281) ([tphoney](https://github.com/tphoney))
 - (maint) load rake tasks from optional libraries [#279](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/279) ([DavidS](https://github.com/DavidS))
 - Document how to set default values for fixture loading [#277](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/277) ([Felixoid](https://github.com/Felixoid))
-
-### Fixed
-
-- Remove `--color` from everywhere, use RSpec default detection instead [#280](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/280) ([DavidS](https://github.com/DavidS))
 
 ## [v2.13.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.13.1) - 2019-01-15
 
@@ -297,47 +317,47 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.12.0...v2.13.0)
 
-### Added
-
-- (PDK-1199) Honour .{pdk,git}ignore in check:symlinks rake task [#267](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/267) ([rodjek](https://github.com/rodjek))
-- (PDK-1137) Determine module name from metadata when possible [#265](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/265) ([rodjek](https://github.com/rodjek))
-
 ### Fixed
 
 - (MODULES-8242) - Fix CI_SPEC_OPTIONS failing [#268](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/268) ([stamm](https://github.com/stamm))
 - (PDK-997) Remove Dir.chdir call from check:test_file task [#266](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/266) ([rodjek](https://github.com/rodjek))
 
+### Other
+
+- (PDK-1199) Honour .{pdk,git}ignore in check:symlinks rake task [#267](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/267) ([rodjek](https://github.com/rodjek))
+- (PDK-1137) Determine module name from metadata when possible [#265](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/265) ([rodjek](https://github.com/rodjek))
+
 ## [v2.12.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.12.0) - 2018-11-08
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.11.0...v2.12.0)
-
-### Added
-
-- Added tasks to rspec pattern. [#261](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/261) ([dylanratcliffe](https://github.com/dylanratcliffe))
-- (PDK-1100) Use PDK to build module packages [#260](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/260) ([rodjek](https://github.com/rodjek))
 
 ### Fixed
 
 - (bugfix) ignore bundle directory, for symlinks [#263](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/263) ([tphoney](https://github.com/tphoney))
 - (MODULES-7273) - Raise error when fixture ref invalid [#262](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/262) ([eimlav](https://github.com/eimlav))
 
+### Other
+
+- Added tasks to rspec pattern. [#261](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/261) ([dylanratcliffe](https://github.com/dylanratcliffe))
+- (PDK-1100) Use PDK to build module packages [#260](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/260) ([rodjek](https://github.com/rodjek))
+
 ## [v2.11.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.11.0) - 2018-09-26
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.10.0...v2.11.0)
-
-### Added
-
-- (MODULES-7856) Allow optional repositories based on puppet version [#258](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/258) ([joshcooper](https://github.com/joshcooper))
 
 ### Fixed
 
 - Fix example conversion from mocha to rspec mocks. [#257](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/257) ([vStone](https://github.com/vStone))
 
+### Other
+
+- (MODULES-7856) Allow optional repositories based on puppet version [#258](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/258) ([joshcooper](https://github.com/joshcooper))
+
 ## [v2.10.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.10.0) - 2018-08-30
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.9.1...v2.10.0)
 
-### Added
+### Other
 
 - (feat) add puppet lint fix task [#255](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/255) ([tphoney](https://github.com/tphoney))
 - add support to override the allowed test tiers [#253](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/253) ([b4ldr](https://github.com/b4ldr))
@@ -355,7 +375,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.8.0...v2.9.0)
 
-### Added
+### Other
 
 - (maint) adding ruby code coverage setup and rake task [#245](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/245) ([tphoney](https://github.com/tphoney))
 
@@ -363,7 +383,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.7.0...v2.8.0)
 
-### Added
+### Other
 
 - minor edits to mock_with section [#243](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/243) ([jbondpdx](https://github.com/jbondpdx))
 - (PDK-636) Groundwork to allow PDK to persist downloaded fixtures [#242](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/242) ([rodjek](https://github.com/rodjek))
@@ -373,30 +393,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.2...v2.7.0)
 
-### Added
-
-- (PDK-916) Default to mocha if mock_framework isn't set [#239](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/239) ([MikaelSmith](https://github.com/MikaelSmith))
-- Break out beaker and fixture tasks into separate files [#238](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/238) ([DavidS](https://github.com/DavidS))
-- (BOLT-397) add spec/plans/**/*_spec.rb to spec discovery pattern [#235](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/235) ([adreyer](https://github.com/adreyer))
-
 ### Fixed
 
 - Allow module_spec_helper to work with mocha 1.5.0 and rspec mocking [#237](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/237) ([DavidS](https://github.com/DavidS))
 - (FM-6813) fix parsing for test tiers [#231](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/231) ([ThoughtCrhyme](https://github.com/ThoughtCrhyme))
 
+### Other
+
+- (PDK-916) Default to mocha if mock_framework isn't set [#239](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/239) ([MikaelSmith](https://github.com/MikaelSmith))
+- Break out beaker and fixture tasks into separate files [#238](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/238) ([DavidS](https://github.com/DavidS))
+- (BOLT-397) add spec/plans/**/*_spec.rb to spec discovery pattern [#235](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/235) ([adreyer](https://github.com/adreyer))
+
 ## [v2.6.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.6.2) - 2018-02-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.1...v2.6.2)
-
-### Added
-
-- (MODULES-6606) change to initialize_config [#225](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/225) ([eputnam](https://github.com/eputnam))
 
 ## [v2.6.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.6.1) - 2017-12-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.6.0...v2.6.1)
 
-### Added
+### Other
 
 - Fix fixtures defaults and add tests [#223](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/223) ([hunner](https://github.com/hunner))
 
@@ -416,22 +432,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.4.0...v2.5.0)
 
-### Added
-
-- (PDK-429) add tests argument to rake spec [#209](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/209) ([8675309](https://github.com/8675309))
-
 ### Fixed
 
 - (WIN-6) trim whitespace from test_tiers before parsing [#214](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/214) ([ThoughtCrhyme](https://github.com/ThoughtCrhyme))
 
+### Other
+
+- (PDK-429) add tests argument to rake spec [#209](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/209) ([8675309](https://github.com/8675309))
+
 ## [v2.4.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.4.0) - 2017-10-17
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.2...v2.4.0)
-
-### Added
-
-- (MODULES-5503) Add support for repository targets [#210](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/210) ([trevor-vaughan](https://github.com/trevor-vaughan))
-- Mercurial branch support [#208](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/208) ([pegasd](https://github.com/pegasd))
 
 ### Fixed
 
@@ -439,17 +450,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Fix release_checks without parallel_tests [#211](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/211) ([sean797](https://github.com/sean797))
 - Fix 'abort: please specify just one revision' mercurial error [#206](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/206) ([pegasd](https://github.com/pegasd))
 
+### Other
+
+- (MODULES-5503) Add support for repository targets [#210](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/210) ([trevor-vaughan](https://github.com/trevor-vaughan))
+- Mercurial branch support [#208](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/208) ([pegasd](https://github.com/pegasd))
+
 ## [v2.3.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.3.2) - 2017-08-11
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.3.1...v2.3.2)
 
-### Added
-
-- (PDK-409) Make directory junction targets relative to the junction [#203](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/203) ([rodjek](https://github.com/rodjek))
-
 ### Fixed
 
 - (PDK-381) Ensure spec fixtures are cleaned up, even if the test fails [#204](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/204) ([rodjek](https://github.com/rodjek))
+
+### Other
+
+- (PDK-409) Make directory junction targets relative to the junction [#203](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/203) ([rodjek](https://github.com/rodjek))
 
 ## [v2.3.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.3.1) - 2017-08-02
 
@@ -463,7 +479,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.2.0...v2.3.0)
 
-### Added
+### Other
 
 - Support CI options for parallel_spec [#199](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/199) ([austb](https://github.com/austb))
 
@@ -471,7 +487,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.5...v2.2.0)
 
-### Added
+### Other
 
 - Change default logger output to STDERR. [#197](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/197) ([scotje](https://github.com/scotje))
 - Update default fixture path calculation to be Windows safe. [#196](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/196) ([scotje](https://github.com/scotje))
@@ -485,7 +501,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.3...v2.1.4)
 
-### Added
+### Other
 
 - (SDK-168) Replace check:symlinks with platform independent alternative [#193](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/193) ([rodjek](https://github.com/rodjek))
 - (SDK-268) Create directory junctions instead of symlinks on windows [#192](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/192) ([rodjek](https://github.com/rodjek))
@@ -494,13 +510,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.2...v2.1.3)
 
-### Added
-
-- (FM-6170) Addition of branch check for build number creation [#190](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/190) ([HelenCampbell](https://github.com/HelenCampbell))
-
 ### Fixed
 
 - (maint) Properly escape paths [#191](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/191) ([samuelson](https://github.com/samuelson))
+
+### Other
+
+- (FM-6170) Addition of branch check for build number creation [#190](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/190) ([HelenCampbell](https://github.com/HelenCampbell))
 
 ## [v2.1.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.1.2) - 2017-04-17
 
@@ -510,7 +526,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.1.0...v2.1.1)
 
-### Added
+### Other
 
 - Add dependency on parallel_tests [#186](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/186) ([ekohl](https://github.com/ekohl))
 
@@ -518,13 +534,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v2.0.2...v2.1.0)
 
-### Added
-
-- (MODULES-4471) Add CI_SPEC_OPTIONS environment variable to modify rspec [#182](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/182) ([glennsarti](https://github.com/glennsarti))
-
 ### Fixed
 
 - (maint) fix load order for gettext-setup tasks [#183](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/183) ([eputnam](https://github.com/eputnam))
+
+### Other
+
+- (MODULES-4471) Add CI_SPEC_OPTIONS environment variable to modify rspec [#182](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/182) ([glennsarti](https://github.com/glennsarti))
 
 ## [v2.0.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v2.0.2) - 2017-02-23
 
@@ -542,7 +558,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.2...v2.0.0)
 
-### Added
+### Other
 
 - (MODULES-4394) Make the module_working_dir configurable [#175](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/175) ([glennsarti](https://github.com/glennsarti))
 - Add type_aliases directory [#174](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/174) ([domcleal](https://github.com/domcleal))
@@ -554,7 +570,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v1.2.1...v1.2.2)
 
-### Added
+### Other
 
 - Only set strict_variables setting when required [#168](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/168) ([domcleal](https://github.com/domcleal))
 
@@ -570,7 +586,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - Deprecate PuppetInternals.scope [#108](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/108) ([DavidS](https://github.com/DavidS))
 
-### Added
+### Other
 
 - Update puppet-lint and puppet-syntax default ignore paths [#165](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/165) ([DavidS](https://github.com/DavidS))
 
@@ -607,19 +623,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.2...0.10.3)
 
-### Added
-
-- Update Lint to default to Puppet Approved criteria [#80](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/80) ([cyberious](https://github.com/cyberious))
-
 ### Fixed
 
 - Don't set settings removed in puppet4 if testing against puppet4 [#102](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/102) ([underscorgan](https://github.com/underscorgan))
+
+### Other
+
+- Update Lint to default to Puppet Approved criteria [#80](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/80) ([cyberious](https://github.com/cyberious))
 
 ## [0.10.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/0.10.2) - 2015-04-14
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.1...0.10.2)
 
-### Added
+### Other
 
 - Updates for puppet 4 [#100](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/100) ([hunner](https://github.com/hunner))
 
@@ -627,7 +643,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.10.0...0.10.1)
 
-### Added
+### Other
 
 - Only use --depth 1 if ref is not used [#96](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/96) ([treydock](https://github.com/treydock))
 
@@ -635,7 +651,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.9.1...0.10.0)
 
-### Added
+### Other
 
 - Use faster shallow git clone [#94](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/94) ([sbadia](https://github.com/sbadia))
 - Exclude vendor/ files [#86](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/86) ([domcleal](https://github.com/domcleal))
@@ -648,17 +664,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.8.2...0.9.0)
 
-### Added
+### Fixed
+
+- fix load issue with puppet filesystem and windows symlinks [#87](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/87) ([logicminds](https://github.com/logicminds))
+- (MODULES-1576) Fix symlink support for older Puppet versions [#85](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/85) ([Iristyle](https://github.com/Iristyle))
+
+### Other
 
 - Enable future parser testing [#91](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/91) ([cmurphy](https://github.com/cmurphy))
 - Stub root? method so spec tests can test execs [#88](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/88) ([cmurphy](https://github.com/cmurphy))
 - (MODULES-1576) Use Puppet FileSystem abstraction for symlinks to support Windows [#84](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/84) ([Iristyle](https://github.com/Iristyle))
 - Run metadata-json-lint under validate rake task [#82](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/82) ([domcleal](https://github.com/domcleal))
-
-### Fixed
-
-- fix load issue with puppet filesystem and windows symlinks [#87](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/87) ([logicminds](https://github.com/logicminds))
-- (MODULES-1576) Fix symlink support for older Puppet versions [#85](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/85) ([Iristyle](https://github.com/Iristyle))
 
 ## [0.8.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/0.8.2) - 2014-10-01
 
@@ -672,20 +688,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.7.0...0.8.0)
 
-### Added
-
-- Allow relative paths and params [#76](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/76) ([hunner](https://github.com/hunner))
-- Replace syntax checks with puppet-syntax [#73](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/73) ([dcarley](https://github.com/dcarley))
-
 ### Fixed
 
 - Fix rspec 3.0 error when loading spec_helper [#74](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/74) ([jeffmccune](https://github.com/jeffmccune))
+
+### Other
+
+- Allow relative paths and params [#76](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/76) ([hunner](https://github.com/hunner))
+- Replace syntax checks with puppet-syntax [#73](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/73) ([dcarley](https://github.com/dcarley))
 
 ## [0.7.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/0.7.0) - 2014-07-17
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.6.0...0.7.0)
 
-### Added
+### Other
 
 - (MODULES-1214) Allow .fixtures.yml to specify a git branch [#71](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/71) ([treydock](https://github.com/treydock))
 - MODULES-1202 - add module_spec_helper support for 3.6 config items [#70](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/70) ([jantman](https://github.com/jantman))
@@ -695,15 +711,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.5.2...0.6.0)
 
-### Added
+### Fixed
+
+- avoid name clash with Object.clone method [#64](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/64) ([ehaselwanter](https://github.com/ehaselwanter))
+
+### Other
 
 - (MODULES-1189) force module install in spec_prep [#67](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/67) ([3flex](https://github.com/3flex))
 - Add :validate as a rake task [#66](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/66) ([cmurphy](https://github.com/cmurphy))
 - Add future parser and strict variable test support [#65](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/65) ([hunner](https://github.com/hunner))
-
-### Fixed
-
-- avoid name clash with Object.clone method [#64](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/64) ([ehaselwanter](https://github.com/ehaselwanter))
 
 ## [0.5.2](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/0.5.2) - 2014-06-19
 
@@ -713,7 +729,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.5.0...0.5.1)
 
-### Added
+### Other
 
 - Add mocha mocking back [#60](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/60) ([hunner](https://github.com/hunner))
 
@@ -721,7 +737,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.4.2...0.5.0)
 
-### Added
+### Other
 
 - Remove mocha dependency and rspec pinning [#59](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/59) ([hunner](https://github.com/hunner))
 
@@ -729,7 +745,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/0.4.1...0.4.2)
 
-### Added
+### Fixed
+
+- Fix for empty repository list in .fixtures.yml file [#42](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/42) ([tehmaspc](https://github.com/tehmaspc))
+- Fix issue with aborted rake task when packaging gem. [#34](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/34) ([AlexCline](https://github.com/AlexCline))
+- Fix Puppet Labs Issue Tracker URL [#33](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/33) ([DavidS](https://github.com/DavidS))
+- Don't reset when target is missing [#30](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/30) ([hunner](https://github.com/hunner))
+
+### Other
 
 - Only clean up site.pp fixture if zero length [#50](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/50) ([wcooley](https://github.com/wcooley))
 - Add beaker and beaker_nodes tasks [#47](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/47) ([blkperl](https://github.com/blkperl))
@@ -742,13 +765,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Do not lint fixtures directory. [#38](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/38) ([nanliu](https://github.com/nanliu))
 - Add syntax checking task [#36](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/36) ([dalen](https://github.com/dalen))
 - (#21602) Updated rake_tasks.rb to include 'integration' folder when running spec tests. [#35](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/35) ([fatmcgav](https://github.com/fatmcgav))
-
-### Fixed
-
-- Fix for empty repository list in .fixtures.yml file [#42](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/42) ([tehmaspc](https://github.com/tehmaspc))
-- Fix issue with aborted rake task when packaging gem. [#34](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/34) ([AlexCline](https://github.com/AlexCline))
-- Fix Puppet Labs Issue Tracker URL [#33](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/33) ([DavidS](https://github.com/DavidS))
-- Don't reset when target is missing [#30](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/30) ([hunner](https://github.com/hunner))
 
 ## [0.4.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/0.4.1) - 2013-02-08
 
