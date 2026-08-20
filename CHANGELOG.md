@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v9.0.0) - 2026-08-20
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v8.0.0...v9.0.0)
+
+### Changed
+
+- (CAT-2763) Switch from puppet-syntax to puppetlabs-syntax [#490](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/490) ([gavindidrichsen](https://github.com/gavindidrichsen))
+- (MODULES-11700) Allow puppet-lint 5.x (Ruby 3.4+ compatible) [#485](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/485) ([imaqsood](https://github.com/imaqsood))
+- (CAT-2281) Remove puppet 7 infrastructure [#482](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/482) ([LukasAud](https://github.com/LukasAud))
+
+### Added
+
+- rspec-github: Allow 3.x [#480](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/480) ([bastelfreak](https://github.com/bastelfreak))
+
+### Fixed
+
+- (BUGFIX) Correct `disable_autoloader_layout` Lint config [#477](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/477) ([david22swan](https://github.com/david22swan))
+
 ## [v8.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v8.0.0) - 2024-09-18
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v7.4.0...v8.0.0)
