@@ -158,14 +158,14 @@ PuppetLint::RakeTask.new(:lint_fix) do |config|
   config.fix = true
 end
 
-require 'puppet-syntax/tasks/puppet-syntax'
-PuppetSyntax.exclude_paths ||= []
-PuppetSyntax.exclude_paths << 'spec/fixtures/**/*'
-PuppetSyntax.exclude_paths << 'pkg/**/*'
-PuppetSyntax.exclude_paths << 'vendor/**/*'
-PuppetSyntax.exclude_paths << '.vendor/**/*'
-PuppetSyntax.check_hiera_keys = true
-PuppetSyntax.check_hiera_data = true
+require 'puppetlabs-syntax/tasks/puppetlabs-syntax'
+PuppetlabsSyntax.exclude_paths ||= []
+PuppetlabsSyntax.exclude_paths << 'spec/fixtures/**/*'
+PuppetlabsSyntax.exclude_paths << 'pkg/**/*'
+PuppetlabsSyntax.exclude_paths << 'vendor/**/*'
+PuppetlabsSyntax.exclude_paths << '.vendor/**/*'
+PuppetlabsSyntax.check_hiera_keys = true
+PuppetlabsSyntax.check_hiera_data = true
 
 desc 'Check syntax of Ruby files and call :syntax and :metadata_lint'
 task :validate do

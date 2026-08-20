@@ -26,12 +26,12 @@ Gem::Specification.new do |spec|
   spec.executables = Dir['bin/**/*'].map { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = Gem::Requirement.new('>= 3.1.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.2')
 
   spec.add_runtime_dependency 'mocha', '>= 1.0', '< 3'
   spec.add_runtime_dependency 'pathspec', '>= 0.2', '< 3'
+  spec.add_runtime_dependency 'puppetlabs-syntax', '~> 7.2', '>= 7.2.1'
   spec.add_runtime_dependency 'puppet-lint', '~> 5.0'
-  spec.add_runtime_dependency 'puppet-syntax', '~> 4.1', '>= 4.1.1'
   spec.add_runtime_dependency 'rspec-github', '>= 2.0', '< 4'
   spec.add_runtime_dependency 'rspec-puppet', '~> 5.0'
 
