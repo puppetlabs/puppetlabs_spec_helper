@@ -4,6 +4,13 @@ require 'spec_helper'
 require 'puppetlabs_spec_helper/tasks/fixtures'
 
 describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
+  # Reset memoized state on the module object between tests
+  before do
+    %i[@repositories @forge_modules @symlinks @logger @module_target_dir @max_thread_limit].each do |var|
+      described_class.remove_instance_variable(var) if described_class.instance_variable_defined?(var)
+    end
+  end
+
   describe '.module_name' do
     subject(:module_name) { described_class.module_name }
 
@@ -178,7 +185,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       it 'correctly sets --forge_authorization' do
         allow(ENV).to receive(:fetch).with('FORGE_API_KEY', nil).and_return('myforgeapikey')
         # Mock the system call to prevent actual execution
-        allow_any_instance_of(Kernel).to receive(:system) do |command| # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Kernel).to receive(:system) do |command|
           expect(command).to include('--forge_authorization "Bearer myforgeapikey"')
           # Simulate setting $CHILD_STATUS to a successful status
           allow($CHILD_STATUS).to receive(:success?).and_return(true)
@@ -280,13 +287,6 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
         )
         expect(helper.fixtures('forge_modules')).to include('puppetlabs-stdlib')
       end
-    end
-  end
-
-  # Reset memoized state on the module object between tests
-  before do
-    %i[@repositories @forge_modules @symlinks @logger @module_target_dir @max_thread_limit].each do |var|
-      described_class.remove_instance_variable(var) if described_class.instance_variable_defined?(var)
     end
   end
 
@@ -571,7 +571,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     end
 
     it 'returns 0 when all tracked threads have finished' do
-      t = Thread.new {}
+      t = Thread.new { nil }
       t.join
       items = { 'a' => { thread: t } }
       expect(helper.current_thread_count(items)).to eq(0)
@@ -580,7 +580,10 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
     it 'counts threads that are still running' do
       ready = Queue.new
       done  = Queue.new
-      t = Thread.new { ready.push(true); done.pop }
+      t = Thread.new do
+        ready.push(true)
+        done.pop
+      end
       ready.pop
       items = { 'a' => { thread: t } }
       count = helper.current_thread_count(items)
@@ -640,7 +643,7 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
 
     let(:opts) do
       { 'target' => 'spec/fixtures/modules/mymod', 'scm' => 'git',
-        'ref' => nil, 'branch' => nil, 'flags' => nil, 'subdir' => nil }
+        'ref' => nil, 'branch' => nil, 'flags' => nil, 'subdir' => nil, }
     end
 
     before do
@@ -786,9 +789,9 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
           'fixtures' => {
             'repositories' => {
               'stdlib' => {
-                'scm'  => 'git',
+                'scm' => 'git',
                 'repo' => 'https://github.com/puppetlabs/puppetlabs-stdlib.git',
-                'ref'  => 'v8.5.0',
+                'ref' => 'v8.5.0',
               },
             },
           },
@@ -839,8 +842,8 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
 
       it 'adjusts relative target path and calls Dir.create_junction (lines 332-334)' do
+        expect(Dir).to receive(:create_junction)
         helper.setup_symlink('target', { 'target' => 'link/path' })
-        expect(Dir).to have_received(:create_junction)
       end
     end
 
@@ -854,12 +857,11 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       end
 
       it 'falls back to mklink (line 336)' do
+        expect(helper).to receive(:system).with(a_string_including('mklink'))
         helper.setup_symlink('target', { 'target' => 'link/path' })
-        expect(helper).to have_received(:system).with(a_string_including('mklink'))
       end
     end
   end
-
 end
 
 describe 'rake spec_prep', type: :task do

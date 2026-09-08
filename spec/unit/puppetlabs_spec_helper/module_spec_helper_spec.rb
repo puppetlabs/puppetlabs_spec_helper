@@ -27,7 +27,7 @@ RSpec.describe 'module_spec_helper' do
     # param_value is defined at the top level by module_spec_helper.rb (line 7-9).
     # Calling it here covers the method body (line 8).
     it 'returns the named parameter value from a catalog resource' do
-      mock_params  = { content: 'hello' }
+      mock_params = { content: 'hello' }
       mock_resource = double('resource', parameters: mock_params)
       mock_subject  = double('catalog', resource: mock_resource)
 

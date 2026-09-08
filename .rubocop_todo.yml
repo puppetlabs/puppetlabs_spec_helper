@@ -18,14 +18,21 @@ Lint/MixedRegexpCaptureTypes:
   Exclude:
     - 'Gemfile'
 
-# Offense count: 7
+# Offense count: 16
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/tasks/rake_tasks_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
+
+# Offense count: 10
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
 RSpec/ContextWording:
   Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixtures_spec.rb'
 
-# Offense count: 1
+# Offense count: 6
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:
   Exclude:
@@ -35,6 +42,14 @@ RSpec/DescribeClass:
     - '**/spec/system/**/*'
     - '**/spec/views/**/*'
     - 'spec/acceptance/smoke_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/matchers_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/rake_tasks_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/module_spec_helper_spec.rb'
+
+# Offense count: 2
+RSpec/ExpectActual:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/matchers_spec.rb'
 
 # Offense count: 12
 # Configuration parameters: CountAsOne.
@@ -62,6 +77,13 @@ RSpec/HookArgument:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 
+# Offense count: 3
+RSpec/MultipleDescribes:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/matchers_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/rake_tasks_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
+
 # Offense count: 8
 RSpec/MultipleExpectations:
   Max: 3
@@ -71,6 +93,11 @@ RSpec/MultipleExpectations:
 RSpec/NestedGroups:
   Max: 5
 
+# Offense count: 2
+RSpec/ReceiveMessages:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
+
 # Offense count: 1
 # Configuration parameters: Include, CustomTransform, IgnoreMethods, IgnoreMetadata.
 # Include: **/*_spec.rb
@@ -79,12 +106,24 @@ RSpec/SpecFilePathFormat:
     - '**/spec/routing/**/*'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixtures_spec.rb'
 
+# Offense count: 26
+RSpec/SubjectStub:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/fixtures_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
+
 # Offense count: 7
 RSpec/StubbedMock:
   Exclude:
     - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/puppet_internals_spec.rb'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixtures_spec.rb'
+
+# Offense count: 6
+RSpec/VerifiedDoubles:
+  Exclude:
+    - 'spec/unit/puppetlabs_spec_helper/module_spec_helper_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
 
 # Offense count: 2
 Security/Eval:
@@ -105,11 +144,12 @@ Style/FetchEnvVar:
 Style/FormatStringToken:
   EnforcedStyle: unannotated
 
-# Offense count: 4
+# Offense count: 12
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
   Exclude:
     - 'lib/puppetlabs_spec_helper/puppetlabs_spec/files.rb'
+    - 'spec/unit/puppetlabs_spec_helper/puppetlabs_spec/files_spec.rb'
 
 # Offense count: 1
 Style/MixinUsage:

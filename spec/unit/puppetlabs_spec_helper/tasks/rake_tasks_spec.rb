@@ -259,13 +259,13 @@ describe 'rake spec_standalone', type: :task do
 
   context 'without CI env vars and no extra args' do
     it 'sets the default pattern (lines 51-53, 66-67)' do
-      task.execute
+      expect { task.execute }.not_to raise_error
     end
   end
 
   context 'without CI env vars but with extra args' do
     it 'uses the extras as the pattern (line 69)' do
-      task.execute(Rake::TaskArguments.new([], ['spec/unit/foo_spec.rb']))
+      expect { task.execute(Rake::TaskArguments.new([], ['spec/unit/foo_spec.rb'])) }.not_to raise_error
     end
   end
 
@@ -279,12 +279,12 @@ describe 'rake spec_standalone', type: :task do
     end
 
     it 'splits files across CI nodes (lines 54-61)' do
-      task.execute
+      expect { task.execute }.not_to raise_error
     end
 
     context 'with extra args in CI mode' do
       it 'uses the extras as the pattern (line 63)' do
-        task.execute(Rake::TaskArguments.new([], ['spec/unit/fake/my_spec.rb']))
+        expect { task.execute(Rake::TaskArguments.new([], ['spec/unit/fake/my_spec.rb'])) }.not_to raise_error
       end
     end
   end
@@ -296,7 +296,7 @@ describe 'rake spec_list_json', type: :task do
   end
 
   it 'configures dry-run JSON output (lines 76-77)' do
-    task.execute
+    expect { task.execute }.not_to raise_error
   end
 end
 
@@ -317,7 +317,7 @@ describe 'rake rubocop', type: :task do
   end
 
   it 'configures rubocop options and adds github formatter (lines 293, 296-298)' do
-    task.execute
+    expect { task.execute }.not_to raise_error
   end
 end
 

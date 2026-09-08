@@ -32,7 +32,7 @@ RSpec.describe PuppetlabsSpec::Files do
     end
 
     it 'does not raise when a recorded path no longer exists' do
-      $global_tempfiles = [File.join(Dir.tmpdir, 'already_gone_#{rand}')]
+      $global_tempfiles = [File.join(Dir.tmpdir, "already_gone_#{rand}")]
       expect { described_class.cleanup }.not_to raise_error
     end
 

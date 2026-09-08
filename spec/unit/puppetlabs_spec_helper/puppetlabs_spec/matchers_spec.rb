@@ -5,11 +5,11 @@ require 'puppetlabs_spec_helper/puppetlabs_spec/matchers'
 
 RSpec.describe 'have_matching_element matcher' do
   it 'matches when any element matches the pattern' do
-    expect(['foo', 'bar', 'baz']).to have_matching_element(/bar/)
+    expect(%w[foo bar baz]).to have_matching_element(/bar/)
   end
 
   it 'does not match when no element matches' do
-    expect(['foo', 'bar']).not_to have_matching_element(/qux/)
+    expect(%w[foo bar]).not_to have_matching_element(/qux/)
   end
 end
 
