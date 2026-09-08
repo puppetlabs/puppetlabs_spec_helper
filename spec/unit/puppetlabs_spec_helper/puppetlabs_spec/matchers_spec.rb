@@ -77,4 +77,9 @@ RSpec.describe 'have_printed matcher' do
   it 'has a description including the expected value' do
     expect(have_printed('hello').description).to include('hello')
   end
+
+  it 'says "nothing was printed" in the failure message when not yet applied' do
+    matcher = have_printed('hello')
+    expect(matcher.failure_message).to include('nothing was printed')
+  end
 end

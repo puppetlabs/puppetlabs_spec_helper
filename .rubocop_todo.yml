@@ -119,11 +119,12 @@ RSpec/StubbedMock:
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixtures_spec.rb'
 
-# Offense count: 6
+# Offense count: 9
 RSpec/VerifiedDoubles:
   Exclude:
     - 'spec/unit/puppetlabs_spec_helper/module_spec_helper_spec.rb'
     - 'spec/unit/puppetlabs_spec_helper/tasks/fixture_helpers_spec.rb'
+    - 'spec/unit/puppetlabs_spec_helper/tasks/rake_tasks_spec.rb'
 
 # Offense count: 2
 Security/Eval:

@@ -89,6 +89,18 @@ describe 'rake compute_dev_version', type: :task do
         expect { task.execute }.to output(a_string_matching(/1\.2\.3-\d{4}-/)).to_stdout
       end
     end
+
+    context 'when BUILD_NUMBER env is set and branch is release' do
+      before do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('BUILD_NUMBER', nil).and_return('7')
+        allow_any_instance_of(Object).to receive(:`).with('git rev-parse --abbrev-ref HEAD').and_return('release')
+      end
+
+      it 'uses the release version format with r prefix' do
+        expect { task.execute }.to output(a_string_matching(/1\.2\.3-r\d{4}-/)).to_stdout
+      end
+    end
   end
 
   context 'when only Modulefile exists (lines 203-204)' do
@@ -215,6 +227,23 @@ describe 'rake validate', type: :task do
     end
   end
 
+  context 'when metadata.json and metadata_lint task are both available' do
+    before do
+      File.write('metadata.json', '{"name":"test-module"}')
+      Rake::Task.define_task(:metadata_lint) { nil }
+      allow(Rake::Task[:metadata_lint]).to receive(:invoke)
+    end
+
+    after do
+      Rake.application.instance_variable_get(:@tasks).delete('metadata_lint')
+    end
+
+    it 'invokes metadata_lint' do
+      expect(Rake::Task[:metadata_lint]).to receive(:invoke)
+      task.execute
+    end
+  end
+
   context 'when REFERENCE.md exists' do
     before do
       File.write('REFERENCE.md', '# Reference')
@@ -222,6 +251,23 @@ describe 'rake validate', type: :task do
 
     it 'attempts reference validation' do
       expect { task.execute }.not_to raise_error
+    end
+  end
+
+  context 'when REFERENCE.md and strings:validate:reference task are both available' do
+    before do
+      File.write('REFERENCE.md', '# Reference')
+      Rake::Task.define_task('strings:validate:reference') { nil }
+      allow(Rake::Task['strings:validate:reference']).to receive(:invoke)
+    end
+
+    after do
+      Rake.application.instance_variable_get(:@tasks).delete('strings:validate:reference')
+    end
+
+    it 'invokes strings:validate:reference' do
+      expect(Rake::Task['strings:validate:reference']).to receive(:invoke)
+      task.execute
     end
   end
 
@@ -329,5 +375,27 @@ describe 'create_gch_task' do
   it 'defines a :changelog task that raises when gem is missing' do
     create_gch_task
     expect { Rake::Task[:changelog].execute }.to raise_error(/github_changelog_generator/)
+  end
+
+  context 'when github_changelog_generator gem is available' do
+    before do
+      allow(Bundler.rubygems).to receive(:find_name)
+        .with('github_changelog_generator')
+        .and_return([double('gemspec')])
+      allow(File).to receive(:read).with('metadata.json').and_return(
+        '{"author":"myuser","name":"mymodule","version":"1.0.0"}',
+      )
+      config = double('config').as_null_object
+      stub_const('GitHubChangelogGenerator::RakeTask', double('RakeTask'))
+      allow(GitHubChangelogGenerator::RakeTask).to receive(:new)
+        .with(:changelog)
+        .and_yield(config)
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with('CHANGELOG_GITHUB_TOKEN').and_return('fake_token')
+    end
+
+    it 'defines a changelog task using gem configuration' do
+      expect { create_gch_task }.not_to raise_error
+    end
   end
 end
