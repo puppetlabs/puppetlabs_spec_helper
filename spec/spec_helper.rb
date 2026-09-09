@@ -26,6 +26,9 @@ if ENV['COVERAGE'] == 'yes'
   end
 end
 
+# pp must be required before FakeFS activates; pp.rb defines `class File < IO`
+# which conflicts with FakeFS::File < StringIO if loaded while FakeFS is active.
+require 'pp' # rubocop:disable Lint/RedundantRequireStatement
 require 'fakefs/spec_helpers'
 
 FakeFS::Pathname.class_eval do
