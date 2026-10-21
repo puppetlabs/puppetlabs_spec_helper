@@ -8,13 +8,43 @@ on:
     branches:
       - "main"
   workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to test (e.g. a fork PR, which gets no secrets via the normal pull_request trigger)"
+        required: false
+        type: string
+      ref:
+        description: "Branch or SHA to test (ignored if pr_number is set)"
+        required: false
+        type: string
 
 env:
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
 jobs:
 
+  resolve-ref:
+    runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.resolve.outputs.ref }}
+    steps:
+      - id: resolve
+        env:
+          PR_NUMBER: ${{ inputs.pr_number }}
+          INPUT_REF: ${{ inputs.ref }}
+        run: |
+          if [ -n "$PR_NUMBER" ]; then
+            ref="refs/pull/${PR_NUMBER}/merge"
+          else
+            ref="$INPUT_REF"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          if [ -n "$ref" ]; then
+            echo "Testing ref: $ref" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   spec:
+    needs: resolve-ref
     strategy:
       fail-fast: false
       matrix:
@@ -36,9 +66,10 @@ jobs:
       rake_task: "spec:coverage"
       ruby_version: ${{ matrix.ruby_version }}
       puppet_gem_version: ${{ matrix.puppet_gem_version }}
+      ref: ${{ needs.resolve-ref.outputs.ref }}
 
   acceptance:
-    needs: spec
+    needs: ["resolve-ref", "spec"]
     strategy:
       fail-fast: false
       matrix:
@@ -58,3 +89,4 @@ jobs:
     with:
       ruby_version: ${{ matrix.ruby_version }}
       puppet_version: ${{ matrix.puppet_version }}
+      ref: ${{ needs.resolve-ref.outputs.ref }}
