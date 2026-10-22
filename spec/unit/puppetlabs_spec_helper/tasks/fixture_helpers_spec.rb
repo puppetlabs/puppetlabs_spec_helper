@@ -93,11 +93,6 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
   describe '.fixtures' do
     subject(:helper) { described_class }
 
-    # Snapshot the helpers so they can be restored after the example without reloading the file
-    let!(:original_helpers) do
-      PuppetlabsSpec::Fixtures.instance_methods.to_h { |m| [m, PuppetlabsSpec::Fixtures.instance_method(m)] }
-    end
-
     before do
       # Unstub the fixtures "helpers"
       PuppetlabsSpec::Fixtures.instance_methods.each do |m|
@@ -108,10 +103,6 @@ describe PuppetlabsSpecHelper::Tasks::FixtureHelpers do
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('FIXTURES_YML').and_return(nil)
       allow(described_class).to receive(:auto_symlink).and_return('project' => source_dir.to_s)
-    end
-
-    after do
-      original_helpers.each { |m, body| PuppetlabsSpec::Fixtures.send(:define_method, m, body) }
     end
 
     context 'when file is missing' do

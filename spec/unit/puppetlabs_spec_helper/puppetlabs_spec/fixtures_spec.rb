@@ -4,9 +4,20 @@ require 'spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
 RSpec.describe PuppetlabsSpec::Fixtures do
+  # fixture_helpers_spec.rb's describe '.fixtures' before block undefs all
+  # PuppetlabsSpec::Fixtures methods. Restore them before each example.
   # Use an isolated object to avoid method-resolution conflicts with
   # PuppetlabsSpecHelper::Tasks::FixtureHelpers#fixtures (also available on Object).
   subject(:obj) { Object.new.extend(described_class) }
+
+  # Snapshot taken at load time, before any example can undef the helpers. Restoring from it
+  # instead of re-loading fixtures.rb keeps SimpleCov from resetting that file's coverage counters.
+  original_helpers = described_class.instance_methods.to_h { |m| [m, described_class.instance_method(m)] }
+
+  around do |example|
+    original_helpers.each { |m, body| described_class.send(:define_method, m, body) }
+    example.run
+  end
 
   let(:fixture_dir) { PuppetlabsSpec::FIXTURE_DIR }
 
