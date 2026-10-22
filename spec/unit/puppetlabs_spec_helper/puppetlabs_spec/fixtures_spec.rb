@@ -4,16 +4,9 @@ require 'spec_helper'
 require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
 
 RSpec.describe PuppetlabsSpec::Fixtures do
-  # fixture_helpers_spec.rb's describe '.fixtures' before block undefs all
-  # PuppetlabsSpec::Fixtures methods. Reload before each example to restore them.
   # Use an isolated object to avoid method-resolution conflicts with
   # PuppetlabsSpecHelper::Tasks::FixtureHelpers#fixtures (also available on Object).
   subject(:obj) { Object.new.extend(described_class) }
-
-  around do |example|
-    load File.expand_path('../../../../lib/puppetlabs_spec_helper/puppetlabs_spec/fixtures.rb', __dir__)
-    example.run
-  end
 
   let(:fixture_dir) { PuppetlabsSpec::FIXTURE_DIR }
 
