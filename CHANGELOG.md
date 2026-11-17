@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.0.1](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v9.0.1) - 2026-11-17
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v9.0.0...v9.0.1)
+
+### Fixed
+
+- Bump rspec-puppet constraint to ~> 6.x [#499](https://github.com/puppetlabs/puppetlabs_spec_helper/pull/499) ([LukasAud](https://github.com/LukasAud))
+
 ## [v9.0.0](https://github.com/puppetlabs/puppetlabs_spec_helper/tree/v9.0.0) - 2026-08-20
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs_spec_helper/compare/v8.0.0...v9.0.0)
